@@ -23,6 +23,18 @@ services:
     networks:
       - atlas
 
+    # User container
+  alfred:
+    build:
+      context: ./requirements/alfred
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/alfred/alfred_project:/app
+    ports:
+      - "8003:8000"
+    networks:
+      - atlas
+
 networks:
   atlas:
     driver: bridge
