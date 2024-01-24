@@ -24,12 +24,12 @@ services:
       - atlas
 
     # User container
-  Alfred:
+  alfred:
     build:
       context: ./requirements/alfred
       dockerfile: Dockerfile
     volumes:
-      ./requirements/alfred/alfred_project:/app
+      - ./requirements/alfred/alfred_project:/app
     ports:
       - "8003:8000"
     networks:
