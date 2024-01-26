@@ -35,6 +35,17 @@ services:
     networks:
       - atlas
 
+  coubertin:
+    build:
+      context: ./requirements/coubertin
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/coubertin/coubertin_project:/app
+    ports:
+      - "8004:8000"
+    networks:
+      - atlas
+
 networks:
   atlas:
     driver: bridge
