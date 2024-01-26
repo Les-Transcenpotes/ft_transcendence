@@ -9,6 +9,7 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
+RUN python -m pip install -U 'channels[daphne]'
 
 EXPOSE 8000
 
