@@ -1,5 +1,5 @@
-from enum import unique
 from django.db import models
+from django import forms
 
 # Create your models here.
 # Need to instantiate objects for
@@ -10,7 +10,10 @@ class User(models.Model):
     last_name = models.CharField(max_length=20)
     pseudo = models.CharField(max_length=12, unique=True)
     email = models.EmailField()
-    avatar = models.ImageField('avatars/')
+    # avatar = models.ImageField('avatars/')
+    friends = models.ManyToManyField('self', blank=True)
+
+
     objects = models.Manager();
 
 
@@ -20,7 +23,7 @@ class User(models.Model):
 
     def to_dict(self):
         return {
-                'avatar': self.avatar,
+                # 'avatar': self.avatar,
                 'email': self.email,
                 'pseudo': self.pseudo,
                 'last_name': self.last_name,
@@ -29,4 +32,8 @@ class User(models.Model):
         }
 
 
+class YourModelForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'pseudo', 'email', ]
 
