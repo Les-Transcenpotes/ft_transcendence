@@ -6,3 +6,6 @@ composer.phar
 # composer.lock
 
 **/*_env
+**/*.sqlite3
+.env
+requirements/
