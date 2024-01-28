@@ -7,5 +7,6 @@ composer.phar
 
 **/*_env
 **/*.sqlite3
+**/__pycache__/**
 .env
 requirements/
