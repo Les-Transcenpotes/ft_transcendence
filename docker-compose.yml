@@ -46,6 +46,17 @@ services:
     networks:
       - atlas
 
+  cupidon:
+    build:
+      context: ./requirements/cupidon
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/cupidon/project:/app
+    ports:
+      - "8005:8000"
+    networks:
+      - atlas
+
 networks:
   atlas:
     driver: bridge
