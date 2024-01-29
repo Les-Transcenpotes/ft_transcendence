@@ -1,11 +1,11 @@
-ENV_FILE        := .env
-DOCKER_FILE     := ./docker-compose.yml
+ENV_FILE		:=	.env
+DOCKER_FILE		:=	./docker-compose.yml
 
-VOLUMES_DIR        := front_db auth_db game_db bot_db
-VOLUMES_PATH       := $(HOME)/data/transcendence_data
-VOLUMES         := $(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
+VOLUMES_DIR		:=	front_db auth_db game_db bot_db
+VOLUMES_PATH	:=	$(HOME)/data/transcendence_data
+VOLUMES			:=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 
-COMPOSE := docker compose -f
+COMPOSE			:=	docker compose -f
 
 all: up
 
@@ -30,12 +30,12 @@ down:
 # Remove the Docker volumes prefixed with 'srcs_', located at /var/lib/docker/volumes/.
 # Remove all unused Docker volumes.
 # Remove the directories on the host system where the volume data is stored.
-clean:    stop
+clean:	stop
 		docker volume rm $(addprefix srcs_, $(VOLUMES_DIR)) -f
 		rm -rf $(VOLUMES_PATH)/*
-		$(COMPOSE) srcs/docker-compose.yml down --volumes --rmi all
+		$(COMPOSE) docker-compose.yml down --volumes --rmi all
 
 
-re: stop debug
+re:		stop debug
 
-.PHONY: all load debug stop clean re down
+.PHONY:	all up debug stop down clean re
