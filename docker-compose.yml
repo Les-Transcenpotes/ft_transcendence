@@ -23,7 +23,7 @@ services:
     networks:
       - atlas
 
-    # User container
+# User container
   alfred:
     build:
       context: ./requirements/alfred
@@ -35,6 +35,7 @@ services:
     networks:
       - atlas
 
+# User container
   coubertin:
     build:
       context: ./requirements/coubertin
@@ -46,12 +47,13 @@ services:
     networks:
       - atlas
 
+# Matchmaking container
   cupidon:
     build:
       context: ./requirements/cupidon
       dockerfile: Dockerfile
     volumes:
-      - ./requirements/cupidon/project:/app
+      - ./requirements/cupidon/cupidon_project:/app
     ports:
       - "8005:8000"
     networks:
