@@ -1,41 +1,56 @@
-ENV_FILE        := .env
-DOCKER_FILE     := ./docker-compose.yml
+#---- variables -------------------------------------------------------#
 
-VOLUMES_DIR        := front_db auth_db game_db bot_db
-VOLUMES_PATH       := $(HOME)/data/transcendence_data
-VOLUMES         := $(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
+ENV_FILE		:=	.env
+DOCKER_FILE		:=	./docker-compose.yml
 
-COMPOSE := docker compose -f
+VOLUMES_DIR		:=	front_db auth_db game_db bot_db
+VOLUMES_PATH	:=	$(HOME)/data/transcendence_data
+VOLUMES			:=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 
-all: debug
-
-# The | character specifies order-only prerequisites, which must be built
-# before this target but do not trigger a rebuild if they change.
-up: | $(VOLUMES)
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
-
-# Removing the -d flag allows us to see the output of the containers.
-debug: | $(VOLUMES)
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+COMPOSE			:=	docker compose -f
 
 # Create the directories if they do not exist.
 $(VOLUMES):
 		mkdir -p $(VOLUMES)
+
+#---- rules -----------------------------------------------------------#
+
+.DEFAULT: all
+
+all: debug
+
+# The | character specifies order-only prerequisites, which must be
+# built before this target but do not trigger a rebuild if they change.
+up:		| $(VOLUMES)
+		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+
+#---- debug -----------------------------------------------------------#
+# Removing the -d flag allows us to see the output of the containers.
+
+debug:	| $(VOLUMES)
+		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+
+#---- stop ------------------------------------------------------------#
 
 stop:
 		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) down
 
 down:
 		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) down
-# Remove the Docker volumes prefixed with 'srcs_', located at /var/lib/docker/volumes/.
+
+#---- clean -----------------------------------------------------------#
+# Remove the Docker volumes prefixed with $(VOLUMES_PATH),
+# located at $(VOLUMES_DIR).
 # Remove all unused Docker volumes.
-# Remove the directories on the host system where the volume data is stored.
-clean:    stop
-		docker volume rm $(addprefix srcs_, $(VOLUMES_DIR)) -f
+# Remove the dir on the host system where the volume data is stored.
+
+clean:	stop
+		docker volume rm $(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR)) -f
 		rm -rf $(VOLUMES_PATH)/*
-		$(COMPOSE) srcs/docker-compose.yml down --volumes --rmi all
+		$(COMPOSE) docker-compose.yml down --volumes --rmi all
 
+re:		stop up
 
-re: stop debug
+#---- phony -----------------------------------------------------------#
 
-.PHONY: all load debug stop clean re down
+.PHONY:	all up debug stop down clean re
