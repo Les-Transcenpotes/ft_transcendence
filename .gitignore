@@ -10,4 +10,3 @@ composer.phar
 **/*.sqlite3
 **/__pycache__/**
 .env
-requirements/
