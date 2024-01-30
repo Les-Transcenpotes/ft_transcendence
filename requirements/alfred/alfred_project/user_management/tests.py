@@ -12,14 +12,12 @@ class testAloneUserManagement(TestCase):
                 last_name="bah",
                 pseudo="aba",
                 email="abah@gmail.com")
-        # user.save()
         User.objects.create(
                 unique_id=2,
                 first_name="a",
                 last_name="bah",
                 pseudo="abah",
                 email="abah@gmail.com")
-        # user.save()
 
     def test_getById(self):
         user = User.objects.create(
@@ -41,6 +39,7 @@ class testAloneUserManagement(TestCase):
 
 class testUserView(TestCase):
     def test_formIsComplete(self):
+        pass
 
 
 
