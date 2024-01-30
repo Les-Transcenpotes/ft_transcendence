@@ -24,6 +24,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/alfred/script.sh
-RUN         chmod +x /etc/alfred/script.sh
-ENTRYPOINT  ["sh", "/etc/alfred/script.sh"]
+COPY        tools/script.sh /etc/cupidon/script.sh
+RUN         chmod +x /etc/cupidon/script.sh
+ENTRYPOINT  ["sh", "/etc/cupidon/script.sh"]
