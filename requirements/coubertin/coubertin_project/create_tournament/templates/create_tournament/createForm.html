@@ -1,6 +1,15 @@
 {% extends "tournament/base.html" %}
 {% block context %}
-    <div class ="content-section">
-        <form></form>
-    </div>
-{% endblock content %}
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Create tournament</legend>
+            {{ form.as_p }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Create Tournament</button>
+        </div>
+    </form>
+</div>
+{% endblock context %}

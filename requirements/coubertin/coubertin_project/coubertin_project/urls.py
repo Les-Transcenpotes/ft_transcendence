@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from create_tournament import views as create_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("tournament.urls"))
+    path('createtournament', create_views.createTournament, name='createtournament'),
+    path('', include("tournament.urls")),
 ]

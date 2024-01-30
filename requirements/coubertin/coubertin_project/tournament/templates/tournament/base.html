@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-    {% if title %}
-        <title>Pong tournament - {{ title }}</title>
-    {% else %}
-        <title>Pong tournament</title>
-    {% endif %}
-</head>
-<body>
-    {% block content %}{% endblock %}
-</body>
+    <head>
+        {% if title %}
+            <title>Pong tournament - {{ title }}</title>
+        {% else %}
+            <title>Pong tournament</title>
+        {% endif %}
+    </head>
+    <body>
+        {% block context %}{% endblock %}
+    </body>
 </html>
