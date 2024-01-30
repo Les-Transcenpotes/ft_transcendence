@@ -2,6 +2,7 @@ version: '3'
 
 services:
 
+# Front container
   frontend:
     build:
       context: ./requirements/frontend/src
@@ -12,6 +13,7 @@ services:
       - "8001:80"
     restart: on-failure
 
+# Game container
   ludo:
     build:
       context: ./requirements/ludo
@@ -23,7 +25,7 @@ services:
     networks:
       - atlas
 
-# User container
+# Profil container
   alfred:
     build:
       context: ./requirements/alfred
@@ -35,7 +37,7 @@ services:
     networks:
       - atlas
 
-# User container
+# Tournament container
   coubertin:
     build:
       context: ./requirements/coubertin
@@ -56,6 +58,18 @@ services:
       - ./requirements/cupidon/cupidon_project:/app
     ports:
       - "8005:8000"
+    networks:
+      - atlas
+
+# Authentification container
+  petrus:
+    build:
+      context: ./requirements/petrus
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/petrus/petrus_project:/app
+    ports:
+      - "8006:8000"
     networks:
       - atlas
 
