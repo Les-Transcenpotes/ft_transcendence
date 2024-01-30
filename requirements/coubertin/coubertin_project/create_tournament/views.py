@@ -18,5 +18,5 @@ def createTournament(request):
             messages.success(request, f'Tournament created!')
             return redirect('tournamenthome')
     else:
-        form  = UserCreationForm()
+        form = UserCreationForm()
     return render(request, 'create_tournament/createForm.html', {'form': form})

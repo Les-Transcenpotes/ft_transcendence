@@ -13,8 +13,8 @@ class Match:
         self.players = players
         
 class Tournament:
-    players = []
     def __init__(self, name, maxPlayers, password):
+        self.players = []
         self.name = name
         self.maxPlayers = maxPlayers
         self.password = password
