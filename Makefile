@@ -17,7 +17,7 @@ $(VOLUMES):
 
 .DEFAULT: all
 
-all: up
+all: debug
 
 # The | character specifies order-only prerequisites, which must be
 # built before this target but do not trigger a rebuild if they change.
