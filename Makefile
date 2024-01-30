@@ -7,7 +7,7 @@ VOLUMES         := $(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 
 COMPOSE := docker compose -f
 
-all: up
+all: debug
 
 # The | character specifies order-only prerequisites, which must be built
 # before this target but do not trigger a rebuild if they change.
