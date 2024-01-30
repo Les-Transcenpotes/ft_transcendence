@@ -2,4 +2,4 @@
 
 python manage.py makemigrations
 python manage.py migrate
-gunicorn --bind 0.0.0.0:8000 coubertin_project.wsgi:application
+gunicorn --bind 0.0.0.0:8000 lovelace_project.wsgi:application
