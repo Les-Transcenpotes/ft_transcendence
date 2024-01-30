@@ -85,6 +85,18 @@ services:
     networks:
       - atlas
 
+# Auth inter-container container
+  lovelace:
+    build:
+      context: ./requirements/lovelace
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/lovelace/lovelace_project:/app
+    ports:
+      - "8008:8000"
+    networks:
+      - atlas
+
 networks:
   atlas:
     driver: bridge
