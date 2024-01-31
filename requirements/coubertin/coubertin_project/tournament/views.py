@@ -4,8 +4,8 @@ from .classes import *
 
 ################ Donnes a recuperer via les request ################
 
-testTournament = Tournament(name = 'testTournament', maxPlayers = 8, password = 'test')
 testUser1 = Player(name = 'Brieuc')
+testTournament = Tournament(creator = testUser1.name, name = 'testTournament', maxPlayers = 8, password = 'test')
 
 ####################################################################
 
@@ -39,3 +39,6 @@ def startTournament(request): # Generate matches here.
             for i in range(0, players.len(), 2):
                 pass # Lancer un match entre i et i + 1
     # Quand qqn perd un match on le retire de la liste et on relance une fois que tous les matchs d'une ronde sont termines
+            
+def failed(request):
+    return HttpResponse("Whatever you're doing isn't fucking working")
