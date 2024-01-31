@@ -6,7 +6,7 @@ from .classes import *
 ################ Donnes a recuperer via les request ################
 
 testUser1 = Player(id = 0)
-testTournament = Tournament(creator = testUser1.name, name = 'testTournament', maxPlayers = 8, password = 'test')
+testTournament = Tournament(creator = testUser1.id, name = 'testTournament', maxPlayers = 8, password = 'test')
 
 ####################################################################
 
@@ -14,7 +14,7 @@ tournaments = {}
 
 def tournamentHome(request): #Essayer de retourner la reponse en json
     global tournaments
-    return JsonResponse()
+    return HttpResponse('Tournament Home')
 
 def startRound(matches, round):
     for m in matches: # Je reparcours toute la liste, faire une liste de liste pour les matchs dans le tournoi ?
