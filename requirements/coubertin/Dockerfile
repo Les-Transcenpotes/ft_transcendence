@@ -24,6 +24,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/ludo/script.sh
-RUN         chmod +x /etc/ludo/script.sh
-ENTRYPOINT  ["sh", "/etc/ludo/script.sh"]
+COPY        tools/script.sh /etc/coubertin/script.sh
+RUN         chmod +x /etc/coubertin/script.sh
+ENTRYPOINT  ["sh", "/etc/coubertin/script.sh"]

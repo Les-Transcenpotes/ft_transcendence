@@ -24,6 +24,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/ludo/script.sh
-RUN         chmod +x /etc/ludo/script.sh
-ENTRYPOINT  ["sh", "/etc/ludo/script.sh"]
+COPY        tools/script.sh /etc/mnemosine/script.sh
+RUN         chmod +x /etc/mnemosine/script.sh
+ENTRYPOINT  ["sh", "/etc/mnemosine/script.sh"]

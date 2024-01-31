@@ -2,6 +2,7 @@ version: '3'
 
 services:
 
+# Front container
   frontend:
     build:
       context: ./requirements/frontend/src
@@ -12,6 +13,7 @@ services:
       - "8001:80"
     restart: on-failure
 
+# Game container
   ludo:
     build:
       context: ./requirements/ludo
@@ -20,6 +22,78 @@ services:
       - ./requirements/ludo/ludo_project:/app
     ports:
       - "8002:8000"
+    networks:
+      - atlas
+
+# Profil container
+  alfred:
+    build:
+      context: ./requirements/alfred
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/alfred/alfred_project:/app
+    ports:
+      - "8003:8000"
+    networks:
+      - atlas
+
+# Tournament container
+  coubertin:
+    build:
+      context: ./requirements/coubertin
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/coubertin/coubertin_project:/app
+    ports:
+      - "8004:8000"
+    networks:
+      - atlas
+
+# Matchmaking container
+  cupidon:
+    build:
+      context: ./requirements/cupidon
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/cupidon/cupidon_project:/app
+    ports:
+      - "8005:8000"
+    networks:
+      - atlas
+
+# Authentification container
+  petrus:
+    build:
+      context: ./requirements/petrus
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/petrus/petrus_project:/app
+    ports:
+      - "8006:8000"
+    networks:
+      - atlas
+
+# Stats container
+  mnemosine:
+    build:
+      context: ./requirements/mnemosine
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/mnemosine/mnemosine_project:/app
+    ports:
+      - "8007:8000"
+    networks:
+      - atlas
+
+# Auth inter-container container
+  lovelace:
+    build:
+      context: ./requirements/lovelace
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/lovelace/lovelace_project:/app
+    ports:
+      - "8008:8000"
     networks:
       - atlas
 
