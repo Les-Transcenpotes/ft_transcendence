@@ -1,35 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from .classes import *
 
 ################ Donnes a recuperer via les request ################
 
-testUser1 = Player(name = 'Brieuc')
+testUser1 = Player(id = 0)
 testTournament = Tournament(creator = testUser1.name, name = 'testTournament', maxPlayers = 8, password = 'test')
 
 ####################################################################
 
 tournaments = {}
 
-def tournamentHome(request):
+def tournamentHome(request): #Essayer de retourner la reponse en json
     global tournaments
-    return HttpResponse('Tournament home')
+    return JsonResponse()
 
-def createTournament(request):
-    global tournaments
-    tournaments['testTournament'] = testTournament
-    return HttpResponse('Tournament created')
-
-def addUserToTournament(request):
-    global tournaments
-    if request.method == 'POST':
-        tournamentName = 'test' # Il faut reussir a le get
-        newPlayer = testUser1
-        tournament = tournaments[tournamentName]
-        tournament.players.append(newPlayer)
-    return HttpResponse('User added')
-
-def startTournament(request): # Generate matches here.
+def tournamentCore(request): # Generate matches here.
     global tournaments
     if request.method == 'POST':
         tournamentName = 'test' # Il faut reussir a le get
