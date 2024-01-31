@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pong.models import *
+from pong.classes import *
 import time
 
 # Create your views here.
