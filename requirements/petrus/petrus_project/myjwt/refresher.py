@@ -16,17 +16,32 @@ class JWT():
 
 
     @staticmethod
-    def payloadToJwt(payload: dict) -> Tuple[bool, str | list[str]]:
+    def payloadToJwt(payload: dict, key: str):
+        """
+        TODO : mettre les key dans l'env
+        key is the str :
+            -- access -> JWT.privateKey
+            -- refresh -> JWT.refreshPublicKey
+        Return True and the token | False and the error
+        """
         try:
-            token = jwt.encode(payload, JWT.privateKey, algorithm=JWT.privateKey)
+            token = jwt.encode(payload, key, algorithm=JWT.algo)
         except Exception as e:
             return False, str(e)
         return True, token
 
     @staticmethod
-    def jwtToPayload(token: str) -> Tuple[bool, dict | str]:
+    def jwtToPayload(token: str, key: str):
+        """
+        token is the jwt
+        TODO : mettre les key dans l'env
+        key is the str :
+            -- access -> JWT.publicKey
+            -- refresh -> JWT.refreshPublicKey
+        Return True and the payload | False and the error
+        """
         try:
-            payload = jwt.decode(token, JWT.publicKey, algorithms=[JWT.publicKey])
+            payload = jwt.decode(token, key, algorithms=[JWT.algo])
         except Exception as e:
             return False, str(e)
         return True, payload

@@ -13,6 +13,14 @@ class Client(models.Model):
 
     objects = models.Manager();
 
+    def __init__(self, email, pseudo, password, nick, firstName, lastName, ):
+        self.lastName = lastName
+        self.firstName = firstName
+        self.nick = nick
+        self.password = password
+        self.pseudo = pseudo
+        self.email = email
+
     def toDict(self):
         return {
                 "unique_id": self.unique_id,
@@ -20,18 +28,6 @@ class Client(models.Model):
                 # "pseudo": self.pseudo,
                 # "password": self.password,
             }
-
-    def jwtGenerator(self):
-        secret = os.environ.get('PRIVATE_KEY')
-        public = os.environ.get('PUBLIC_KEY')
-        if not public:
-            return
-        algo = os.environ.get('ALGO')
-        if (secret == None):
-            return Error
-        JWT = jwt.encode(self.toDict() | {"time": peremptiontime().isoformat()}, secret, algorithm=algo)
-        jwt.decode(JWT, public, algorithms=['RS256'])
-        return JWT
 
 
 

@@ -15,7 +15,7 @@ $(VOLUMES):
 
 #---- rules -----------------------------------------------------------#
 
-.DEFAULT: all
+# .DEFAULT: all
 
 all: debug
 
