@@ -1,6 +1,7 @@
 from django.test import TestCase
 # from signin.models import Client
 from myjwt.refresher import JWT
+from time import sleep
 
 class testClient(TestCase):
     def test_to_dict(self):
@@ -9,9 +10,10 @@ class testClient(TestCase):
 class testJWT(TestCase):
     def testJWT(self):
         dict = {"bonjour": "toi"}
-        marquer,  content = JWT.payloadToJwt(dict)
+        marquer,  content = JWT.payloadToJwt(dict, JWT.privateKey)
         if not marquer:
-            print(content)
             return
         encoded = content
-        marquer, content = JWT.jwtToPayload(encoded)
+        if marquer:
+            marquer, content = JWT.jwtToPayload(encoded, JWT.publicKey)
+        self.assertEqual(content, dict)
