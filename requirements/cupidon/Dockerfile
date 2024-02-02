@@ -14,8 +14,13 @@ WORKDIR     /app
 #---- dependencies & requirements -------------------------------------#
 
 COPY        requirements.txt /app/
+COPY        cupidon_project /app/
 RUN         pip install --upgrade pip && \
             pip install --no-cache-dir -r requirements.txt
+RUN         apt-get update -y && \
+            apt-get upgrade -y && \
+            apt-get install apache2 -y && \
+            apt-get install libapache2-mod-wsgi-py3 -y
 
 #---- ports -----------------------------------------------------------#
 
