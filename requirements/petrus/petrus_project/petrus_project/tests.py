@@ -1,7 +1,6 @@
 from django.test import TestCase
 # from signin.models import Client
-from myjwt.refresher import JWT
-from time import sleep
+from myjwt.jwt import JWT
 
 class testClient(TestCase):
     def test_to_dict(self):
@@ -17,3 +16,6 @@ class testJWT(TestCase):
         if marquer:
             marquer, content = JWT.jwtToPayload(encoded, JWT.publicKey)
         self.assertEqual(content, dict)
+
+    def testdate(self):
+        print(JWT.peremptionDict())

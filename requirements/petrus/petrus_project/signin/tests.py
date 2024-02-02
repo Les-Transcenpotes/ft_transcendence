@@ -7,7 +7,6 @@ from keys.privatekey import private_key
 # Create your tests here.
 
 class testModelInsertion(TestCase):
-
     def testJWT(self):
         pass
 

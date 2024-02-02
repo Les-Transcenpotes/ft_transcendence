@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta, timezone
 from typing import Tuple
+from django.db.models.lookups import YearLookup
 import jwt
+from datetime import datetime, timedelta
+
 
 from keys.publickey import public_key
 from keys.privatekey import private_key
@@ -16,7 +19,7 @@ class JWT():
 
 
     @staticmethod
-    def payloadToJwt(payload: dict, key: str):
+    def payloadToJwt(payload: dict, key: str) -> Tuple[bool, str]:
         """
         TODO : mettre les key dans l'env
         key is the str :
@@ -31,7 +34,7 @@ class JWT():
         return True, token
 
     @staticmethod
-    def jwtToPayload(token: str, key: str):
+    def jwtToPayload(token: str, key: str) -> str | dict:
         """
         token is the jwt
         TODO : mettre les key dans l'env
@@ -43,5 +46,36 @@ class JWT():
         try:
             payload = jwt.decode(token, key, algorithms=[JWT.algo])
         except Exception as e:
-            return False, str(e)
-        return True, payload
+            return str(e)
+        return payload
+
+    @staticmethod
+    def peremptionDict() -> dict:
+        peremption = datetime.utcnow() + timedelta(minutes=15)
+        return {"peremption": peremption.__str__()}
+
+    @staticmethod
+    def checkPeremption(time: str) -> bool:
+        return (
+                datetime.utcnow()
+                <= datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
+                <= datetime.utcnow() + timedelta(minutes=15)
+        )
+
+    @staticmethod
+    def verifJWT(str, key) -> str | dict:
+        content = JWT.jwtToPayload(str, key)
+        if isinstance(content, dict):
+            peremption = content['peremption']
+            del content['peremption']
+            if JWT.checkPeremption(peremption):
+                return content
+        return content
+
+    @staticmethod
+    def toPayload(object) -> dict:
+        return object.toDict() | JWT.peremptionDict()
+
+    @staticmethod
+    def objectToAccessToken(object):
+        return JWT.payloadToJwt(JWT.toPayload(object), JWT.publicKey)

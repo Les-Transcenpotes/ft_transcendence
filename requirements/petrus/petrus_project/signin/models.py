@@ -1,7 +1,6 @@
-from django.db import Error, models
-from django.utils.version import os
-import jwt
-from signin.timeTool import peremptiontime
+from django.db import models
+from myjwt.jwt import JWT
+from keys.privatekey import private_key
 
 # Create your models here.
 
@@ -13,10 +12,9 @@ class Client(models.Model):
 
     objects = models.Manager();
 
-    def __init__(self, email, pseudo, password, nick, firstName, lastName, ):
+    def __init__(self, email, pseudo, password, firstName, lastName, ):
         self.lastName = lastName
         self.firstName = firstName
-        self.nick = nick
         self.password = password
         self.pseudo = pseudo
         self.email = email
@@ -29,5 +27,14 @@ class Client(models.Model):
                 # "password": self.password,
             }
 
+    def __str__(self) -> str:
+        return ("firstName : "
+            + self.firstName
+            + "\nlastName : "
+            + self.lastName
+            + "\n"
+        )
 
+    def newAccessToken(self):
+        JWT.payloadToJwt(JWT.toPayload(self), private_key)
 
