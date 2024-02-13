@@ -1,25 +1,37 @@
-function test() {
-    var socket;
-    if (!window.WebSocket) {
-        window.WebSocket = window.MozWebSocket;
-    }
-    if (window.WebSocket) {
-        socket = new WebSocket("ws://yourwebsite.com/ws/yourpath");
-        socket.onopen = function () {
-            console.log("Connection opened");
-        };
-        socket.onmessage = function (msg) {
-            console.log("Received: " + msg.data);
-        };
-        document.addEventListener("keydown", function (evt) {
-            evt = evt || window.event;
-            var charCode = evt.which || evt.keyCode;
-            var charStr = String.fromCharCode(charCode);
-            socket.send(charStr);
-        }, false);
-    } else {    
-        alert("Your browser does not support WebSockets.");
-    }
-    test();
+let textarea = document.getElementById("test-target"),
+  consoleLog = document.getElementById("console-log"),
+  btnReset = document.getElementById("btn-reset");
+
+function logMessage(message) {
+  consoleLog.innerHTML += `${message}<br>`;
 }
-window.onload=test();
+
+textarea.addEventListener("keydown", (e) => {
+  if (!e.repeat) {
+    logMessage(`Key "${e.key}" pressed [event: keydown]`);
+  } else {
+    logMessage(`Key "${e.key}" repeating [event: keydown]`);
+  }
+});
+
+textarea.addEventListener("beforeinput", (e) => {
+  logMessage(`Key "${e.data}" about to be input [event: beforeinput]`);
+});
+
+textarea.addEventListener("input", (e) => {
+  logMessage(`Key "${e.data}" input [event: input]`);
+});
+
+textarea.addEventListener("keyup", (e) => {
+  logMessage(`Key "${e.key}" released [event: keyup]`);
+});
+
+btnReset.addEventListener("click", (e) => {
+  let child = consoleLog.firstChild;
+  while (child) {
+    consoleLog.removeChild(child);
+    child = consoleLog.firstChild;
+  }
+  textarea.value = "";
+});
+
