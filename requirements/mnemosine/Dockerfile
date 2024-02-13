@@ -16,8 +16,8 @@ WORKDIR     /app
 COPY        requirements.txt /app/
 COPY        mnemosine_project /app/
 RUN         pip install --upgrade pip && \
-            pip install --no-cache-dir -r requirements.txt
-RUN         apt-get update -y && \
+            pip install --no-cache-dir -r requirements.txt && \
+            apt-get update -y && \
             apt-get upgrade -y && \
             apt-get install apache2 -y && \
             apt-get install libapache2-mod-wsgi-py3 -y
@@ -28,7 +28,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/mnemosine/script.sh
-RUN         chmod +x /etc/mnemosine/script.sh
+COPY        --chmod=755 tools/script.sh /etc/mnemosine/script.sh
 ENTRYPOINT  ["sh", "/etc/mnemosine/script.sh"]
 # CMD         ["/bin/bash"] #debug if launch line does not work
