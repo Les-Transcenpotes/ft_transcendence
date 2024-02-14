@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1!7iukpp=rc4n6j0h3d-vw-!f-_9bn(oyt@t&@d%kkb)+e8+4g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['testserver', 'localhost']
+ALLOWED_HOSTS = ['testserver', 'localhost', 'alfred']
 
 
 # Application definition
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user_management.middleware.DisableCsrfCheck',
 ]
 
 ROOT_URLCONF = 'alfred_project.urls'
