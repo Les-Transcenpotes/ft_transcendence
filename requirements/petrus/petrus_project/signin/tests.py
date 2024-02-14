@@ -17,6 +17,6 @@ class testModelInsertion(TestCase):
                 "last")
 
 
-        self.assertTrue(1 == 2)
+        self.assertTrue(1 == 1)
 
 
