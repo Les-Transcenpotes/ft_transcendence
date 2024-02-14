@@ -19,6 +19,15 @@ class Client(models.Model):
         self.pseudo = pseudo
         self.email = email
 
+    def toAlfred(self):
+        return {
+                "mail": self.email,
+                "nick": self.pseudo,
+                "id": self.unique_id,
+                "firstnme": self.firstName,
+                "lastname": self.lastName
+        }
+
     def toDict(self):
         return {
                 "unique_id": self.unique_id,
@@ -37,4 +46,12 @@ class Client(models.Model):
 
     def newAccessToken(self):
         JWT.payloadToJwt(JWT.toPayload(self), private_key)
+
+    @staticmethod
+    def email_exists(email):
+        return Client.objects.filter(email=email).exists()
+
+    @staticmethod
+    def nick_exists(nick):
+        return Client.objects.filter(nick=nick).exists()
 

@@ -11,11 +11,10 @@ class testJWT(TestCase):
         dict = {"bonjour": "toi"}
         marquer,  content = JWT.payloadToJwt(dict, JWT.privateKey)
         if not marquer:
+            print("Error : occured")
             return
-        encoded = content
         if marquer:
-            marquer, content = JWT.jwtToPayload(encoded, JWT.publicKey)
+            content = JWT.jwtToPayload(content, JWT.publicKey)
         self.assertEqual(content, dict)
 
-    def testdate(self):
-        print(JWT.peremptionDict())
+    # def testdate(self):

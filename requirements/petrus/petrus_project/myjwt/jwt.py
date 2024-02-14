@@ -45,31 +45,21 @@ class JWT():
         """
         try:
             payload = jwt.decode(token, key, algorithms=[JWT.algo])
-        except Exception as e:
-            return str(e)
+        except jwt.ExpiredSignatureError as e:
+            return e.__str__()
         return payload
 
     @staticmethod
     def peremptionDict() -> dict:
         peremption = datetime.utcnow() + timedelta(minutes=15)
-        return {"peremption": peremption.__str__()}
-
-    @staticmethod
-    def checkPeremption(time: str) -> bool:
-        return (
-                datetime.utcnow()
-                <= datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
-                <= datetime.utcnow() + timedelta(minutes=15)
-        )
+        return {'exp': peremption.__str__()}
 
     @staticmethod
     def verifJWT(str, key) -> str | dict:
         content = JWT.jwtToPayload(str, key)
         if isinstance(content, dict):
-            peremption = content['peremption']
             del content['peremption']
-            if JWT.checkPeremption(peremption):
-                return content
+            return content
         return content
 
     @staticmethod
