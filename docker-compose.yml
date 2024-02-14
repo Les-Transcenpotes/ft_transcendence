@@ -69,7 +69,7 @@ services:
     volumes:
       - ./requirements/petrus/petrus_project:/app
     ports:
-      - "8006:8000"
+      - "8006:8001"
     networks:
       - atlas
 
