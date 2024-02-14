@@ -12,7 +12,8 @@ class Client(models.Model):
 
     objects = models.Manager();
 
-    def __init__(self, email, pseudo, password, firstName, lastName, ):
+    def __init__(self, email, pseudo, password, firstName, lastName, *args, **kwargs):
+        super(Client, self).__init__(*args, **kwargs)
         self.lastName = lastName
         self.firstName = firstName
         self.password = password
@@ -31,8 +32,8 @@ class Client(models.Model):
     def toDict(self):
         return {
                 "unique_id": self.unique_id,
-                # "mail": self.email,
-                # "pseudo": self.pseudo,
+                "mail": self.email,
+                "pseudo": self.pseudo,
                 # "password": self.password,
             }
 

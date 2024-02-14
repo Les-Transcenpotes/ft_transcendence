@@ -13,7 +13,8 @@ class User(models.Model):
     friends = models.ManyToManyField('self', blank=True)
     objects = models.Manager();
 
-    def __init__(self, unique_id, firstName, lastName, nick, email):
+    def __init__(self, unique_id, firstName, lastName, nick, email, *args, **kwargs):
+        super(User, self).__init__(*args, **kwargs)
         self.unique_id = unique_id
         self.firstName = firstName
         self.lastName = lastName

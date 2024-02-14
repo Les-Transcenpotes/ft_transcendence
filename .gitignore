@@ -10,5 +10,6 @@ composer.phar
 **/env
 **/*.sqlite3
 **/__pycache__/**
+**/migrations
 .env
 youpi

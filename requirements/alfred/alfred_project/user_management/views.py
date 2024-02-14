@@ -5,30 +5,10 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 
-def get_user(request):
-    return JsonResponse({"user": "is"})
-
-
-def new_client(request):
-    name = request.GET.get('name')
-    return JsonResponse({"actualClient": True})
-
-
 def all_client(request):
     clients = [object.to_dict() for object in User.objects.all()]
-
-    print(clients)
     return JsonResponse({"clients": list(clients)})
 
-
-
-
-
-def add_friend(request):
-    pass
-
-def show_friends(request):
-    pass
 
 class newClientView(View):
     def post(self, request) -> JsonResponse :
@@ -38,8 +18,15 @@ class newClientView(View):
         lastname = request.POST.get("lastname")
         uniqueId = request.POST.get("id")
 
+        print(mailaddr);
+        print(nickname);
+        print(firstnme);
+        print(lastname);
+        print(uniqueId);
+
         if (not mailaddr or not nickname or not firstnme or not lastname or not uniqueId):
             return JsonResponse({"status": "Error", "Error": "field not filled"})
+
         newUser = User(uniqueId, firstnme, lastname, nickname, mailaddr)
 
         success = newUser.save()
@@ -52,5 +39,3 @@ class newClientView(View):
         print("here")
         return JsonResponse({"status" : "getting client"})
 
-
-# request friend
