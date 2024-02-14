@@ -9,6 +9,8 @@ VOLUMES			:=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 
 COMPOSE			:=	docker compose -f
 
+all: debug
+
 # Create the directories if they do not exist.
 $(VOLUMES):
 		mkdir -p $(VOLUMES)
@@ -17,7 +19,6 @@ $(VOLUMES):
 
 # .DEFAULT: all
 
-all: debug
 
 # The | character specifies order-only prerequisites, which must be
 # built before this target but do not trigger a rebuild if they change.
