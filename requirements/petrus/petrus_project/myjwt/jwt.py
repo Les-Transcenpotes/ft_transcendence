@@ -69,3 +69,13 @@ class JWT():
     @staticmethod
     def objectToAccessToken(object):
         return JWT.payloadToJwt(JWT.toPayload(object), JWT.publicKey)
+
+class JWTMiddleware:
+    def __init__(self, get_response):
+        print("init of the middleware")
+        self.get_response = get_response
+
+    def __call__(self, request):
+        print(f"I was called method:\"{request.method}\", {request.body}")
+        response = self.get_response(request)
+        return response

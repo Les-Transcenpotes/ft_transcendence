@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'signin.intergiciels.JWTMiddleware',
+    'myjwt.jwt.JWTMiddleware',
 ]
 
 ROOT_URLCONF = 'petrus_project.urls'
