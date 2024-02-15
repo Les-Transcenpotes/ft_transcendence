@@ -59,5 +59,6 @@ class SigninView(View):
 
 class TestView(View):
     def get(self, request):
+        print(request.checked)
         return JsonResponse({"is": "good"})
 
