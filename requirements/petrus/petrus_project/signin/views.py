@@ -57,4 +57,7 @@ class SigninView(View):
 
         return JsonResponse({"status" : "success"})
 
+class TestView(View):
+    def get(self, request):
+        return JsonResponse({"is": "good"})
 
