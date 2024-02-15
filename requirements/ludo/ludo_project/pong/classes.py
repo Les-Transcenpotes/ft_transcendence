@@ -24,13 +24,13 @@ class PongGameConsumer(AsyncWebsocketConsumer):
         }))
 
 class Player:
+    width = screenWidth / 10
     def __init__(self, name):
         self.name = name
-        points = 0
-        pos = screenWidth / 2
+        self.points = 0
+        self.pos = screenWidth / 2
         # speed = 0
         # acceleration = 0
-        width = screenWidth / 10
     def move(self, mvt):
         self.pos += mvt * screenWidth / 100
         assert(self.pos + self.width/2 < screenWidth)
@@ -38,10 +38,10 @@ class Player:
 
 class Ball:
     def __init__(self):
-        pos = [screenLength / 2, screenWidth / 2]
-        speed = screenWidth / 5
-        angle = 0
-        size = screenWidth / 100
+        self.pos = [screenLength / 2, screenWidth / 2]
+        self.speed = screenWidth / 5
+        self.angle = 0
+        self.size = screenWidth / 100
     def move(self):
         self.pos += [m.cos(self.angle), m.sin(self.angle)]
         assert(self.pos[0] > 0 & self.pos[0] < screenLength)
