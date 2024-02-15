@@ -2,5 +2,5 @@
 
 python manage.py makemigrations
 python manage.py migrate
-# gunicorn --bind 0.0.0.0:8000 alfred_project.wsgi:application
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8001
+# gunicorn --bind 0.0.0.0:8001 alfred_project.wsgi:application

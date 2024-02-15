@@ -15,8 +15,7 @@ WORKDIR     /app
 
 COPY        requirements.txt /app/
 RUN         pip install --upgrade pip && \
-            pip install --no-cache-dir -r requirements.txt && \
-            pip install gunicorn
+            pip install --no-cache-dir -r requirements.txt
 
 #---- ports -----------------------------------------------------------#
 
@@ -24,6 +23,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/alfred/script.sh
-RUN         chmod +x /etc/alfred/script.sh
+COPY        --chmod=+x tools/script.sh /etc/alfred/script.sh
+
 ENTRYPOINT  ["sh", "/etc/alfred/script.sh"]

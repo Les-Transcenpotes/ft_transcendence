@@ -1,27 +1,21 @@
-version: '3'
+version: '3.8'
+
+networks:
+
+  atlas:
+    name: atlas
+    driver: bridge
+    # driver: local
 
 services:
 
-# Front container
-  frontend:
+# Server proxy
+  aegis:
     build:
-      context: ./requirements/frontend/src
+      context: ./requirements/aegis
       dockerfile: Dockerfile
-    volumes:
-      - ./requirements/frontend/src:/usr/share/nginx/html
     ports:
-      - "8001:80"
-    restart: on-failure
-
-# Game container
-  ludo:
-    build:
-      context: ./requirements/ludo
-      dockerfile: Dockerfile
-    volumes:
-      - ./requirements/ludo/ludo_project:/app
-    ports:
-      - "8002:8000"
+      - "8000:80"
     networks:
       - atlas
 
@@ -33,7 +27,7 @@ services:
     volumes:
       - ./requirements/alfred/alfred_project:/app
     ports:
-      - "8003:8000"
+      - "8001:8001"
     networks:
       - atlas
 
@@ -45,7 +39,7 @@ services:
     volumes:
       - ./requirements/coubertin/coubertin_project:/app
     ports:
-      - "8004:8000"
+      - "8002:8002"
     networks:
       - atlas
 
@@ -57,31 +51,7 @@ services:
     volumes:
       - ./requirements/cupidon/cupidon_project:/app
     ports:
-      - "8005:8000"
-    networks:
-      - atlas
-
-# Authentification container
-  petrus:
-    build:
-      context: ./requirements/petrus
-      dockerfile: Dockerfile
-    volumes:
-      - ./requirements/petrus/petrus_project:/app
-    ports:
-      - "8006:8001"
-    networks:
-      - atlas
-
-# Stats container
-  mnemosine:
-    build:
-      context: ./requirements/mnemosine
-      dockerfile: Dockerfile
-    volumes:
-      - ./requirements/mnemosine/mnemosine_project:/app
-    ports:
-      - "8007:8000"
+      - "8003:8003"
     networks:
       - atlas
 
@@ -93,10 +63,53 @@ services:
     volumes:
       - ./requirements/lovelace/lovelace_project:/app
     ports:
-      - "8008:8000"
+      - "8004:8004"
     networks:
       - atlas
 
-networks:
-  atlas:
-    driver: bridge
+# Game container
+  ludo:
+    build:
+      context: ./requirements/ludo
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/ludo/ludo_project:/app
+    ports:
+      - "8005:8005"
+    networks:
+      - atlas
+
+# Front container
+  malevitch:
+    build:
+      context: ./requirements/malevitch/src
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/malevitch/src:/usr/share/nginx/html
+    ports:
+      - "8006:80"
+    restart: on-failure
+
+# Stats container
+  mnemosine:
+    build:
+      context: ./requirements/mnemosine
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/mnemosine/mnemosine_project:/app
+    ports:
+      - "8007:8007"
+    networks:
+      - atlas
+
+# Authentification container
+  petrus:
+    build:
+      context: ./requirements/petrus
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/petrus/petrus_project:/app
+    ports:
+      - "8008:8008"
+    networks:
+      - atlas
