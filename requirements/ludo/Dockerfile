@@ -15,8 +15,7 @@ WORKDIR     /app
 
 COPY        requirements.txt /app/
 RUN         pip install --upgrade pip && \
-            pip install --no-cache-dir -r requirements.txt && \
-            pip install gunicorn
+            pip install --no-cache-dir -r requirements.txt
 
 #---- ports -----------------------------------------------------------#
 
@@ -24,6 +23,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/ludo/script.sh
-RUN         chmod +x /etc/ludo/script.sh
+COPY        --chmod=+x tools/script.sh /etc/ludo/script.sh
+
 ENTRYPOINT  ["sh", "/etc/ludo/script.sh"]

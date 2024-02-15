@@ -2,5 +2,5 @@
 
 python manage.py makemigrations
 python manage.py migrate
-# gunicorn --bind 0.0.0.0:8001 petrus_project.wsgi:application
-python manage.py runserver 0.0.0.0:8001
+python manage.py runserver 0.0.0.0:8008
+# gunicorn --bind 0.0.0.0:8008 petrus_project.wsgi:application

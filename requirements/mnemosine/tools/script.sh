@@ -2,4 +2,5 @@
 
 python manage.py makemigrations
 python manage.py migrate
-gunicorn --bind 0.0.0.0:8000 mnemosine_project.wsgi:application
+python manage.py runserver 0.0.0.0:8007
+# gunicorn --bind 0.0.0.0:8007 mnemosine_project.wsgi:application
