@@ -1,62 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <div class="fx">
-            <div>
-              <textarea rows="5" name="test-target" id="test-target"></textarea>
-              <button type="button" name="btn-reset" id="btn-reset">Reset</button>
-            </div>
-            <div class="flex">
-              <pre id="console-log"></pre>
-            </div>
+    <head>
+        <style>
+            .ball {
+                height: 25px;
+                width: 25px;
+                background-color: #bbb;
+                border-radius: 50%;
+                position: absolute;
+            }
+            .player {
+                height: 180px;
+                width: 20px;
+                background-color: #000000;
+                position: absolute;
+            }
+            .score {
+                letter-spacing: 1px;
+            }
+        </style>
+    </head>
 
-
-            <script>
-                let textarea = document.getElementById("test-target"),
-                consoleLog = document.getElementById("console-log"),
-                btnReset = document.getElementById("btn-reset");
-
-                function logMessage(message) {
-                consoleLog.innerHTML += `${message}<br>`;
-                }
-
-                textarea.addEventListener("keydown", (e) => {
-                if (!e.repeat) {
-                    logMessage(`Key "${e.key}" pressed [event: keydown]`);
-                } else {
-                    logMessage(`Key "${e.key}" repeating [event: keydown]`);
-                }
-                });
-
-                textarea.addEventListener("beforeinput", (e) => {
-                logMessage(`Key "${e.data}" about to be input [event: beforeinput]`);
-                });
-
-                textarea.addEventListener("input", (e) => {
-                logMessage(`Key "${e.data}" input [event: input]`);
-                });
-
-                textarea.addEventListener("keyup", (e) => {
-                logMessage(`Key "${e.key}" released [event: keyup]`);
-                });
-
-                btnReset.addEventListener("click", (e) => {
-                let child = consoleLog.firstChild;
-                while (child) {
-                    consoleLog.removeChild(child);
-                    child = consoleLog.firstChild;
-                }
-                textarea.value = "";
-                });
-            </script>
-
-            
-        </div>      
+    <body id="test-target">
+        <div class="player" id="player1"></div>
+        <div class="player" id="player2"></div>
+        <div class="ball"></div>
+        <div classe="score" id="score2"></div>
+        <div class="score" id="score1"></div>
+        <script src="test.js"></script>
     </body>
 </html>
-
-
-
-
-
-  
