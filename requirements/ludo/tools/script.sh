@@ -3,4 +3,5 @@
 
 python manage.py makemigrations
 python manage.py migrate
-gunicorn --bind 0.0.0.0:8000 ludo_project.wsgi:application
+python manage.py runserver 0.0.0.0:8005
+# gunicorn --bind 0.0.0.0:8005 ludo_project.wsgi:application

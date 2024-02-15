@@ -16,7 +16,6 @@ WORKDIR     /app
 COPY        requirements.txt /app/
 RUN         pip install --upgrade pip && \
             pip install --no-cache-dir -r requirements.txt && \
-            pip install gunicorn && \
             python -m pip install -U channels["daphne"]
 
 #---- ports -----------------------------------------------------------#
@@ -25,6 +24,6 @@ EXPOSE      8000
 
 #---- script ----------------------------------------------------------#
 
-COPY        tools/script.sh /etc/ludo/script.sh
-RUN         chmod +x /etc/ludo/script.sh
+COPY        --chmod=+x tools/script.sh /etc/ludo/script.sh
+
 ENTRYPOINT  ["sh", "/etc/ludo/script.sh"]
