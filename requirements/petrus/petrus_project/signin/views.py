@@ -1,9 +1,9 @@
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.http import HttpRequest, JsonResponse
 from django.views import View
 import requests
 
 from signin.models import Client
+from myjwt.decorator import exempt_JWT
 
 # Create your views here.
 
@@ -57,8 +57,8 @@ class SigninView(View):
 
         return JsonResponse({"status" : "success"})
 
-class TestView(View):
-    def get(self, request):
-        print(request.checked)
+@exempt_JWT
+def first_connection(request: HttpRequest):
+    if request.method:
         return JsonResponse({"is": "good"})
 
