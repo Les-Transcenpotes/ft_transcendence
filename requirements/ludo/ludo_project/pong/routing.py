@@ -1,7 +1,7 @@
 from django.urls import re_path
 
-from .classes import PongGameConsumer
+from pong.classes.Consumer import Consumer
 
 websocket_urlpatterns = [
-    re_path(r"wss://www.test.com/socketserver", PongGameConsumer.as_asgi()),
+    re_path(r"wss://localhost:8005/ws/player1/", Consumer.as_asgi()),
 ]

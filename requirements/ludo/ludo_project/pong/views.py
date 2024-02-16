@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from pong.classes import *
 
 # Create your views here.
 

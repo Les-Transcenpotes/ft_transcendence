@@ -90,6 +90,7 @@ gameArea.addEventListener("keyup", (e) => { // Booleans with on press and on rel
 /***************************************** Websockets *****************************************/
 
 const exampleSocket = new WebSocket("wss://" + window.location.host + '/ws/player1/'); // Probably add room name
+console.log("wss://" + window.location.host + '/ws/player1/')
 
 exampleSocket.onopen = (event) => {
     exampleSocket.send("Socket opened in the front");
