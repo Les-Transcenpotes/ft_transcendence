@@ -2,4 +2,5 @@ FROM    nginx:alpine
 
 EXPOSE  80
 
-CMD     ["nginx", "-g", "daemon off;"]
+# connexion https: genere le certificat + cle prive
+# redirection des requetes vers les autres services

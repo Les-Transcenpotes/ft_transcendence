@@ -1,153 +1,98 @@
+#---- Makefile --------------------------------------------------------#
+
 #---- variables -------------------------------------------------------#
 
-ENV_FILE		:=	.env
-DOCKER_FILE		:=	./docker-compose.yml
+ENV_FILE		=	.env
+DOCKER_FILE		=	docker-compose.yml
+VOLUMES_DIR		=	front_db auth_db game_db
+VOLUMES_PATH	=	$(HOME)/data/transcendence_data
+VOLUMES			=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 
-VOLUMES_DIR		:=	front_db auth_db game_db bot_db
-VOLUMES_PATH	:=	$(HOME)/data/transcendence_data
-VOLUMES			:=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
+#---- docker commands -------------------------------------------------#
 
-COMPOSE			:=	docker compose -f
-
-all: debug
-
-# Create the directories if they do not exist.
-$(VOLUMES):
-		mkdir -p $(VOLUMES)
+COMPOSE		=	docker compose -f
+STOP		=	docker stop
+RM			=	docker rm
+VOLUME		=	docker volume
+NETWORK		=	docker network
+SYSTEM		=	docker system
 
 #---- rules -----------------------------------------------------------#
 
-# .DEFAULT: all
+#---- base ----#
 
+all: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
-# The | character specifies order-only prerequisites, which must be
-# built before this target but do not trigger a rebuild if they change.
-up:		| $(VOLUMES)
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+up: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
 
-#---- debug -----------------------------------------------------------#
-# Removing the -d flag allows us to see the output of the containers.
-
-debug:	| $(VOLUMES)
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
-
-#---- stop ------------------------------------------------------------#
-
-stop:
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) down
+build: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) build
 
 down:
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) down
+	$(COMPOSE) $(DOCKER_FILE) down
 
-#---- clean -----------------------------------------------------------#
-# Remove the Docker volumes prefixed with $(VOLUMES_PATH),
-# located at $(VOLUMES_DIR).
-# Remove all unused Docker volumes.
-# Remove the dir on the host system where the volume data is stored.
+volumes:
+	mkdir -p $(VOLUMES)
 
-clean:	stop
-		docker volume rm $(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR)) -f
-		rm -rf $(VOLUMES_PATH)/*
-		$(COMPOSE) docker-compose.yml down --volumes --rmi all
+#---- debug ----#
 
-re:		stop up
+debug: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
-#---- phony -----------------------------------------------------------#
+aegis:
+	$(COMPOSE) $(DOCKER_FILE) exec aegis bash
 
-.PHONY:	all up debug stop down clean re
+alfred:
+	$(COMPOSE) $(DOCKER_FILE) exec alfred bash
 
+coubertin:
+	$(COMPOSE) $(DOCKER_FILE) exec coubertin bash
 
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: twang <twang@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/02 20:24:37 by wangthea          #+#    #+#              #
-#    Updated: 2024/02/08 10:32:15 by twang            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+cupidon:
+	$(COMPOSE) $(DOCKER_FILE) exec cupidon bash
 
+lovelace:
+	$(COMPOSE) $(DOCKER_FILE) exec lovelace bash
 
-# .SILENT:
+ludo:
+	$(COMPOSE) $(DOCKER_FILE) exec ludo bash
 
-# #---- variables -------------------------------------------------------#
+malevitch:
+	$(COMPOSE) $(DOCKER_FILE) exec malevitch bash
 
-# include srcs/.env
+mnemosine:
+	$(COMPOSE) $(DOCKER_FILE) exec mnemosine bash
 
-# COMPOSE		= docker compose -f
-# # create the images from the dockerfiles \
-# option -f allow specifying the path of the docker-compose file
+petrus:
+	$(COMPOSE) $(DOCKER_FILE) exec petrus bash
 
-# DOCKER_FILE	= srcs/docker-compose.yml
+#---- clean ----#
 
-# #---- rules -----------------------------------------------------------#
+clean: down
+	$(COMPOSE) $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
+	rm -rf $(VOLUMES_PATH)/*
 
-# .DEFAULT: all
+fclean: clean
+	- $(STOP) $$(docker ps -qa)
+	- $(RM) $$(docker ps -qa)
+	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
 
-# all: volumes
-# 	$(COMPOSE) $(DOCKER_FILE) up -d --build
-# # create the images from the dockerfiles, then create the containers from \
-# the images, then start the containers.
+prune:
+	- $(STOP) $$(docker ps -qa)
+	- $(SYSTEM) prune -af
+	- $(VOLUME) prune -af
 
-# up: volumes
-# 	$(COMPOSE) $(DOCKER_FILE) up -d
-# # create the containers from the images, then start the containers.
+#---- re ----#
 
-# build: volumes
-# 	$(COMPOSE) $(DOCKER_FILE) build
-# # create the images from the dockerfiles
+re: down debug
+# pour la prod: remettre up
 
-# volumes:
-# 	mkdir -p $(WORDPRESS_VOLUME)
-# 	mkdir -p $(MARIADB_VOLUME)
+#---- settings --------------------------------------------------------#
 
-# #---- debug -----------------------------------------------------------#
+.SILENT:
+.DEFAULT: debug
+# pour la prod: remettre all
+.PHONY: all up build down volumes debug clean fclean prune re
 
-# debug: volumes
-# 	$(COMPOSE) $(DOCKER_FILE) up --build
-# # Removing the -d flag allows us to see the output of the containers.
-
-# nginx:
-# 	$(COMPOSE) $(DOCKER_FILE) exec nginx bash
-# # create nginx container then open it
-
-# mariadb:
-# 	$(COMPOSE) $(DOCKER_FILE) exec mariadb bash
-
-# wordpress:
-# 	$(COMPOSE) $(DOCKER_FILE) exec wordpress bash
-
-# #---- down ------------------------------------------------------------#
-
-# down:
-# 	$(COMPOSE) $(DOCKER_FILE) down
-
-# prune:
-# 	docker stop $$(docker ps -qa);
-# 	docker system prune -a --force;
-# 	docker volume prune -a --force;
-# # This will remove:	- all stopped containers \
-# 					- all networks not used by at least one container \
-# 					- all dangling images \
-# 					- unused build cache
-
-# #---- clean -----------------------------------------------------------#
-
-# clean: down
-# 	$(COMPOSE) $(DOCKER_FILE) down --volumes --rmi all
-# 	rm -rf $(WORDPRESS_VOLUME) $(MARIADB_VOLUME)
-
-# fclean:
-# 	docker stop $$(docker ps -qa);
-# 	docker rm $$(docker ps -qa);
-# 	docker rmi -f $$(docker images -qa);
-# 	docker volume rm $$(docker volumes ls -q);
-# 	docker network rm $$(docker network ls -q) 2>/dev/null
-
-# re: down up
-
-# #---- phony -----------------------------------------------------------#
-
-# .PHONY: all up build volumes debug down prune clean re

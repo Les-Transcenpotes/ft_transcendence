@@ -11,16 +11,19 @@ services:
 
 # Server proxy
   aegis:
+    container_name: aegis
     build:
       context: ./requirements/aegis
       dockerfile: Dockerfile
     ports:
       - "8000:80"
+      # passer en 443 apres
     networks:
       - atlas
 
 # Profil container
   alfred:
+    container_name: alfred
     build:
       context: ./requirements/alfred
       dockerfile: Dockerfile
@@ -33,6 +36,7 @@ services:
 
 # Tournament container
   coubertin:
+    container_name: coubertin
     build:
       context: ./requirements/coubertin
       dockerfile: Dockerfile
@@ -45,6 +49,7 @@ services:
 
 # Matchmaking container
   cupidon:
+    container_name: cupidon
     build:
       context: ./requirements/cupidon
       dockerfile: Dockerfile
@@ -57,6 +62,7 @@ services:
 
 # Auth inter-container container
   lovelace:
+    container_name: lovelace
     build:
       context: ./requirements/lovelace
       dockerfile: Dockerfile
@@ -69,6 +75,7 @@ services:
 
 # Game container
   ludo:
+    container_name: ludo
     build:
       context: ./requirements/ludo
       dockerfile: Dockerfile
@@ -81,6 +88,7 @@ services:
 
 # Front container
   malevitch:
+    container_name: malevitch
     build:
       context: ./requirements/malevitch/src
       dockerfile: Dockerfile
@@ -92,6 +100,7 @@ services:
 
 # Stats container
   mnemosine:
+    container_name: mnemosine
     build:
       context: ./requirements/mnemosine
       dockerfile: Dockerfile
@@ -104,6 +113,7 @@ services:
 
 # Authentification container
   petrus:
+    container_name: petrus
     build:
       context: ./requirements/petrus
       dockerfile: Dockerfile
