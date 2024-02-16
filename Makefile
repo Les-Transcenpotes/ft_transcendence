@@ -42,7 +42,7 @@ debug: | volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 aegis:
-	$(COMPOSE) $(DOCKER_FILE) exec aegis bash
+	$(COMPOSE) $(DOCKER_FILE) exec aegis nginx -t
 
 alfred:
 	$(COMPOSE) $(DOCKER_FILE) exec alfred bash

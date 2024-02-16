@@ -18,8 +18,11 @@ services:
     ports:
       - "8000:80"
       # passer en 443 apres
+    volumes:
+      - ./requirements/aegis:/usr/share/nginx/html
     networks:
       - atlas
+    restart: on-failure
 
 # Profil container
   alfred:
