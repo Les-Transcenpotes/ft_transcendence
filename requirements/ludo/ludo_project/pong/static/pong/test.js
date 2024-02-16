@@ -1,6 +1,6 @@
 /***************************************** Setup *****************************************/
 
-let textarea = document.getElementById("test-target"),
+let gameArea = document.getElementById("test-target"),
 htmlPlayer1 = document.getElementById("player1"),
 htmlPlayer2 = document.getElementById("player2"),
 htmlBall = document.getElementsByClassName("ball")[0];
@@ -21,9 +21,12 @@ class Player {
         this.name = name;
         this.points = 0;
         this.pos = screenHeight / 2;
+        this.up = false;
+        this.down = false;
     }
-    move(mvt, playerStyle) {
-        const newPos = this.pos + mvt * screenHeight / 100;
+    move(playerStyle) {
+        let mvt = this.down - this.up;
+        const newPos = this.pos + mvt * screenHeight / 300;
         if (newPos + parseInt(playerStyle.height, 10) / 2 < screenHeight && newPos > parseInt(playerStyle.height, 10) / 2) {
             this.pos = newPos;
         }
@@ -55,18 +58,76 @@ let player1 = new Player("player1");
 let player2 = new Player("player2");
 
 // Events for keyboard inputs
-textarea.addEventListener("keydown", (e) => { // Booleans with on press and on release (anyway will be a websocket) !!
+gameArea.addEventListener("keydown", (e) => { // Booleans with on press and on release (anyway will be a websocket) !!
+    if (e.repeat) {
+        return;
+    }
     if (`${e.key}` === 'ArrowUp') {
-        player2.move(-1, player2Style);
+        player2.up = true;
     } else if (`${e.key}` === 'ArrowDown') {
-        player2.move(1, player2Style);
+        player2.down = true;
     }
     if (`${e.key}` === 'w') {
-        player1.move(-1, player1Style);
+        player1.up = true;
     } else if (`${e.key}` === 's') {
-        player1.move(1, player1Style);
+        player1.down = true;
     }
 });
+
+gameArea.addEventListener("keyup", (e) => { // Booleans with on press and on release (anyway will be a websocket) !!
+    if (`${e.key}` === 'ArrowUp') {
+        player2.up = false;
+    } else if (`${e.key}` === 'ArrowDown') {
+        player2.down = false;
+    }
+    if (`${e.key}` === 'w') {
+        player1.up = false;
+    } else if (`${e.key}` === 's') {
+        player1.down = false;
+    }
+});
+
+/***************************************** Websockets *****************************************/
+
+const exampleSocket = new WebSocket("wss://" + window.location.host + '/ws/player1/'); // Probably add room name
+
+exampleSocket.onopen = (event) => {
+    exampleSocket.send("Socket opened in the front");
+};
+
+function sendText(ballPos, player1Pos, player2Pos) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    const msg = {
+      ballPos: ballPos,
+      player1Pos: player1Pos,
+      player2Pos: player2Pos,
+    };
+  
+    // Send the msg object as a JSON-formatted string.
+    exampleSocket.send(JSON.stringify(msg));
+}
+  
+exampleSocket.onmessage = (event) => {
+    const f = gameArea.contentDocument;
+    let text = "";
+    const msg = JSON.parse(event.data);
+  
+    switch (msg.type) {
+      case "id":
+        clientID = msg.id;
+        setUsername();
+        break;
+      case "username":
+        text = `User <em>${msg.name}</em> signed in at ${timeStr}<br>`;
+        break;
+      case "message":
+        text = `(${timeStr}) ${msg.name} : ${msg.text} <br>`;
+        break;
+      case "rejectusername":
+        text = `Your username has been set to <em>${msg.name}</em> because the name you chose is in use.<br>`;
+        break;
+    }
+};
 
 /***************************************** Game logic *****************************************/
 
@@ -120,6 +181,8 @@ function gameLoop() {
 
     // Update positions
     ball.move();
+    player1.move(player1Style);
+    player2.move(player2Style);
     htmlBall.style.top = ball.pos['y'] - parseInt(ballStyle.height, 10) / 2 + 'px';
     htmlBall.style.left = ball.pos['x'] - parseInt(ballStyle.width, 10) / 2 + 'px';
     htmlPlayer1.style.top = player1.pos - parseInt(player1Style.height, 10) / 2 + 'px';
