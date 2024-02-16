@@ -10,7 +10,7 @@ from keys.privatekey import private_key
 from keys.algo import algo
 import os
 
-class JWT():
+class JWT:
     publicKey = public_key   # replace os.environ['PUBLIC_KEY']
     privateKey = private_key # replace os.environ['PRIVATE_KEY']
     algo = algo

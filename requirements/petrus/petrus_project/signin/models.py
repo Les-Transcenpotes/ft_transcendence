@@ -12,13 +12,8 @@ class Client(models.Model):
 
     objects = models.Manager();
 
-    def __init__(self, email, pseudo, password, firstName, lastName, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(Client, self).__init__(*args, **kwargs)
-        self.lastName = lastName
-        self.firstName = firstName
-        self.password = password
-        self.pseudo = pseudo
-        self.email = email
 
     def toAlfred(self):
         return {
@@ -34,7 +29,7 @@ class Client(models.Model):
                 "unique_id": self.unique_id,
                 "mail": self.email,
                 "pseudo": self.pseudo,
-                # "password": self.password,
+                "password": self.password,
             }
 
     def __str__(self) -> str:
@@ -46,7 +41,7 @@ class Client(models.Model):
         )
 
     def newAccessToken(self):
-        JWT.payloadToJwt(JWT.toPayload(self), private_key)
+        return JWT.payloadToJwt(JWT.toPayload(self), private_key)
 
     @staticmethod
     def email_exists(email):
