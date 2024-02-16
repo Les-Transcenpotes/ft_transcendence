@@ -37,7 +37,7 @@ class Ball {
     constructor() {
         this.pos = {x: screenWidth / 2, y: screenHeight / 2};
         this.speed = screenHeight / 500;
-        this.angle = Math.PI / 15;
+        this.angle = 0;
         this.size = screenHeight / 100;
     }
     move() {
@@ -89,23 +89,32 @@ gameArea.addEventListener("keyup", (e) => { // Booleans with on press and on rel
 
 /***************************************** Websockets *****************************************/
 
-const exampleSocket = new WebSocket("wss://" + window.location.host + '/ws/player1/'); // Probably add room name
-console.log("wss://" + window.location.host + '/ws/player1/')
+console.log("ws://" + window.location.host + '/pong/ws/player1/')
+const exampleSocket = new WebSocket('ws://localhost:8005/pong/'); // Probably add room name
 
-exampleSocket.onopen = (event) => {
-    exampleSocket.send("Socket opened in the front");
+exampleSocket.onopen = function(event) {
+    console.log("Socket opened in the front");
+    exampleSocket.send("Socket opened in the front"); // Player names maybe ?
 };
 
-function sendText(ballPos, player1Pos, player2Pos) {
+exampleSocket.onclose = function() {
+    console.log("Socket closed");
+}
+
+exampleSocket.onerror = function(event) {
+    console.log("Socket error");
+}
+
+function sendData(ballPos, player1Pos, player2Pos) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
-    const msg = {
+    const gameData = {
       ballPos: ballPos,
       player1Pos: player1Pos,
       player2Pos: player2Pos,
     };
   
     // Send the msg object as a JSON-formatted string.
-    exampleSocket.send(JSON.stringify(msg));
+    exampleSocket.send(JSON.stringify(gameData));
 }
   
 exampleSocket.onmessage = (event) => {
@@ -142,18 +151,9 @@ function isPlayerCollision(ball, player, playerStyle) {
 function playerCollision(ball, player, playerStyle) {
     let impactToMid = (ball.pos['y'] - player.pos) / (parseInt(playerStyle.height, 10) * 0.5); // > 0 quand la balle tape en DESSOUS du milieu
     if (player.name === "player1") {
-        if (ball.angle > 0) {
-            ball.angle += Math.PI - 2 * ball.angle - ((Math.PI / 4) * impactToMid);
-        } else {
-            ball.angle += - Math.PI - 2 * ball.angle + ((Math.PI / 4) * impactToMid);
-        }
-    }
-    else if (player.name === "player2") {
-        if (ball.angle > 0) {
-            ball.angle += Math.PI - 2 * ball.angle + ((Math.PI / 4) * impactToMid);
-        } else {
-            ball.angle += - Math.PI - 2 * ball.angle - ((Math.PI / 4) * impactToMid);
-        }
+        ball.angle = - (Math.PI / 4) * impactToMid;
+    } else if (player.name === "player2") {
+        ball.angle = Math.PI + (Math.PI / 4) * impactToMid;
     }
 }
 
@@ -184,6 +184,11 @@ function gameLoop() {
     ball.move();
     player1.move(player1Style);
     player2.move(player2Style);
+
+    // Update back
+    // sendData(ball.pos, player1.pos, player2.pos);
+
+    // Update front
     htmlBall.style.top = ball.pos['y'] - parseInt(ballStyle.height, 10) / 2 + 'px';
     htmlBall.style.left = ball.pos['x'] - parseInt(ballStyle.width, 10) / 2 + 'px';
     htmlPlayer1.style.top = player1.pos - parseInt(player1Style.height, 10) / 2 + 'px';

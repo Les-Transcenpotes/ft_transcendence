@@ -3,15 +3,20 @@ import json
 
 class Consumer(AsyncWebsocketConsumer):
     async def connect(self):
+        print("I am connected")
         await self.accept()
 
     async def disconnect(self, close_code):
         pass
 
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+    async def receive(self, gameData):
+        gameDataJson = json.loads(gameData)
+        ballPos = gameDataJson['ballPos']
+        player1Pos = gameDataJson['player1Pos']
+        player2Pos = gameDataJson['Player2Pos']
 
-        await self.send(text_data=json.dumps({
-            'message': message
+        await self.send(gameData=json.dumps({
+            'ballPos': ballPos,
+            'player1Pos': player1Pos,
+            'player2Pos': player2Pos,
         }))
