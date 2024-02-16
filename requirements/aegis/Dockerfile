@@ -1,16 +1,17 @@
 #---- base image ------------------------------------------------------#
-FROM    nginx:alpine
-#---- variables -------------------------------------------------------#
 
-#---- dependencies & requirements -------------------------------------#
+FROM    nginx:1-alpine3.18
 
-#---- webserver config ------------------------------------------------#
+#---- config ----------------------------------------------------------#
+
+COPY    conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 #---- TSL/SSL certification -------------------------------------------#
 
-#---- launch nginx ----------------------------------------------------#
-
-# EXPOSE  80
-
-# connexion https: genere le certificat + cle prive
-# redirection des requetes vers les autres services
+RUN     mkdir -p /etc/nginx/ssl && \
+        # apk update && \
+        apk add --update --no-cache openssl &&                               \
+        openssl req -x509 -nodes                                       \
+            -out /etc/nginx/ssl/ft_transcendence.crt                   \
+            -keyout /etc/nginx/ssl/ft_transcendence.key                \
+            -subj "/C=FR/L=Lyon/CN=batch.42.fr"

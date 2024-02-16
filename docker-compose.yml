@@ -1,11 +1,18 @@
 version: '3.8'
 
 networks:
-
   atlas:
     name: atlas
     driver: bridge
     # driver: local
+
+  host-exposed: {}
+
+  my-nice-network:
+    internal: true
+
+  profil:
+    internal: true
 
 services:
 
@@ -16,7 +23,7 @@ services:
       context: ./requirements/aegis
       dockerfile: Dockerfile
     ports:
-      - "8000:80"
+      - "443"
       # passer en 443 apres
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
