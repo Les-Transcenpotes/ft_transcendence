@@ -18,8 +18,8 @@ class JWTMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        skip_middleware = getattr(view_func, "_skip_JWT", False)
-        if (skip_middleware):
+        ensure_JWT = getattr(view_func, "_ensure_JWT", False)
+        if (ensure_JWT == False):
             return None
         autorisationJWT = request.META.get('aut')
         if not autorisationJWT:
@@ -28,3 +28,4 @@ class JWTMiddleware:
         if decodedJWT is str:
             return JsonResponse({"error": decodedJWT}, status=401)
         return None
+
