@@ -52,7 +52,7 @@ class JWT:
     @staticmethod
     def peremptionDict() -> dict:
         peremption = datetime.utcnow() + timedelta(minutes=15)
-        return {'exp': peremption.__str__()}
+        return {'exp': peremption}
 
     @staticmethod
     def verifJWT(str, key) -> str | dict:
@@ -68,4 +68,4 @@ class JWT:
 
     @staticmethod
     def objectToAccessToken(object):
-        return JWT.payloadToJwt(JWT.toPayload(object), JWT.publicKey)
+        return JWT.payloadToJwt(JWT.toPayload(object), JWT.privateKey)
