@@ -1,8 +1,6 @@
-from datetime import datetime, timedelta, timezone
-from typing import Tuple
-from django.db.models.lookups import YearLookup
-import jwt
 from datetime import datetime, timedelta
+from typing import Tuple
+import jwt
 
 
 from keys.publickey import public_key
@@ -10,13 +8,13 @@ from keys.privatekey import private_key
 from keys.algo import algo
 import os
 
+
 class JWT:
     publicKey = public_key   # replace os.environ['PUBLIC_KEY']
-    privateKey = private_key # replace os.environ['PRIVATE_KEY']
+    privateKey = private_key  # replace os.environ['PRIVATE_KEY']
     algo = algo
     expiration_acccess_token = timedelta(minutes=15)
     expiration_refresh_token = timedelta(days=1)
-
 
     @staticmethod
     def payloadToJwt(payload: dict, key: str) -> Tuple[bool, str]:

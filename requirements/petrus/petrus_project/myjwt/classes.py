@@ -1,8 +1,8 @@
 class User:
     nick: str
-    error : str
-    is_autenticated : bool
-    id : int
+    error: str
+    is_autenticated: bool
+    id: int
 
     def __init__(self, nick='', error='', is_autenticated=False, id=-1):
         self.nick = nick
@@ -15,7 +15,7 @@ class User:
 
     def toDict(self):
         return {
-                'nick': self.nick,
-                'error': self.error,
-                'id': self.id,
+            'nick': self.nick,
+            'error': self.error,
+            'id': self.id,
         }

@@ -1,10 +1,10 @@
 from django.db import Error
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from myjwt.jwt import JWT
 from keys import publickey
 from myjwt.classes import User
 import os
-from keys.privatekey import private_key
+
 
 class JWTIdentificationMiddleware:
     def __init__(self, get_response):

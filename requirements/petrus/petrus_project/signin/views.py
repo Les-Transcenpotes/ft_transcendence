@@ -6,8 +6,10 @@ from signin.models import Client
 
 # Create your views here.
 
+
 def first_connection(request: HttpRequest) -> JsonResponse:
     return JsonResponse({"Error": "Method not handled"})
+
 
 def view_db(request: HttpRequest) -> JsonResponse:
     clients = [object.toDict() for object in Client.objects.all()]
@@ -18,8 +20,8 @@ class tokenView(View):
     def get(self, request: HttpRequest) -> JsonResponse:
         return JsonResponse({"Error": ""})
 
-    def post(self, request:HttpRequest) -> JsonResponse:
-        return JsonResponse({"Error":""})
+    def post(self, request: HttpRequest) -> JsonResponse:
+        return JsonResponse({"Error": ""})
 
 
 class checkInView(View):
@@ -32,7 +34,8 @@ class checkInView(View):
             return JsonResponse({"availability": True})
         return JsonResponse({"availability": False, "client": query.toDict()})
 
-    def post(self, request: HttpRequest, checked: str, mail: str) -> JsonResponse:
+    def post(self, request: HttpRequest, checked: str,
+             mail: str) -> JsonResponse:
         mailaddr = request.POST.get("mail")
         nickname = request.POST.get("nick")
         password = request.POST.get("pass")
@@ -40,7 +43,8 @@ class checkInView(View):
         lastname = request.POST.get("lastname")
 
         if (not mailaddr or not nickname or not password or not firstnme or not lastname):
-            return JsonResponse({"status": "Error", "msg": "All information must be filled"})
+            return JsonResponse(
+                {"status": "Error", "msg": "All information must be filled"})
 
         newClient = Client(email=mailaddr,
                            pseudo=nickname,
@@ -54,13 +58,20 @@ class checkInView(View):
 
         response = requests.post("http://alfred:8000/user-managment/new-client/",
                                  json=newClient.toAlfred())
-        return JsonResponse({"status" : "success"})
-        return JsonResponse({"":""})
+        return JsonResponse({"status": "success"})
+        return JsonResponse({"": ""})
+
 
 class refreshJWTView(View):
     def get(self, request: HttpRequest) -> JsonResponse:
-        return JsonResponse({"":""})
+        return JsonResponse({"": ""})
+
 
 class refreshTokenView(View):
     def get(self, request: HttpRequest) -> JsonResponse:
-        return JsonResponse({"":""})
+        return JsonResponse({"": ""})
+
+
+def bad(request: HttpRequest):
+    print(request)
+    return JsonResponse({"va te faire": "connard"}, status=400)
