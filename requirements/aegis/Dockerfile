@@ -4,7 +4,7 @@ FROM    nginx:1-alpine3.18
 
 #---- config ----------------------------------------------------------#
 
-COPY    conf/nginx.conf /etc/nginx/conf.d/sites-available/nginx.conf
+COPY    conf/nginx.conf /etc/nginx/conf.d/default.conf
 RUN     ln -s /etc/nginx/conf.d/sites-available/nginx.conf /etc/nginx/conf.d/sites-enabled
 
 #---- TSL/SSL certification -------------------------------------------#

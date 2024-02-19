@@ -1,11 +1,12 @@
 version: '3.8'
 
 networks:
+  atlas: {}
 
-  aegis guard: {}
+  # aegis guard: {}
 
-  atlas:
-    internal: true
+  # atlas:
+  #   internal: true
 
 services:
 
