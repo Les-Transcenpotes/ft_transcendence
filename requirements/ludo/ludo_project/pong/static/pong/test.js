@@ -98,7 +98,7 @@ exampleSocket.onopen = function(event) {
 };
 
 exampleSocket.onclose = function() {
-    console.log("Socket closed");
+    console.log("Socket closed in the front");
 }
 
 exampleSocket.onerror = function(event) {

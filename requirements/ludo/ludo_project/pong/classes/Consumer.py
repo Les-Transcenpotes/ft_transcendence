@@ -1,22 +1,31 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
+# Cf doc django channels (Tuto part 2 and 3)
 class Consumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print("I am connected")
+        # Join room group
+        await self.channel_layer.group_add("self.room_group_name", self.channel_name)
+
         await self.accept()
 
     async def disconnect(self, close_code):
-        pass
+        # Leave room group
+        await self.channel_layer.group_discard("self.room_group_name", self.channel_name)
 
-    async def receive(self, gameData):
-        gameDataJson = json.loads(gameData)
-        ballPos = gameDataJson['ballPos']
-        player1Pos = gameDataJson['player1Pos']
-        player2Pos = gameDataJson['Player2Pos']
+    # Receive message from WebSocket
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json["message"]
 
-        await self.send(gameData=json.dumps({
-            'ballPos': ballPos,
-            'player1Pos': player1Pos,
-            'player2Pos': player2Pos,
-        }))
+        # Send message to room group
+        await self.channel_layer.group_send(
+            "self.room_group_name", {"type": "chat_message", "message": message}
+        )
+
+    # Receive message from room group
+    async def chat_message(self, event):
+        message = event["message"]
+
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({"message": message}))
