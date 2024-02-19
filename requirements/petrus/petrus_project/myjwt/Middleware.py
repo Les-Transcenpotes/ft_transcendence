@@ -1,10 +1,12 @@
 from django.db import Error
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from myjwt.jwt import JWT
 from keys import publickey
+from myjwt.classes import User
 import os
 
-class JWTMiddleware:
+
+class JWTIdentificationMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         key = publickey.public_key
@@ -18,14 +20,21 @@ class JWTMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        ensure_JWT = getattr(view_func, "_ensure_JWT", False)
-        if (ensure_JWT == False):
-            return None
         autorisationJWT = request.META.get('aut')
         if not autorisationJWT:
-            return JsonResponse({"error": "Missing JWT"}, status=401)
-        decodedJWT = JWT.jwtToPayload(autorisationJWT, self.publicKey)
-        if decodedJWT is str:
-            return JsonResponse({"error": decodedJWT}, status=401)
-        return None
+            request.user = User(error="No JWT provided")
+            return None
 
+        # user = User(nick='me', id=-2)
+        # autorisationJWT = JWT.objectToAccessToken(user)
+
+        decodedJWT = JWT.jwtToPayload(autorisationJWT, self.publicKey)
+        if isinstance(decodedJWT, str):
+            request.user = User(error=decodedJWT)
+            return None
+
+        request.user = User(nick=decodedJWT.get('nick'),
+                            id=decodedJWT.get('id'),
+                            is_autenticated=True)
+
+        return None

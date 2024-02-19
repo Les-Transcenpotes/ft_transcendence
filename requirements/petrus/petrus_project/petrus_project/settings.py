@@ -35,8 +35,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'myjwt.Middleware.JWTMiddleware',
-    'myjwt.Refresh_Middleware.RefreshMiddleware',
+    'myjwt.Middleware.JWTIdentificationMiddleware',
 ]
 
 ROOT_URLCONF = 'petrus_project.urls'
