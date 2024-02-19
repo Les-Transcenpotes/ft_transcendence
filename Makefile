@@ -42,7 +42,7 @@ debug: | volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 aegis:
-	$(COMPOSE) $(DOCKER_FILE) exec aegis nginx -t
+	$(COMPOSE) $(DOCKER_FILE) exec aegis /bin/sh
 
 alfred:
 	$(COMPOSE) $(DOCKER_FILE) exec alfred bash
@@ -60,7 +60,7 @@ ludo:
 	$(COMPOSE) $(DOCKER_FILE) exec ludo bash
 
 malevitch:
-	$(COMPOSE) $(DOCKER_FILE) exec malevitch bash
+	$(COMPOSE) $(DOCKER_FILE) exec malevitch /bin/sh
 
 mnemosine:
 	$(COMPOSE) $(DOCKER_FILE) exec mnemosine bash

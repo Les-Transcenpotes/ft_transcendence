@@ -1,17 +1,10 @@
 version: '3.8'
 
 networks:
+
+  aegis guard: {}
+
   atlas:
-    name: atlas
-    driver: bridge
-    # driver: local
-
-  host-exposed: {}
-
-  my-nice-network:
-    internal: true
-
-  profil:
     internal: true
 
 services:
@@ -19,117 +12,127 @@ services:
 # Server proxy
   aegis:
     container_name: aegis
+    image: aegis
     build:
       context: ./requirements/aegis
       dockerfile: Dockerfile
     ports:
-      - "443"
-      # passer en 443 apres
+      - 80:80
+      - 443:443
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
     networks:
+      # - aegis guard
       - atlas
     restart: on-failure
 
 # Profil container
   alfred:
     container_name: alfred
+    image: alfred
     build:
       context: ./requirements/alfred
       dockerfile: Dockerfile
     volumes:
       - ./requirements/alfred/alfred_project:/app
-    ports:
-      - "8001:8001"
+    # ports:
+    #   - "8001:8001"
     networks:
       - atlas
 
 # Tournament container
   coubertin:
     container_name: coubertin
+    image: coubertin
     build:
       context: ./requirements/coubertin
       dockerfile: Dockerfile
     volumes:
       - ./requirements/coubertin/coubertin_project:/app
-    ports:
-      - "8002:8002"
+    # ports:
+    #   - "8002:8002"
     networks:
       - atlas
 
 # Matchmaking container
   cupidon:
     container_name: cupidon
+    image: cupidon
     build:
       context: ./requirements/cupidon
       dockerfile: Dockerfile
     volumes:
       - ./requirements/cupidon/cupidon_project:/app
-    ports:
-      - "8003:8003"
+    # ports:
+    #   - "8003:8003"
     networks:
       - atlas
 
 # Auth inter-container container
   lovelace:
     container_name: lovelace
+    image: lovelace
     build:
       context: ./requirements/lovelace
       dockerfile: Dockerfile
     volumes:
       - ./requirements/lovelace/lovelace_project:/app
-    ports:
-      - "8004:8004"
+    # ports:
+    #   - "8004:8004"
     networks:
       - atlas
 
 # Game container
   ludo:
     container_name: ludo
+    image: ludo
     build:
       context: ./requirements/ludo
       dockerfile: Dockerfile
     volumes:
       - ./requirements/ludo/ludo_project:/app
-    ports:
-      - "8005:8005"
+    # ports:
+    #   - "8005:8005"
     networks:
       - atlas
 
 # Front container
   malevitch:
     container_name: malevitch
+    image: malevitch
     build:
       context: ./requirements/malevitch/src
       dockerfile: Dockerfile
     volumes:
       - ./requirements/malevitch/src:/usr/share/nginx/html
-    ports:
-      - "8006:80"
+    # ports:
+    #   - "8006"
     restart: on-failure
 
 # Stats container
   mnemosine:
     container_name: mnemosine
+    image: mnemosine
     build:
       context: ./requirements/mnemosine
       dockerfile: Dockerfile
     volumes:
       - ./requirements/mnemosine/mnemosine_project:/app
-    ports:
-      - "8007:8007"
+    # ports:
+    #   - "8007:8007"
     networks:
       - atlas
 
 # Authentification container
   petrus:
     container_name: petrus
+    image: petrus
     build:
       context: ./requirements/petrus
       dockerfile: Dockerfile
     volumes:
       - ./requirements/petrus/petrus_project:/app
-    ports:
-      - "8008:8008"
+    # ports:
+    #   - "8008:8008"
     networks:
       - atlas
