@@ -20,6 +20,8 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
+debug: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
@@ -38,8 +40,6 @@ volumes:
 
 #---- debug ----#
 
-debug: | volumes
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 aegis:
 	$(COMPOSE) $(DOCKER_FILE) exec aegis /bin/sh

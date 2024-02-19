@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 # Need to instantiate objects for
 
+
 class User(models.Model):
     unique_id = models.BigAutoField(primary_key=True)
     firstName = models.CharField(max_length=10)
@@ -11,9 +12,10 @@ class User(models.Model):
     email = models.EmailField()
     # avatar = models.ImageField('avatars/')
     friends = models.ManyToManyField('self', blank=True)
-    objects = models.Manager();
+    objects = models.Manager()
 
-    def __init__(self, unique_id, firstName, lastName, nick, email, *args, **kwargs):
+    def __init__(self, unique_id, firstName, lastName,
+                 nick, email, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
         self.unique_id = unique_id
         self.firstName = firstName
@@ -24,12 +26,11 @@ class User(models.Model):
     def __str__(self):
         return self.firstName.__str__()
 
-
     def to_dict(self):
         return {
-                "unique_id" : self.unique_id,
-                "firstName" : self.firstName,
-                "lastName" : self.lastName,
-                "nick" : self.nick,
-                "email" : self.email,
+            "unique_id": self.unique_id,
+            "firstName": self.firstName,
+            "lastName": self.lastName,
+            "nick": self.nick,
+            "email": self.email,
         }
