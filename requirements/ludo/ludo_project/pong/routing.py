@@ -1,7 +1,8 @@
-from django.urls import re_path
+from django.urls import path
 
-from .classes import PongGameConsumer
+from pong.classes.Consumer import Consumer
 
+# To change with domain name
 websocket_urlpatterns = [
-    re_path(r"wss://www.test.com/socketserver", PongGameConsumer.as_asgi()),
+    path("pong/", Consumer.as_asgi()),
 ]
