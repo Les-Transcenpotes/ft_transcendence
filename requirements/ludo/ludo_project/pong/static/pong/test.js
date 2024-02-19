@@ -94,7 +94,7 @@ const exampleSocket = new WebSocket('ws://localhost:8005/pong/'); // Probably ad
 
 exampleSocket.onopen = function(event) {
     console.log("Socket opened in the front");
-    exampleSocket.send("Socket opened in the front"); // Player names maybe ?
+    sendData(ball.pos['x'], ball.pos['y'], player1.pos, player2.pos); // Player names maybe ?
 };
 
 exampleSocket.onclose = function() {
@@ -105,10 +105,11 @@ exampleSocket.onerror = function(event) {
     console.log("Socket error");
 }
 
-function sendData(ballPos, player1Pos, player2Pos) {
+function sendData(ballPosX, ballPosY, player1Pos, player2Pos) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     const gameData = {
-      ballPos: ballPos,
+      ballPosX: ballPosX,
+      ballPosY: ballPosY,
       player1Pos: player1Pos,
       player2Pos: player2Pos,
     };
