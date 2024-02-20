@@ -1,8 +1,4 @@
 from django.db import models
-from myjwt.jwt import JWT
-from keys.privatekey import private_key
-
-# Create your models here.
 
 
 class Client(models.Model):
@@ -40,9 +36,6 @@ class Client(models.Model):
                 firstName : ${self.firstName}
                 lastName : ${self.lastName}
                 """)
-
-    def toToken(self):
-        return JWT.payloadToJwt(JWT.toPayload(self), private_key)
 
     @staticmethod
     def email_exists(email):

@@ -29,6 +29,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/alfred/alfred_project:/app
+      - shared_code:/app/shared
     ports:
       - "8001:8001"
     networks:
@@ -42,6 +43,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/coubertin/coubertin_project:/app
+      - shared_code:/app/shared
     ports:
       - "8002:8002"
     networks:
@@ -55,6 +57,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/cupidon/cupidon_project:/app
+      - shared_code:/app/shared
     ports:
       - "8003:8003"
     networks:
@@ -68,6 +71,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/lovelace/lovelace_project:/app
+      - shared_code:/app/shared
     ports:
       - "8004:8004"
     networks:
@@ -81,6 +85,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/ludo/ludo_project:/app
+      - shared_code:/app/shared
     ports:
       - "8005:8005"
     networks:
@@ -106,6 +111,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/mnemosine/mnemosine_project:/app
+      - shared_code:/app/shared
     ports:
       - "8007:8007"
     networks:
@@ -119,6 +125,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/petrus/petrus_project:/app
+      - shared_code:/app/shared
     ports:
       - "8008:8008"
     networks:
@@ -131,3 +138,11 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     networks:
       - atlas
+
+volumes:
+  shared_code:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./requirements/shared_code
+      o: bind

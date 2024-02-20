@@ -1,15 +1,16 @@
 from django.db import Error
 from django.http import HttpRequest
-from myjwt.jwt import JWT
-from keys import publickey
-from myjwt.classes import User
+from .jwt import JWT
+from .var import public_key
+from .common_classes import User
 import os
+
 
 
 class JWTIdentificationMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        key = publickey.public_key
+        key = public_key
         # key = os.environ.get('PUBLIC_KEY_JWT')
         if not key:
             raise Error("publicKey is not defined")
