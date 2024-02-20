@@ -17,10 +17,6 @@ COPY        requirements.txt /app/
 RUN         pip install --upgrade pip && \
             pip install --no-cache-dir -r requirements.txt
 
-#---- ports -----------------------------------------------------------#
-
-EXPOSE      8000
-
 #---- script ----------------------------------------------------------#
 
 COPY        --chmod=+x tools/script.sh /etc/coubertin/script.sh

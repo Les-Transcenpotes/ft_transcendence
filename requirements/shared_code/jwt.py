@@ -3,9 +3,9 @@ from typing import Tuple
 import jwt
 
 
-from keys.publickey import public_key
-from keys.privatekey import private_key
-from keys.algo import algo
+from .var import public_key
+from .var import private_key
+from .var import algo
 import os
 
 
