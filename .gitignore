@@ -7,9 +7,9 @@ tutorial
 composer.phar
 /vendor/
 **/*_env
-**/*_project/shared
 **/env
 **/*.sqlite3
 **/__pycache__/**
 **/migrations
 .env
+youpi
