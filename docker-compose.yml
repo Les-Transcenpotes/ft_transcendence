@@ -1,12 +1,11 @@
 version: '3.8'
 
 networks:
-  atlas: {}
 
-  # aegis guard: {}
+  aegis guard: {}
 
-  # atlas:
-  #   internal: true
+  atlas:
+    internal: true
 
 services:
 
@@ -23,7 +22,7 @@ services:
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
     networks:
-      # - aegis guard
+      - aegis guard
       - atlas
     restart: on-failure
 
