@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-r0u6)*5c349+vco)%e5w+#a*+_2#2t4nh)%zqnn7fx0)*o!=w7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['batch.42.fr', 'coubertin']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'tournament',
+    'create_tournament',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shared.Middleware.JWTIdentificationMiddleware',
 ]
 
 ROOT_URLCONF = 'coubertin_project.urls'

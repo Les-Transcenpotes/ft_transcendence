@@ -1,51 +1,178 @@
-version: '3'
+version: '3.8'
+
+networks:
+
+  aegis guard: {}
+
+  atlas:
+    internal: true
 
 services:
 
-  frontend:
+# Server proxy
+  aegis:
+    container_name: aegis
+    image: aegis
     build:
-      context: ./requirements/frontend/src
+      context: ./requirements/aegis
       dockerfile: Dockerfile
-    volumes:
-      - ./requirements/frontend/src:/usr/share/nginx/html
     ports:
-      - "8001:80"
+      # - 80:80
+      - 443:443
+    volumes:
+      - ./requirements/aegis:/usr/share/nginx/html
+    networks:
+      - aegis guard
+      - atlas
     restart: on-failure
 
-  ludo:
-    build:
-      context: ./requirements/ludo
-      dockerfile: Dockerfile
-    volumes:
-      - ./requirements/ludo/ludo_project:/app
-    ports:
-      - "8002:8000"
-    networks:
-      - atlas
-
-    # User container
+# Profil container
   alfred:
+    container_name: alfred
+    image: alfred
     build:
       context: ./requirements/alfred
       dockerfile: Dockerfile
     volumes:
       - ./requirements/alfred/alfred_project:/app
-    ports:
-      - "8003:8000"
+      - shared_code:/app/shared
+    # ports:
+      # - "8001:8001"
     networks:
       - atlas
 
+# Tournament container
   coubertin:
+    container_name: coubertin
+    image: coubertin
     build:
       context: ./requirements/coubertin
       dockerfile: Dockerfile
     volumes:
       - ./requirements/coubertin/coubertin_project:/app
-    ports:
-      - "8004:8000"
+      - shared_code:/app/shared
+    # ports:
+      # - "8002:8002"
     networks:
       - atlas
 
-networks:
-  atlas:
-    driver: bridge
+# Matchmaking container
+  cupidon:
+    container_name: cupidon
+    image: cupidon
+    build:
+      context: ./requirements/cupidon
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/cupidon/cupidon_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8003:8003"
+    networks:
+      - atlas
+
+# Notification container
+  hermes:
+    container_name: hermes
+    image: hermes
+    build:
+      context: ./requirements/hermes
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/hermes/hermes_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8004:8004"
+    networks:
+      - atlas
+
+# Auth inter-container container
+  lovelace:
+    container_name: lovelace
+    image: lovelace
+    build:
+      context: ./requirements/lovelace
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/lovelace/lovelace_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8005:8005"
+    networks:
+      - atlas
+
+# Game container
+  ludo:
+    container_name: ludo
+    image: ludo
+    build:
+      context: ./requirements/ludo
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/ludo/ludo_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8006:8006"
+    networks:
+      - atlas
+
+# Front container
+  malevitch:
+    container_name: malevitch
+    image: malevitch
+    build:
+      context: ./requirements/malevitch
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/malevitch:/usr/share/nginx/html
+    # ports:
+    #   - "8007:80"
+    networks:
+      - atlas
+    restart: on-failure
+
+# Stats container
+  mnemosine:
+    container_name: mnemosine
+    image: mnemosine
+    build:
+      context: ./requirements/mnemosine
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/mnemosine/mnemosine_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8008:8008"
+    networks:
+      - atlas
+
+# Authentification container
+  petrus:
+    container_name: petrus
+    image: petrus
+    build:
+      context: ./requirements/petrus
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/petrus/petrus_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8009:8009"
+    networks:
+      - atlas
+
+  redis:
+    container_name: redis
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - atlas
+
+volumes:
+  shared_code:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./requirements/shared_code
+      o: bind

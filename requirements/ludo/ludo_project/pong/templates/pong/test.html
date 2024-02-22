@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .ball {
+                height: 25px;
+                width: 25px;
+                background-color: #bbb;
+                border-radius: 50%;
+                position: absolute;
+            }
+            .player {
+                height: 180px;
+                width: 20px;
+                background-color: #000000;
+                position: absolute;
+            }
+            .score {
+                letter-spacing: 1px;
+            }
+        </style>
+    </head>
+
+    <body id="test-target">
+        <div class="player" id="player1"></div>
+        <div class="player" id="player2"></div>
+        <div class="ball"></div>
+        <div classe="score" id="score2"></div>
+        <div class="score" id="score1"></div>
+        <script src="{% static 'pong/test.js' %}"></script>
+    </body>
+</html>

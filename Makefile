@@ -1,41 +1,98 @@
-ENV_FILE        := .env
-DOCKER_FILE     := ./docker-compose.yml
+#---- Makefile --------------------------------------------------------#
 
-VOLUMES_DIR        := front_db auth_db game_db bot_db
-VOLUMES_PATH       := $(HOME)/data/transcendence_data
-VOLUMES         := $(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
+#---- variables -------------------------------------------------------#
 
-COMPOSE := docker compose -f
+ENV_FILE		=	.env
+DOCKER_FILE		=	docker-compose.yml
+VOLUMES_DIR		=	front_db auth_db game_db
+VOLUMES_PATH	=	$(HOME)/data/transcendence_data
+VOLUMES			=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 
-all: up
+#---- docker commands -------------------------------------------------#
 
-# The | character specifies order-only prerequisites, which must be built
-# before this target but do not trigger a rebuild if they change.
-up: | $(VOLUMES)
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+COMPOSE		=	docker compose -f
+STOP		=	docker stop
+RM			=	docker rm
+VOLUME		=	docker volume
+NETWORK		=	docker network
+SYSTEM		=	docker system
 
-# Removing the -d flag allows us to see the output of the containers.
-debug: | $(VOLUMES)
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+#---- rules -----------------------------------------------------------#
 
-# Create the directories if they do not exist.
-$(VOLUMES):
-		mkdir -p $(VOLUMES)
+#---- base ----#
+debug: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
-stop:
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) down
+all: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+
+up: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
+
+build: | volumes
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) build
 
 down:
-		$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) down
-# Remove the Docker volumes prefixed with 'srcs_', located at /var/lib/docker/volumes/.
-# Remove all unused Docker volumes.
-# Remove the directories on the host system where the volume data is stored.
-clean:    stop
-		docker volume rm $(addprefix srcs_, $(VOLUMES_DIR)) -f
-		rm -rf $(VOLUMES_PATH)/*
-		$(COMPOSE) srcs/docker-compose.yml down --volumes --rmi all
+	$(COMPOSE) $(DOCKER_FILE) down
+
+volumes:
+	mkdir -p $(VOLUMES)
+
+#---- debug ----#
 
 
-re: stop debug
+aegis:
+	$(COMPOSE) $(DOCKER_FILE) exec aegis /bin/sh
 
-.PHONY: all load debug stop clean re down
+alfred:
+	$(COMPOSE) $(DOCKER_FILE) exec alfred bash
+
+coubertin:
+	$(COMPOSE) $(DOCKER_FILE) exec coubertin bash
+
+cupidon:
+	$(COMPOSE) $(DOCKER_FILE) exec cupidon bash
+
+lovelace:
+	$(COMPOSE) $(DOCKER_FILE) exec lovelace bash
+
+ludo:
+	$(COMPOSE) $(DOCKER_FILE) exec ludo bash
+
+malevitch:
+	$(COMPOSE) $(DOCKER_FILE) exec malevitch /bin/sh
+
+mnemosine:
+	$(COMPOSE) $(DOCKER_FILE) exec mnemosine bash
+
+petrus:
+	$(COMPOSE) $(DOCKER_FILE) exec petrus bash
+
+#---- clean ----#
+
+clean: down
+	$(COMPOSE) $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
+	rm -rf $(VOLUMES_PATH)/*
+
+fclean: clean
+	- $(STOP) $$(docker ps -qa)
+	- $(RM) $$(docker ps -qa)
+	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
+
+prune:
+	- $(STOP) $$(docker ps -qa)
+	- $(SYSTEM) prune -af
+	- $(VOLUME) prune -af
+
+#---- re ----#
+
+re: down debug
+# pour la prod: remettre up
+
+#---- settings --------------------------------------------------------#
+
+.SILENT:
+.DEFAULT: debug
+# pour la prod: remettre all
+.PHONY: all up build down volumes debug clean fclean prune re
+

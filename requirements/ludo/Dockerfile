@@ -1,15 +1,26 @@
-FROM python:3.12-bookworm
+#---- base image ------------------------------------------------------#
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+FROM        python:3.12-bookworm
 
-WORKDIR /app
+#---- env variables ---------------------------------------------------#
 
-COPY requirements.txt /app/
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
+ENV         PYTHONDONTWRITEBYTECODE 1
+ENV         PYTHONUNBUFFERED 1
 
-EXPOSE 8000
+#---- working directory -----------------------------------------------#
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+WORKDIR     /app
+
+#---- dependencies & requirements -------------------------------------#
+
+COPY        requirements.txt /app/
+RUN         pip install --upgrade pip && \
+            pip install --no-cache-dir -r requirements.txt && \
+            python -m pip install -U channels["daphne"] && \
+            python -m pip install channels_redis
+
+#---- script ----------------------------------------------------------#
+
+COPY        --chmod=+x tools/script.sh /etc/ludo/script.sh
+
+ENTRYPOINT  ["sh", "/etc/ludo/script.sh"]
