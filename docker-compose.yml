@@ -52,7 +52,7 @@ services:
       - ./requirements/coubertin/coubertin_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8002:8002"
+    #   - "8002:8002"
     networks:
       - atlas
 
