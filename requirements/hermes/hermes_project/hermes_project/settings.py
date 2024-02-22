@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-qit1#@k&2xvpusqea7l0qztjni$pf67y#p+(xkfxv&u8p8vkg_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['batch.42.fr', 'hermes']
+ALLOWED_HOSTS = ['localhost', 'batch.42.fr', 'hermes']
 
 
 # Application definition
