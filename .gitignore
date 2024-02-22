@@ -12,3 +12,4 @@ composer.phar
 **/__pycache__/**
 **/migrations
 .env
+youpi

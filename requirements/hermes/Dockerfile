@@ -19,6 +19,6 @@ RUN         pip install --upgrade pip && \
 
 #---- script ----------------------------------------------------------#
 
-COPY        --chmod=+x tools/script.sh /etc/coubertin/script.sh
+COPY        --chmod=+x tools/script.sh /etc/hermes/script.sh
 
-ENTRYPOINT  ["sh", "/etc/coubertin/script.sh"]
+ENTRYPOINT  ["sh", "/etc/hermes/script.sh"]

@@ -1,6 +1,18 @@
-FROM    nginx:alpine
+#---- base image ------------------------------------------------------#
 
-EXPOSE  80
+FROM    nginx:1-alpine3.18
 
-# connexion https: genere le certificat + cle prive
-# redirection des requetes vers les autres services
+#---- config ----------------------------------------------------------#
+
+COPY    conf/nginx.conf /etc/nginx/conf.d/default.conf
+RUN     ln -s /etc/nginx/conf.d/sites-available/nginx.conf /etc/nginx/conf.d/sites-enabled
+
+#---- TSL/SSL certification -------------------------------------------#
+
+RUN     mkdir -p /etc/nginx/ssl && \
+        apk add --update --no-cache openssl &&                         \
+        openssl req -x509 -nodes                                       \
+            -out /etc/nginx/ssl/ft_transcendence.crt                   \
+            -keyout /etc/nginx/ssl/ft_transcendence.key                \
+            -subj "/C=FR/L=Lyon/CN=batch.42.fr" || \
+            { echo "SSL certification failed"; exit 1; }

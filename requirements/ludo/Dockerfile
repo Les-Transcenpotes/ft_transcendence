@@ -19,10 +19,6 @@ RUN         pip install --upgrade pip && \
             python -m pip install -U channels["daphne"] && \
             python -m pip install channels_redis
 
-#---- ports -----------------------------------------------------------#
-
-EXPOSE      8000
-
 #---- script ----------------------------------------------------------#
 
 COPY        --chmod=+x tools/script.sh /etc/ludo/script.sh

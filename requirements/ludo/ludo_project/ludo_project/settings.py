@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vq##z14i+&nejd5po8@r1^ju7ygo9sc1j!n!@p51@2afjo9^p7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['batch.42.fr', 'ludo']
 
 
 # Application definition
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shared.Middleware.JWTIdentificationMiddleware',
 ]
 
 ROOT_URLCONF = 'ludo_project.urls'

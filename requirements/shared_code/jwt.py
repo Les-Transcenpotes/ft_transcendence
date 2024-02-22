@@ -1,22 +1,20 @@
-from datetime import datetime, timedelta, timezone
-from typing import Tuple
-from django.db.models.lookups import YearLookup
-import jwt
 from datetime import datetime, timedelta
+from typing import Tuple
+import jwt
 
 
-from keys.publickey import public_key
-from keys.privatekey import private_key
-from keys.algo import algo
+from .var import public_key
+from .var import private_key
+from .var import algo
 import os
+
 
 class JWT:
     publicKey = public_key   # replace os.environ['PUBLIC_KEY']
-    privateKey = private_key # replace os.environ['PRIVATE_KEY']
+    privateKey = private_key  # replace os.environ['PRIVATE_KEY']
     algo = algo
     expiration_acccess_token = timedelta(minutes=15)
     expiration_refresh_token = timedelta(days=1)
-
 
     @staticmethod
     def payloadToJwt(payload: dict, key: str) -> Tuple[bool, str]:
@@ -52,7 +50,7 @@ class JWT:
     @staticmethod
     def peremptionDict() -> dict:
         peremption = datetime.utcnow() + timedelta(minutes=15)
-        return {'exp': peremption.__str__()}
+        return {'exp': peremption}
 
     @staticmethod
     def verifJWT(str, key) -> str | dict:
@@ -68,4 +66,4 @@ class JWT:
 
     @staticmethod
     def objectToAccessToken(object):
-        return JWT.payloadToJwt(JWT.toPayload(object), JWT.publicKey)
+        return JWT.payloadToJwt(JWT.toPayload(object), JWT.privateKey)
