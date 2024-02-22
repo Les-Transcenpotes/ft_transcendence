@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import checkInView, refreshJWTView, refreshTokenView, view_db, bad
+from .views import signinView, signupView, refreshView, view_db, bad
 
 urlpatterns = [
-    path("", refreshJWTView.as_view()),
-    path("check/<str:type>/<str:data>", checkInView.as_view()),
-    path("refresh-token", refreshTokenView.as_view()),
     path("view-db", view_db),
-    path("bad", bad)
+    path("bad", bad),
+    path("signin/<str:string>", signinView.as_view()),
+    path("signup", signupView.as_view()),
+    path("JWT_refreshment", refreshView.as_view())
 ]
