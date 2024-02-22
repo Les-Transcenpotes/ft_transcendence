@@ -7,23 +7,26 @@ from signin.models import Client
 # Create your views here.
 
 
-def first_connection(request: HttpRequest) -> JsonResponse:
-    return JsonResponse({"Error": "Method not handled"})
-
-
 def view_db(request: HttpRequest) -> JsonResponse:
     clients = [object.toDict() for object in Client.objects.all()]
     return JsonResponse({"clients": list(clients)})
 
 
-class tokenView(View):
-    def get(self, request: HttpRequest) -> JsonResponse:
-        return JsonResponse({"Error": ""})
-
-    def post(self, request: HttpRequest) -> JsonResponse:
-        return JsonResponse({"Error": ""})
+class signinView(View):
+    pass
 
 
+class signupView(View):
+    pass
+
+
+class refreshTokenView(View):
+    pass:
+
+
+"""
+old views
+"""
 class checkInView(View):
     def get(self, request: HttpRequest, type: str, data: str) -> JsonResponse:
         if (type == "mail"):
@@ -62,14 +65,6 @@ class checkInView(View):
         return JsonResponse({"": ""})
 
 
-class refreshJWTView(View):
-    def get(self, request: HttpRequest) -> JsonResponse:
-        return JsonResponse({"": ""})
-
-
-class refreshTokenView(View):
-    def get(self, request: HttpRequest) -> JsonResponse:
-        return JsonResponse({"": ""})
 
 
 def bad(request: HttpRequest):
