@@ -1,3 +1,5 @@
+// Input box focus.
+
 document.querySelector('.homepage-id-input').addEventListener('focus', function() {
     this.parentNode.classList.add('homepage-id-input-box-focused');
 });
@@ -5,6 +7,8 @@ document.querySelector('.homepage-id-input').addEventListener('focus', function(
 document.querySelector('.homepage-id-input').addEventListener('blur', function() {
     this.parentNode.classList.remove('homepage-id-input-box-focused');
 });
+
+// Make the submit button appear only when there is text in the input box.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
 	var container = this.closest('.homepage-id-input-container');
@@ -14,6 +18,8 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 		container.classList.remove('homepage-id-input-container-focused');
     }
 });
+
+// Language selector.
 
 document.querySelectorAll('.dropdown-item').forEach(function(item) {
     item.addEventListener('click', function(event) {
@@ -25,14 +31,16 @@ document.querySelectorAll('.dropdown-item').forEach(function(item) {
 		var selectedLangUrl;
 		if (selectedLangAttr === 'fr') {
 			selectedLangUrl = 'url(./assets/general/flag-france.png)';
+			switchLanguageAttr('fr', 'placeholder');
 		}
 		else if (selectedLangAttr === 'zh') {
 			selectedLangUrl = 'url(./assets/general/flag-china.png)';
+			switchLanguageAttr('zh', 'placeholder');
 		}
 		else {
 			selectedLangUrl = 'url(./assets/general/flag-unitedkingdom.png)';
+			switchLanguageAttr('en', 'placeholder');
 		}
-		console.log(activeLangAttr + ' ' + activeLangUrl + ' ' + selectedLangAttr + ' ' + selectedLangUrl);
         button.style.backgroundImage = selectedLangUrl;
 		button.setAttribute('lang', selectedLangAttr);
 		this.setAttribute('lang', activeLangAttr);
