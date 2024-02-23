@@ -27,15 +27,3 @@ jobs:
 
     - name: Run autopep8
       run: autopep8 --in-place --aggressive --aggressive -r .
-
-  build:
-    name: Build Project
-    needs: style-check
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Build Project with Make
-      run: make 
