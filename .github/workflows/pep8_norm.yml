@@ -26,7 +26,7 @@ jobs:
         pip install --upgrade autopep8
 
     - name: Run autopep8
-      run: autopep8 --in-place --aggressive --aggressive -r .\
+      run: autopep8 --in-place --aggressive --aggressive -r .
 
   build:
     name: Build Project
