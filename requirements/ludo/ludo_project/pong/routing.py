@@ -4,5 +4,5 @@ from pong.classes.Consumer import Consumer
 
 # To change with domain name
 websocket_urlpatterns = [
-    path("pong/", Consumer.as_asgi()),
+    path("pong/ws/", Consumer.as_asgi()),
 ]
