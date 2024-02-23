@@ -155,7 +155,7 @@ gameArea.addEventListener("keyup", (e) => { // Booleans with on press and on rel
 /***************************************** Websockets *****************************************/
 
 console.log("ws://" + window.location.host + '/pong/ws/me/')
-const exampleSocket = new WebSocket('wss://batch.42.fr:8000/ludo/pong/ws/'); // Probably add room name
+const exampleSocket = new WebSocket('wss://localhost:8000/ludo/pong/ws/'); // Probably add room name
 
 exampleSocket.onopen = function(event) {
     sendStartGameData("gameStart", screenHeight, screenWidth, parseInt(meStyle.height, 10)); // Player names maybe ?
