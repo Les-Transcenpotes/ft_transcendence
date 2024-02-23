@@ -1,12 +1,11 @@
 version: '3.8'
 
 networks:
-  atlas: {}
 
-  # aegis guard: {}
+  aegis guard: {}
 
-  # atlas:
-  #   internal: true
+  atlas:
+    internal: true
 
 services:
 
@@ -23,7 +22,7 @@ services:
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
     networks:
-      # - aegis guard
+      - aegis guard
       - atlas
     restart: on-failure
 
@@ -53,7 +52,7 @@ services:
       - ./requirements/coubertin/coubertin_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8002:8002"
+    #   - "8002:8002"
     networks:
       - atlas
 
@@ -72,6 +71,21 @@ services:
     networks:
       - atlas
 
+# Notification container
+  hermes:
+    container_name: hermes
+    image: hermes
+    build:
+      context: ./requirements/hermes
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/hermes/hermes_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8004:8004"
+    networks:
+      - atlas
+
 # Auth inter-container container
   lovelace:
     container_name: lovelace
@@ -83,7 +97,7 @@ services:
       - ./requirements/lovelace/lovelace_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8004:8004"
+      # - "8005:8005"
     networks:
       - atlas
 
@@ -98,7 +112,7 @@ services:
       - ./requirements/ludo/ludo_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8005:8005"
+      # - "8006:8006"
     networks:
       - atlas
 
@@ -112,7 +126,7 @@ services:
     volumes:
       - ./requirements/malevitch:/usr/share/nginx/html
     # ports:
-    #   - "8006:80"
+    #   - "8007:80"
     networks:
       - atlas
     restart: on-failure
@@ -128,7 +142,7 @@ services:
       - ./requirements/mnemosine/mnemosine_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8007:8007"
+      # - "8008:8008"
     networks:
       - atlas
 
@@ -143,7 +157,7 @@ services:
       - ./requirements/petrus/petrus_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8008:8008"
+      # - "8009:8009"
     networks:
       - atlas
 
