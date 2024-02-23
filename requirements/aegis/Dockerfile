@@ -4,30 +4,16 @@ FROM    nginx:1-alpine3.18
 
 #---- ModSecurity -----------------------------------------------------#
 
+COPY    requirements.txt ./requirements.txt
+
 RUN     apk update && \
         apk upgrade && \
-        apk add wget \
-                git \
-                libtool \
-                autoconf \
-                automake \
-                build-base \
-                yajl-dev \
-                geoip-dev \
-                libmaxminddb-dev \
-                lmdb-dev \
-                lua-dev \
-                curl-dev \
-                libxml2-dev \
-                pcre-dev \
-                linux-headers
-
-RUN     git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity && \
+        cat requirements.txt | xargs apk add --no-cache && \
+        rm requirements.txt && \
+        git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity && \
         cd ModSecurity && \
         git submodule init && \
-        git submodule update
-
-RUN     cd ModSecurity && \
+        git submodule update && \
         ./build.sh && \
         ./configure && \
         make && \
@@ -36,14 +22,25 @@ RUN     cd ModSecurity && \
 #---- ModSecurity connector -------------------------------------------#
 
 RUN     git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git && \
-        export NGINX_VERSION=$(nginx -v 2>&1 | cut -d'/' -f2)
-
-RUN     wget http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
+        export NGINX_VERSION=$(nginx -v 2>&1 | cut -d'/' -f2) && \
+        wget http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
         tar -zxvf nginx-$NGINX_VERSION.tar.gz && \
+        rm nginx-$NGINX_VERSION.tar.gz && \
         cd nginx-$NGINX_VERSION && \
         ./configure --with-compat --add-dynamic-module=../ModSecurity-nginx && \
         make modules && \
-        cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules/
+        cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules/ && \
+        mkdir /etc/nginx/modsec/ && \
+        cp /ModSecurity/unicode.mapping /etc/nginx/modsec/ && \
+        cd /etc/nginx/modsec/ && \
+        wget https://github.com/coreruleset/coreruleset/archive/refs/tags/v4.0.0.tar.gz && \
+        tar -xvf v4.0.0.tar.gz && \
+        rm v4.0.0.tar.gz && \
+        cp coreruleset-4.0.0/crs-setup.conf.example coreruleset-4.0.0/crs-setup.conf
+
+
+COPY    conf/modsec-config.conf /etc/nginx/modsec/modsec-config.conf
+COPY    conf/modsecurity.conf /etc/nginx/modsec/modsecurity.conf
 
 #---- config ----------------------------------------------------------#
 
