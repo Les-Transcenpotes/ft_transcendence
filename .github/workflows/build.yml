@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Build Project
-    needs: pep8_norm
+    needs: style-check
     runs-on: ubuntu-latest
 
     steps:
