@@ -19,14 +19,15 @@
 			</div>
 			<div class="homepage-id-input-container container d-flex justify-content-center position-absolute start-50 translate-middle w-50">
 				<div class="homepage-id-language-selector purple-shadow">
-					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown" lang="en"></button>
+					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown" lang="en">en</button>
 					<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
-						<li><a class="dropdown-item border-0" lang="fr" role="menuitem" href="#"></a></li>
-						<li><a class="dropdown-item border-0" lang="zh" role="menuitem" href="#"></a></li>
+						<li><a class="dropdown-item border-0" lang="fr" role="menuitem" href="#">fr</a></li>
+						<li><a class="dropdown-item border-0" lang="zh" role="menuitem" href="#">zh</a></li>
 					</ul>
 				</div>
 				<div class="homepage-id-input-box w-50 bg-white purple-shadow">
-					<input type="text" name="nickname" label="nickname" data-language="nickname" placeholder="Enter your nickname..." class="homepage-id-input w-100 border-0 text-center">
+					<label for="nickname-input" data-language="nickname" class="visually-hidden">Enter your nickname...</label>
+					<input id="nickname-input" type="text" name="nickname" label="nickname" data-language="nickname" placeholder="Enter your nickname..." class="homepage-id-input w-100 border-0 text-center">
 				</div>
 				<button type="button" value="" class="homepage-id-submit border-0 purple-shadow" disabled>
 			</div>

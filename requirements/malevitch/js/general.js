@@ -8,7 +8,20 @@ function switchLanguageAttr(locale, newAttr) {
 	loadTranslations(locale).then(translations => {
 	  document.querySelectorAll('[data-language]').forEach(element => {
 		const key = element.getAttribute('data-language');
-		element.setAttribute(newAttr, translations[locale][key]);
+		if (element.hasAttribute(newAttr)) {
+			element.setAttribute(newAttr, translations[locale][key]);
+		}
+	  });
+	});
+}
+
+function switchLanguageContent(locale) {
+	loadTranslations(locale).then(translations => {
+	  document.querySelectorAll('[data-language]').forEach(element => {
+		const key = element.getAttribute('data-language');
+		if (element.textContent.trim() !== '') {
+			element.textContent = translations[locale][key];
+		}
 	  });
 	});
 }
