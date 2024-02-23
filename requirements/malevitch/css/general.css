@@ -1,0 +1,23 @@
+body {
+	overflow: hidden;
+	height: auto;
+}
+
+.dot-pattern {
+	background: white;
+	background-image: radial-gradient(#7300E6 1px, transparent 0);
+	background-size: 50px 50px;
+	background-position: 12.5px 12.5px;
+}
+
+.purple-shadow {
+	filter: drop-shadow(10px 10px 12px rgba(115, 0, 230, 0.3));
+}
+
+.unselectable {
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
