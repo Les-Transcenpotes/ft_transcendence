@@ -38,6 +38,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8001:8001"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -53,6 +55,8 @@ services:
       - shared_code:/app/shared
     # ports:
     #   - "8002:8002"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -68,6 +72,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8003:8003"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -83,6 +89,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8004:8004"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -98,6 +106,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8005:8005"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -113,6 +123,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8006:8006"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -127,6 +139,8 @@ services:
       - ./requirements/malevitch:/usr/share/nginx/html
     # ports:
     #   - "8007:80"
+    depends_on:
+      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -143,6 +157,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8008:8008"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -158,6 +174,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8009:8009"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -166,6 +184,8 @@ services:
     image: 'bitnami/redis:latest'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+    depends_on:
+      - aegis
     networks:
       - atlas
 
