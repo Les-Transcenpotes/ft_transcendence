@@ -8,9 +8,12 @@ class Ball:
     def __init__(self):
         self.pos = [screenLength / 2, screenWidth / 2]
         self.speed = screenWidth / 5
-        self.angle = 0
+        self.angle = m.pi
         self.size = screenWidth / 100
     def move(self):
         self.pos += [m.cos(self.angle), m.sin(self.angle)]
-        assert(self.pos[0] > 0 & self.pos[0] < screenLength)
-        assert(self.pos[1] > 0 & self.pos[1] < screenWidth)
+    def init(self):
+        self.pos = [screenLength / 2, screenWidth / 2]
+        self.speed = screenWidth / 5
+        self.angle = m.pi
+        self.size = screenWidth / 100
