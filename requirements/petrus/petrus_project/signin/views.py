@@ -9,12 +9,14 @@ from signin.models import Client
 
 
 def view_db(request: HttpRequest) -> JsonResponse:
+    request = request
     clients = [object.toDict() for object in Client.objects.all()]
     return JsonResponse({"clients": list(clients)})
 
 
 class signinView(View):
     """ se login """
+
     def get(self, request, string: str):
 
         request = request
@@ -55,6 +57,7 @@ class signinView(View):
 
 class signupView(View):
     """ s'inscrire """
+
     def get(self, request):
         request = request
         return JsonResponse({"Ava": True})
@@ -67,7 +70,8 @@ class signupView(View):
         accessibility = request.POST.get("accessibility")
 
         if not id or not password or not nick or not accessibility:
-            return JsonResponse({"Err": "All information must be filled"}, status=200)
+            return JsonResponse(
+                {"Err": "All information must be filled"}, status=200)
         hashed_password = make_password(accessibility)
 
         client = Client()
@@ -88,6 +92,7 @@ class signupView(View):
         jwt = JWT.objectToAccessToken(client)
 
         return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
+
 
 class refreshView(View):
     def get(self, request):
