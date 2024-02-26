@@ -42,11 +42,11 @@ RUN     git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git 
 COPY    conf/modsec-config.conf /etc/nginx/modsec/modsec-config.conf
 COPY    conf/modsecurity.conf /etc/nginx/modsec/modsecurity.conf
 COPY    conf/crs-setup.conf /etc/nginx/modsec/coreruleset-4.0.0/crs-setup.conf
+COPY    conf/load_module.conf /etc/nginx/nginx.conf
 
 #---- config ----------------------------------------------------------#
 
 COPY    conf/nginx.conf /etc/nginx/conf.d/default.conf
-COPY    conf/load_module.conf /etc/nginx/nginx.conf
 RUN     ln -s /etc/nginx/conf.d/sites-available/nginx.conf /etc/nginx/conf.d/sites-enabled
 
 #---- TSL/SSL certification -------------------------------------------#

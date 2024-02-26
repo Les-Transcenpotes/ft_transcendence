@@ -17,5 +17,5 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('petrus/', include("signin.urls")),
+    path('auth/', include("signin.urls")),
 ]
