@@ -142,8 +142,8 @@ services:
     volumes:
       - ./requirements/petrus/petrus_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8008:8008"
+    ports:
+      - "8008:8008"
     networks:
       - atlas
 
