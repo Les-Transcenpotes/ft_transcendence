@@ -41,6 +41,7 @@ RUN     git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git 
 
 COPY    conf/modsec-config.conf /etc/nginx/modsec/modsec-config.conf
 COPY    conf/modsecurity.conf /etc/nginx/modsec/modsecurity.conf
+COPY    conf/crs-setup.conf /etc/nginx/modsec/coreruleset-4.0.0/crs-setup.conf
 
 #---- config ----------------------------------------------------------#
 
