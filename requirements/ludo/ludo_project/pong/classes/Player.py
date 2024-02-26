@@ -1,16 +1,17 @@
 # A recup via un requete au front !
-screenWidth = 1080
-screenLength = 1920
+from pong.gameLoop import match
 
 class Player:
-    width = screenWidth / 10
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, id):
         self.points = 0
-        self.pos = screenWidth / 2
+        self.pos = match.screenHeight / 2
+        self.up = False
+        self.down = False
+        self.id = id
         # speed = 0
         # acceleration = 0
-    def move(self, mvt):
-        self.pos += mvt * screenWidth / 100
-        assert(self.pos + self.width/2 < screenWidth)
-        assert(self.pos - self.width/2 > 0)
+    def move(self):
+        mvt = self.down - self.up
+        newPos = self.pos + mvt * match.screenHeight / 300
+        if (newPos + match.playerHeight / 2 < match.screenHeight and newPos > match.playerHeight / 2):
+            self.pos = newPos

@@ -1,12 +1,11 @@
 version: '3.8'
 
 networks:
-  atlas: {}
 
-  # aegis guard: {}
+  aegis guard: {}
 
-  # atlas:
-  #   internal: true
+  atlas:
+    internal: true
 
 services:
 
@@ -18,12 +17,16 @@ services:
       context: ./requirements/aegis
       dockerfile: Dockerfile
     ports:
+<<<<<<< HEAD
       # - 80:80
+=======
+      - 8001:80
+>>>>>>> 11219702a33a281e33c2908ef3d00b943cdfc628
       - 8000:443
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
     networks:
-      # - aegis guard
+      - aegis guard
       - atlas
     restart: on-failure
 
@@ -39,6 +42,8 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8001:8001"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -53,7 +58,9 @@ services:
       - ./requirements/coubertin/coubertin_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8002:8002"
+    #   - "8002:8002"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -69,6 +76,25 @@ services:
       - shared_code:/app/shared
     # ports:
       # - "8003:8003"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+
+# Notification container
+  hermes:
+    container_name: hermes
+    image: hermes
+    build:
+      context: ./requirements/hermes
+      dockerfile: Dockerfile
+    volumes:
+      - ./requirements/hermes/hermes_project:/app
+      - shared_code:/app/shared
+    # ports:
+      # - "8004:8004"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -83,7 +109,9 @@ services:
       - ./requirements/lovelace/lovelace_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8004:8004"
+      # - "8005:8005"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -98,7 +126,9 @@ services:
       - ./requirements/ludo/ludo_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8005:8005"
+      # - "8006:8006"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -112,7 +142,9 @@ services:
     volumes:
       - ./requirements/malevitch:/usr/share/nginx/html
     # ports:
-    #   - "8006:80"
+    #   - "8007:80"
+    depends_on:
+      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -128,7 +160,9 @@ services:
       - ./requirements/mnemosine/mnemosine_project:/app
       - shared_code:/app/shared
     # ports:
-      # - "8007:8007"
+      # - "8008:8008"
+    depends_on:
+      - aegis
     networks:
       - atlas
 
@@ -142,8 +176,15 @@ services:
     volumes:
       - ./requirements/petrus/petrus_project:/app
       - shared_code:/app/shared
+<<<<<<< HEAD
     ports:
       - "8008:8008"
+=======
+    # ports:
+      # - "8009:8009"
+    depends_on:
+      - aegis
+>>>>>>> 11219702a33a281e33c2908ef3d00b943cdfc628
     networks:
       - atlas
 
@@ -152,6 +193,8 @@ services:
     image: 'bitnami/redis:latest'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+    depends_on:
+      - aegis
     networks:
       - atlas
 
