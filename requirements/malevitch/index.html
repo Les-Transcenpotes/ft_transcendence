@@ -19,17 +19,25 @@
 			</div>
 			<div class="homepage-id-input-container container d-flex justify-content-center position-absolute start-50 translate-middle w-50">
 				<div class="homepage-id-language-selector purple-shadow">
-					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown" lang="en">en</button>
+					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
+						<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+					</button>
 					<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
-						<li><a class="dropdown-item border-0" lang="fr" role="menuitem" href="#">fr</a></li>
-						<li><a class="dropdown-item border-0" lang="zh" role="menuitem" href="#">zh</a></li>
+						<li><a class="dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
+						<li><a class="dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
 					</ul>
 				</div>
 				<div class="homepage-id-input-box w-50 bg-white purple-shadow">
 					<label for="nickname-input" data-language="nickname" class="visually-hidden">Enter your nickname...</label>
 					<input id="nickname-input" type="text" name="nickname" label="nickname" data-language="nickname" placeholder="Enter your nickname..." class="homepage-id-input w-100 border-0 text-center">
 				</div>
-				<button type="button" value="" class="homepage-id-submit border-0 purple-shadow" disabled>
+				<button type="button" value="" class="homepage-id-submit border-0 purple-shadow d-flex align-items-center justify-content-center" disabled>
+					<img src="assets/general/right-arrow-white.svg" alt="→" draggable="false" (dragstart)="false;" class="unselectable">
+				</button>
 			</div>
 		</div>
 		<script src="js/general.js"></script>

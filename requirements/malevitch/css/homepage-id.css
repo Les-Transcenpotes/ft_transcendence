@@ -18,7 +18,8 @@
 
 /* language selector */
 
-.homepage-id-language-selector button, .homepage-id-language-selector ul li a {
+.homepage-id-language-selector button,
+.homepage-id-language-selector ul li a {
 	width: 46px;
 	height: 46px;
 	background-size: cover;
@@ -30,21 +31,21 @@
 
 .homepage-id-language-selector button {
 	margin-right: 16px;
-	background-image: url("../assets/general/flag-unitedkingdom.png");
 }
 
-.homepage-id-language-selector ul li:first-child a {
+.homepage-id-language-selector ul li a {
 	margin-top: 10px;
-	background-image: url("../assets/general/flag-france.png");
 }
 
-.homepage-id-language-selector ul li:last-child a {
-	margin-top: 10px;
-	background-image: url("../assets/general/flag-china.png");
+.homepage-id-language-selector button img,
+.homepage-id-language-selector ul li a img {
+	width: 100%;
 }
 
-.homepage-id-language-selector button:hover, .homepage-id-language-selector ul li a:hover,
-.homepage-id-language-selector button:focus, .homepage-id-language-selector ul li a:focus {
+.homepage-id-language-selector button:hover,
+.homepage-id-language-selector ul li a:hover,
+.homepage-id-language-selector button:focus,
+.homepage-id-language-selector ul li a:focus {
 	cursor: pointer;
 	box-shadow: 0 0 5px 1px rgba(115, 0, 230, 0.5) inset;
 	outline: 0;
@@ -88,11 +89,11 @@
 	padding: 0;
 	background-color: #7300E6;
 	border-radius: 12px;
-	background-image: url("../assets/general/right-arrow-white.svg");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 30%;
 	transition: visibility  0.15s linear, opacity  0.15s linear;
+}
+
+.homepage-id-submit img {
+	width: 16px;
 }
 
 .homepage-id-input-container-focused .homepage-id-submit {
