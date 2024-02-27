@@ -10,25 +10,24 @@ def all_client(request):
     return JsonResponse({"clients": list(clients)})
 
 
-class newClientView(View):
+class createUserView(View):
     def post(self, request) -> JsonResponse:
-        mailaddr = request.POST.get("mail")
+        email = request.POST.get("mail")
         nickname = request.POST.get("nick")
-        firstnme = request.POST.get("firstnme")
-        lastname = request.POST.get("lastname")
         uniqueId = request.POST.get("id")
 
-        print(mailaddr)
+        print(email)
         print(nickname)
-        print(firstnme)
-        print(lastname)
         print(uniqueId)
 
-        if (not mailaddr or not nickname or not firstnme or not lastname or not uniqueId):
+        if (email is None or not nickname is None or uniqueId is None):
             return JsonResponse(
                 {"status": "Error", "Error": "field not filled"})
 
-        newUser = User(uniqueId, firstnme, lastname, nickname, mailaddr)
+        newUser = User()
+        newUser.unique_id = uniqueId
+        newUser.unique_id = email
+        newUser.nick = nickname
 
         success = newUser.save()
         if success == False:

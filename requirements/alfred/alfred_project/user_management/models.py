@@ -14,14 +14,8 @@ class User(models.Model):
     friends = models.ManyToManyField('self', blank=True)
     objects = models.Manager()
 
-    def __init__(self, unique_id, firstName, lastName,
-                 nick, email, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
-        self.unique_id = unique_id
-        self.firstName = firstName
-        self.lastName = lastName
-        self.nick = nick
-        self.email = email
 
     def __str__(self):
         return self.firstName.__str__()
@@ -29,8 +23,6 @@ class User(models.Model):
     def to_dict(self):
         return {
             "unique_id": self.unique_id,
-            "firstName": self.firstName,
-            "lastName": self.lastName,
             "nick": self.nick,
             "email": self.email,
         }
