@@ -13,3 +13,4 @@ composer.phar
 **/migrations
 .env
 youpi
+**/shared
