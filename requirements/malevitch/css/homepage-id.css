@@ -1,9 +1,3 @@
-/* general */
-
-.homepage-id {
-	font-family: "Syne", sans-serif;
-}
-
 /* logo */
 
 .homepage-id div:first-child{
@@ -14,41 +8,6 @@
 
 .homepage-id-input-container {
 	top: 50%;
-}
-
-/* language selector */
-
-.homepage-id-language-selector button,
-.homepage-id-language-selector ul li a {
-	width: 46px;
-	height: 46px;
-	background-size: cover;
-	background-clip: content-box;
-	padding: 4px;
-	border-radius: 23px;
-	font-size: 0;
-}
-
-.homepage-id-language-selector button {
-	margin-right: 16px;
-}
-
-.homepage-id-language-selector ul li a {
-	margin-top: 10px;
-}
-
-.homepage-id-language-selector button img,
-.homepage-id-language-selector ul li a img {
-	width: 100%;
-}
-
-.homepage-id-language-selector button:hover,
-.homepage-id-language-selector ul li a:hover,
-.homepage-id-language-selector button:focus,
-.homepage-id-language-selector ul li a:focus {
-	cursor: pointer;
-	box-shadow: 0 0 5px 1px rgba(115, 0, 230, 0.5) inset;
-	outline: 0;
 }
 
 /* text input */

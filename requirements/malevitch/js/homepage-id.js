@@ -1,11 +1,11 @@
 // Input box focus.
 
 document.querySelector('.homepage-id-input').addEventListener('focus', function() {
-    this.parentNode.classList.add('homepage-id-input-box-focused');
+	this.parentNode.classList.add('homepage-id-input-box-focused');
 });
 
 document.querySelector('.homepage-id-input').addEventListener('blur', function() {
-    this.parentNode.classList.remove('homepage-id-input-box-focused');
+	this.parentNode.classList.remove('homepage-id-input-box-focused');
 });
 
 // Input box filling.
@@ -13,44 +13,56 @@ document.querySelector('.homepage-id-input').addEventListener('blur', function()
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
 	var	container = this.closest('.homepage-id-input-container');
 	var	warning = document.querySelector('.homepage-id-warning');
-	var locale = document.querySelector('.homepage-id-language-selector button img').alt;
+	var	locale = document.querySelector('.homepage-id-language-selector button img').alt;
 
-    if (this.value.length >  0) {
-		// Make the submit button appear only when there is text in the input box.
-		container.classList.add('homepage-id-input-container-focused');
-
+	if (this.value.length >  0) {
+		// Make the submit button appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
 		if (isNicknameValid(this.value, warning) === false) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
+			container.classList.remove('homepage-id-input-container-focused');
 		}
 		else {
 			warning.classList.add('visually-hidden');
+			container.classList.add('homepage-id-input-container-focused');
 		}
-    } 
+	} 
 	else {
-		container.classList.remove('homepage-id-input-container-focused');
 		warning.classList.add('visually-hidden');
-    }
+	}
 });
 
-// Language selector : updates the page language / updates the selector images.
+// Submit button : redirects to a sign-in or sign-up depending on the nickname availability.
 
-document.querySelectorAll('.language-selector-dropdown').forEach(function(item) {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
+document.querySelector('.homepage-id-submit').addEventListener('click', function() {
+	var	input = document.querySelector('.homepage-id-input');
+	var	next;
 
-		var	activeImg = document.querySelector('.homepage-id-language-selector button img');
-		var	activeImgSrc = activeImg.src;
-		var	activeLang = activeImg.alt;
-		var	selectedImg = this.firstElementChild;
-		var	selectedLang = selectedImg.getAttribute('alt');
+	document.querySelector('.homepage-id').classList.add('visually-hidden');
 
-		switchLanguageAttr(selectedLang, 'placeholder');
-		switchLanguageContent(selectedLang);
-		activeImg.setAttribute('src', selectedImg.getAttribute('src'));
-		activeImg.setAttribute('alt', selectedLang);
-		selectedImg.setAttribute('src', activeImgSrc);
-		selectedImg.setAttribute('alt', activeLang);
-    });
+	fetch('/petrus/auth/signin/' + input.value)
+		.then (response => {
+			if (!response.ok) {
+				throw new Error('HTTP error: ' + response.status);
+			}
+			return response.json();
+		})
+		.then (data => {
+			if (data.Ava) {
+				next = '.sign-up';
+			}
+			else {
+				next = '.sign-in';
+			}
+		})
+		.catch (error => {
+			console.error('Fetch problem:', error.message);
+		});
+	
+		document.querySelector(next).classList.remove('visually-hidden');
+
+	// document.querySelector('.sign-in').classList.remove('visually-hidden');
+	// switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
+	// addNicknameToSignInMessage(input.value);
 });

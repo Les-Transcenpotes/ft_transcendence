@@ -1,3 +1,7 @@
+* {
+	font-family: "Syne", sans-serif;
+}
+
 body {
 	overflow: hidden;
 	height: auto;
@@ -20,4 +24,39 @@ body {
 	-webkit-user-drag: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
+}
+
+/* language selector */
+
+.language-selector button,
+.language-selector ul li a {
+	width: 46px;
+	height: 46px;
+	background-size: cover;
+	background-clip: content-box;
+	padding: 4px;
+	border-radius: 23px;
+	font-size: 0;
+}
+
+.language-selector button {
+	margin-right: 16px;
+}
+
+.language-selector ul li a {
+	margin-top: 10px;
+}
+
+.language-selector button img,
+.language-selector ul li a img {
+	width: 100%;
+}
+
+.language-selector button:hover,
+.language-selector ul li a:hover,
+.language-selector button:focus,
+.language-selector ul li a:focus {
+	cursor: pointer;
+	box-shadow: 0 0 5px 1px rgba(115, 0, 230, 0.5) inset;
+	outline: 0;
 }
