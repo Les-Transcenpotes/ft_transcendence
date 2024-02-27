@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'batch.42.fr', 'petrus']
 
-
 # Application definition
 
 INSTALLED_APPS = [
