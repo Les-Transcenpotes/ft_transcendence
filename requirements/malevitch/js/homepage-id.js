@@ -24,33 +24,18 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 document.querySelectorAll('.dropdown-item').forEach(function(item) {
     item.addEventListener('click', function(event) {
         event.preventDefault();
-        var button = document.querySelector('.homepage-id-language-selector button');
-		var activeLangAttr = button.getAttribute('lang');
-		var activeLangUrl = window.getComputedStyle(button).getPropertyValue('background-image');
-		var activeLangContent = button.textContent;
-		var selectedLangAttr = this.getAttribute('lang');
-		var selectedLangUrl;
-		var	selectedLangContent = this.textContent;
-		if (selectedLangAttr === 'fr') {
-			selectedLangUrl = 'url(./assets/general/flag-france.png)';
-			switchLanguageAttr('fr', 'placeholder');
-			switchLanguageContent('fr');
-		}
-		else if (selectedLangAttr === 'zh') {
-			selectedLangUrl = 'url(./assets/general/flag-china.png)';
-			switchLanguageAttr('zh', 'placeholder');
-			switchLanguageContent('zh');
-		}
-		else {
-			selectedLangUrl = 'url(./assets/general/flag-unitedkingdom.png)';
-			switchLanguageAttr('en', 'placeholder');
-			switchLanguageContent('en');
-		}
-        button.style.backgroundImage = selectedLangUrl;
-		button.setAttribute('lang', selectedLangAttr);
-		button.textContent = selectedLangContent;
-		this.setAttribute('lang', activeLangAttr);
-		this.style.backgroundImage = activeLangUrl;
-		this.textContent = activeLangContent;
+
+		var activeImg = document.querySelector('.homepage-id-language-selector button img');
+		var activeImgSrc = activeImg.src;
+		var	activeLang = activeImg.alt;
+		var selectedImg = this.firstElementChild;
+		var	selectedLang = selectedImg.getAttribute('alt');
+
+		switchLanguageAttr(selectedLang, 'placeholder');
+		switchLanguageContent(selectedLang);
+		activeImg.setAttribute('src', selectedImg.getAttribute('src'));
+		activeImg.setAttribute('alt', selectedLang);
+		selectedImg.setAttribute('src', activeImgSrc);
+		selectedImg.setAttribute('alt', activeLang);
     });
 });
