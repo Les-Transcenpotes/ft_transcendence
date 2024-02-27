@@ -1,7 +1,5 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.shortcuts import redirect
-from django.http import HttpResponse
 
 playerList = []
 
