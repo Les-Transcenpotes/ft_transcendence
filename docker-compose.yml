@@ -77,6 +77,22 @@ services:
     networks:
       - atlas
 
+# Matchmaking container
+  davinci:
+    container_name: davinci
+    image: davinci
+    build:
+      context: ./requirements/davinci
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "3000:3000"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+
 # Notification container
   hermes:
     container_name: hermes
@@ -144,6 +160,22 @@ services:
     networks:
       - atlas
     restart: on-failure
+
+# Prometheus container
+  mensura:
+    container_name: mensura
+    image: mensura
+    build:
+      context: ./requirements/mensura
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "9090:9090"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
 
 # Stats container
   mnemosine:
