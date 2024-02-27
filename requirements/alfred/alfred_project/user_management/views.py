@@ -1,5 +1,5 @@
 from django.contrib.admin.views.autocomplete import JsonResponse
-from .models import User
+from user_management.models import User
 from django.shortcuts import render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -34,6 +34,12 @@ class createUserView(View):
             return JsonResponse({"status": "Error"})
         return JsonResponse({"status": "Success"})
 
+
+class personalInfoView(View):
     def get(self, request) -> JsonResponse:
-        print("here")
-        return JsonResponse({"status": "getting client"})
+        if request.user.is_autenticated is False:
+            return JsonResponse({"Err": request.user.error})
+        user = User.objects.filter(unique_id=request.user.id).first()
+        if user is None:
+            return JsonResponse({"Err": "Internal Servor Error"}, status=500)
+        return JsonResponse({"Information": user.to_dict()})
