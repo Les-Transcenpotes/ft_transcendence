@@ -16,10 +16,6 @@ class createUserView(View):
         nickname = request.POST.get("nick")
         uniqueId = request.POST.get("id")
 
-        print(email)
-        print(nickname)
-        print(uniqueId)
-
         if (email is None or not nickname is None or uniqueId is None):
             return JsonResponse(
                 {"status": "Error", "Error": "field not filled"})
@@ -43,3 +39,4 @@ class personalInfoView(View):
         if user is None:
             return JsonResponse({"Err": "Internal Servor Error"}, status=500)
         return JsonResponse({"Information": user.to_dict()})
+
