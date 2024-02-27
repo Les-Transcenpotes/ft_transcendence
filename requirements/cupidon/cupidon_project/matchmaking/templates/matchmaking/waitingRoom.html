@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+
+    <body id="test-target">
+        <div>Waiting room...</div>
+        <script>
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************** Websockets *****************************************/
+
+console.log("ws://" + window.location.host + '/pong/ws/me/')
+const exampleSocket = new WebSocket('wss://localhost:8000/cupidon/matchmaking/ws/'); // Probably add room name
+
+exampleSocket.onopen = function(event) {
+    console.log("Socket opened in the front");
+    sendData("Ready");
+};
+
+exampleSocket.onclose = function() {
+    console.log("Socket closed in the front");
+    sendData("Leaving")
+}
+
+exampleSocket.onerror = function(event) {
+    console.log("Socket error");
+}
+
+exampleSocket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if (data.action === "redirect") {
+        window.location.href = data.url;
+    }
+};
+
+function sendData(state) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    const data = {
+        state: state
+    };
+  
+    // Send the msg object as a JSON-formatted string.
+    exampleSocket.send(JSON.stringify(data));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
