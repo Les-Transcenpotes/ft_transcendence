@@ -22,7 +22,15 @@ function switchLanguageContent(locale) {
 	  document.querySelectorAll('[data-language]').forEach(element => {
 		const key = element.getAttribute('data-language');
 		if (element.textContent.trim() !== '') {
+			var	info;
+			if (element.querySelector('b') !== null) {
+				info = element.querySelector('b').innerHTML;
+				info = info.replace(/\&nbsp;/g, '');
+			}
 			element.textContent = translations[locale][key];
+			if (info && info.trim() !== '') {
+				addInfoToElement(info, element);
+			}
 		}
 	  });
 	});
@@ -83,7 +91,21 @@ document.querySelectorAll('.language-selector-dropdown').forEach(function(item) 
 	});
 });
 
-// Nickname parsing functions
+// Input box focus.
+
+document.querySelectorAll('.input').forEach(function(item) {
+	item.addEventListener('focus', function() {
+		this.parentNode.classList.add('input-box-focused');
+	})
+});
+
+document.querySelectorAll('.input').forEach(function(item) {
+	item.addEventListener('blur', function() {
+		this.parentNode.classList.remove('input-box-focused');
+	})
+});
+
+// Nickname checking functions
 
 function nicknameValidChar(nickname) {
 	let regex = /[^A-Za-z0-9-_]/g;
@@ -104,4 +126,10 @@ function isNicknameValid(nickname, element) {
 		return false;
 	}
 	return true;
+}
+
+//
+
+function addInfoToElement(info, element) {
+	element.innerHTML = element.textContent + '<b>&nbsp;' + info + '&nbsp;</b>!';
 }
