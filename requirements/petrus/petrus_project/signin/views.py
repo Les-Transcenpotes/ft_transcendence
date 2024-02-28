@@ -97,7 +97,12 @@ class signupView(View):
 class refreshView(View):
     def get(self, request):
         request = request
-        pass
+        return JsonResponse({"refreshView": "not coded"})
+        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+        jwt = JWT.objectToAccessToken(client)
+        if False:
+            return JsonResponse({"Err": "Invalid refresh token"})
+        return JsonResponse("")
 
 
 """
@@ -141,8 +146,3 @@ class checkInView(View):
                                  json=newClient.toAlfred())
         return JsonResponse({"status": "success"})
         return JsonResponse({"": ""})
-
-
-def bad(request: HttpRequest):
-    print(request)
-    return JsonResponse({"va te faire": "connard"}, status=400)
