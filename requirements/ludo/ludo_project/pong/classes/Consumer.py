@@ -1,8 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
-from pong.gameLoop import gameLoop, match
+from pong.classes.Match import match
 from pong.classes.Player import Player
 import json
-import asyncio
 
 # Commencer a reflechir a comment faire avec 2 joueurs separes !
 # match[self.id] = moi
@@ -18,14 +17,14 @@ class Consumer(AsyncWebsocketConsumer):
         match.players.append(Player(self.id))
 
         # Join room group
-        await self.channel_layer.group_add("self.room_group_name", self.channel_name)
-        print("New consumer in room self.room_group_name")
+        await self.channel_layer.group_add("myRoom", self.channel_name)
+        print("New consumer in room myRoom")
 
         await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
-        await self.channel_layer.group_discard("self.room_group_name", self.channel_name)
+        await self.channel_layer.group_discard("myRoom", self.channel_name)
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -35,20 +34,21 @@ class Consumer(AsyncWebsocketConsumer):
         self.type = gameDataJson["type"]
         # Game logic here !
 
-        # Send mePos to room group
+        # Send to room group
         if (self.type == "gameStart"):
             await self.channel_layer.group_send(
-                "self.room_group_name", {
+                "myRoom", {
                     "type": self.type,
                     "playerHeight": gameDataJson["playerHeight"],
                     "screenHeight": gameDataJson["screenHeight"],
                     "screenWidth": gameDataJson["screenWidth"],
                 }
             )
-        else:
+        elif (self.type == "gameState"):
             await self.channel_layer.group_send(
-                "self.room_group_name", {
-                    "type": self.type,
+                "myRoom", {
+                    "type": "myState",
+                    "id": self.id,
                     "meUp": gameDataJson["meUp"],
                     "meDown": gameDataJson["meDown"],
                 }
@@ -66,14 +66,26 @@ class Consumer(AsyncWebsocketConsumer):
         #     asyncio.create_task(gameLoop()) # Can't do this here, or only the host
 
     # Receive gameState from room group
-    async def gameState(self, event):
+    async def myState(self, event):
         global match
 
-        match.players[self.id].up = event["meUp"]
-        match.players[self.id].down = event["meDown"]
-        match.players[self.id].move()
-        # Send mePos to WebSocket
-        await self.send(text_data=json.dumps({
-            "mePos": match.players[self.id].pos,
-            # "advPos": match.players[(self.id + 1) % 2].pos,
-        }))
+        if (event["id"] == self.id):
+            match.players[self.id].up = event["meUp"]
+            match.players[self.id].down = event["meDown"]
+            match.players[self.id].move()
+            # Send mePos to WebSocket
+            await self.send(text_data=json.dumps({
+                "type": "myState",
+                "mePos": match.players[self.id].pos,
+            }))
+
+        else:
+            match.players[(self.id + 1) % 2].up = event["meUp"]
+            match.players[(self.id + 1) % 2].down = event["meDown"]
+            match.players[(self.id + 1) % 2].move()
+            # Send mePos to WebSocket
+            await self.send(text_data=json.dumps({
+                "type": "opponentState",
+                "opponentPos": match.players[(self.id + 1) % 2].pos,
+            }))
+

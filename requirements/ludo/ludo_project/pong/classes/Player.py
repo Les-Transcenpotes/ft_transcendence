@@ -1,5 +1,5 @@
 # A recup via un requete au front !
-from pong.gameLoop import match
+from pong.classes.Match import match
 
 class Player:
     def __init__(self, id):

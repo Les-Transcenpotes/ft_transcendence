@@ -24,7 +24,7 @@
 
     <body id="test-target">
         <div class="player" id="me"></div>
-        <div class="player" id="adversary"></div>
+        <div class="player" id="opponent"></div>
         <div class="ball"></div>
         <div classe="score" id="score2"></div>
         <div class="score" id="score1"></div>
@@ -77,16 +77,16 @@
 
 let gameArea = document.getElementById("test-target"),
 htmlme = document.getElementById("me"),
-htmladversary = document.getElementById("adversary"),
+htmlopponent = document.getElementById("opponent"),
 htmlBall = document.getElementsByClassName("ball")[0];
 
 const ballStyle = getComputedStyle(htmlBall);
 const meStyle = getComputedStyle(htmlme);
-const adversaryStyle = getComputedStyle(htmladversary);
+const opponentStyle = getComputedStyle(htmlopponent);
 
 const screenHeight = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
 const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-htmladversary.style.left = screenWidth - parseInt(meStyle.width, 10) - 10 + 'px';
+htmlopponent.style.left = screenWidth - parseInt(meStyle.width, 10) - 10 + 'px';
 
 
 /***************************************** Classes *****************************************/
@@ -130,7 +130,7 @@ class Ball {
 /***************************************** Players movements *****************************************/
 
 let me = new Player("me");
-let adversary = new Player("adversary");
+let opponent = new Player("opponent");
 
 // Events for keyboard inputs
 gameArea.addEventListener("keydown", (e) => { // Booleans with on press and on release (anyway will be a websocket) !!
@@ -173,8 +173,10 @@ exampleSocket.onerror = function(event) {
 exampleSocket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     
-    me.pos = data.mePos;
-    // adversary.pos = data.adversaryPos
+    if (data.type == "myState")
+        me.pos = data.mePos;
+    else if (data.type == "opponentState")
+        opponent.pos = data.opponentPos
 };
 
 function sendStartGameData(type, screenHeight, screenWidth, playerHeight) {
@@ -216,7 +218,7 @@ function playerCollision(ball, player, playerStyle) {
     let impactToMid = (ball.pos['y'] - player.pos) / (parseInt(playerStyle.height, 10) * 0.5); // > 0 quand la balle tape en DESSOUS du milieu
     if (player.name === "me") {
         ball.angle = - (Math.PI / 4) * impactToMid;
-    } else if (player.name === "adversary") {
+    } else if (player.name === "opponent") {
         ball.angle = Math.PI + (Math.PI / 4) * impactToMid;
     }
 }
@@ -238,11 +240,11 @@ function gameLoop() {
         me.points++;
         ball.init();
     } else if (ball.pos['x'] < 0) {
-        adversary.points++;
+        opponent.points++;
         ball.init();
     }
     document.getElementById("score1").innerHTML = me.points.toString();
-    document.getElementById("score2").innerHTML = adversary.points.toString();
+    document.getElementById("score2").innerHTML = opponent.points.toString();
 
     // Update positions
     ball.move();
@@ -254,11 +256,11 @@ function gameLoop() {
     htmlBall.style.top = ball.pos['y'] - parseInt(ballStyle.height, 10) / 2 + 'px';
     htmlBall.style.left = ball.pos['x'] - parseInt(ballStyle.width, 10) / 2 + 'px';
     htmlme.style.top = me.pos - parseInt(meStyle.height, 10) / 2 + 'px';
-    htmladversary.style.top = adversary.pos - parseInt(adversaryStyle.height, 10) / 2 + 'px';
+    htmlopponent.style.top = opponent.pos - parseInt(opponentStyle.height, 10) / 2 + 'px';
     
-    // Collision with adversary
-    if (ball.pos['x'] >= screenWidth - (parseInt(ballStyle.width, 10) + parseInt(adversaryStyle.width, 10)) && isPlayerCollision(ball, adversary, adversaryStyle)) {
-        playerCollision(ball, adversary, adversaryStyle);
+    // Collision with opponent
+    if (ball.pos['x'] >= screenWidth - (parseInt(ballStyle.width, 10) + parseInt(opponentStyle.width, 10)) && isPlayerCollision(ball, opponent, opponentStyle)) {
+        playerCollision(ball, opponent, opponentStyle);
     }
     
     // Collision with me

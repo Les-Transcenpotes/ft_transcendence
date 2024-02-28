@@ -8,3 +8,5 @@ class Match:
         self.screenHeight = 400
         self.screenWidth = 1920
         self.playerHeight = 180
+
+match = Match()
