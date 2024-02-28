@@ -13,3 +13,5 @@ composer.phar
 **/migrations
 .env
 youpi
+**/shared
+**/__init__.py
