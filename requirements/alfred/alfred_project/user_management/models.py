@@ -21,4 +21,5 @@ class Client(models.Model):
             "unique_id": self.unique_id,
             "nick": self.nick,
             "email": self.email,
+            "friends": None,
         }
