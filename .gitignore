@@ -14,3 +14,4 @@ composer.phar
 .env
 youpi
 **/shared
+**/__init__.py
