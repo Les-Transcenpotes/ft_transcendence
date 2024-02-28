@@ -33,15 +33,30 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 	}
 });
 
-// Submit button : redirects to a sign-in or sign-up depending on the nickname availability.
+// Submit using Enter key.
+
+document.querySelector('.homepage-id-input').addEventListener('keypress', function(event) {
+	var	warning = document.querySelector('.homepage-id-warning');
+
+	if (event.key === 'Enter' && isNicknameValid(this.value, warning) === true) {
+		submitNickname(this.value);
+	}
+});
+
+// Submit button.
 
 document.querySelector('.homepage-id-submit').addEventListener('click', function() {
 	var	input = document.querySelector('.homepage-id-input');
+
+	submitNickname(input.value);
+});
+
+function submitNickname(nickname) {
 	var	next;
 
 	document.querySelector('.homepage-id').classList.add('visually-hidden');
 
-	fetch('/petrus/auth/signin/' + input.value)
+	fetch('/petrus/auth/signin/' + nickname)
 		.then (response => {
 			if (!response.ok) {
 				throw new Error('HTTP error: ' + response.status);
@@ -63,5 +78,5 @@ document.querySelector('.homepage-id-submit').addEventListener('click', function
 
 	// document.querySelector('.sign-in').classList.remove('visually-hidden');
 	// switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
-	// addNicknameToSignInMessage(input.value);
-});
+	// addNicknameToSignInMessage(nickname);
+}
