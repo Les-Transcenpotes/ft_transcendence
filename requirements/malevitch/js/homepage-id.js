@@ -49,18 +49,17 @@ document.querySelector('.homepage-id-submit').addEventListener('click', function
 			return response.json();
 		})
 		.then (data => {
-			if (data.Ava) {
+			if (data.Ava === true) {
 				next = '.sign-up';
 			}
 			else {
 				next = '.sign-in';
 			}
+			document.querySelector(next).classList.remove('visually-hidden');
 		})
 		.catch (error => {
 			console.error('Fetch problem:', error.message);
 		});
-	
-		document.querySelector(next).classList.remove('visually-hidden');
 
 	// document.querySelector('.sign-in').classList.remove('visually-hidden');
 	// switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
