@@ -87,11 +87,12 @@ services:
     volumes:
       - shared_code:/app/shared
     ports:
-      - "3000:3000"
+      - "8010:8010"
     depends_on:
       - aegis
     networks:
       - atlas
+      - aegis guard
 
 # Notification container
   hermes:
@@ -171,7 +172,7 @@ services:
     volumes:
       - shared_code:/app/shared
     ports:
-      - "9090:9090"
+      - "8011:8011"
     depends_on:
       - aegis
     networks:
