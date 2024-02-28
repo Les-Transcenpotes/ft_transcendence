@@ -1,12 +1,12 @@
 from django.contrib.admin.views.autocomplete import JsonResponse
-from user_management.models import User
-from django.shortcuts import render
+from user_management.models import Client
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-
+@csrf_exempt
 def all_client(request):
-    clients = [object.to_dict() for object in User.objects.all()]
+    request = request
+    clients = [object.to_dict() for object in Client.objects.all()]
     return JsonResponse({"clients": list(clients)})
 
 
@@ -20,7 +20,7 @@ class createUserView(View):
             return JsonResponse(
                 {"status": "Error", "Error": "field not filled"})
 
-        newUser = User()
+        newUser = Client()
         newUser.unique_id = uniqueId
         newUser.unique_id = email
         newUser.nick = nickname
@@ -35,8 +35,41 @@ class personalInfoView(View):
     def get(self, request) -> JsonResponse:
         if request.user.is_autenticated is False:
             return JsonResponse({"Err": request.user.error})
-        user = User.objects.filter(unique_id=request.user.id).first()
+        user = Client.objects.filter(unique_id=request.user.id).first()
         if user is None:
             return JsonResponse({"Err": "Internal Servor Error"}, status=500)
         return JsonResponse({"Information": user.to_dict()})
 
+    def post(self, request) -> JsonResponse:
+        if request.user.is_autenticated is False:
+            return JsonResponse({"Err": request.user.error})
+        user = Client.objects.filter(unique_id=request.user.id).first()
+        if user is None:
+            return JsonResponse({"Err": "Internal Servor Error"}, status=500)
+
+        email = request.POST.get("mail")
+        if email is not None:
+            user.email = email
+        nickname = request.POST.get("nick")
+        if nickname is not None:
+            user.nick = nickname
+
+        # alfred -> notifier le changement
+
+        user.update()
+        return JsonResponse({"Information": user.to_dict()})
+
+
+@csrf_exempt
+def createUser(request):
+    nick = "arthur"
+    request = request
+    mail = "delafforest@gmail.com"
+    client = Client.objects.create(nick=nick, email=mail)
+    client.save()
+    return JsonResponse({nick: mail})
+
+
+@csrf_exempt
+def newOne(request):
+    request = request

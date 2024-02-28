@@ -20,22 +20,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1!7iukpp=rc4n6j0h3d-vw-!f-_9bn(oyt@t&@d%kkb)+e8+4g'
+SECRET_KEY = 'django-insecure-+52k4g8*w7q#%ny%+!kd)^zup5vn21!=vh2xe=3)-ns2ra+x)l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'batch.42.fr', 'alfred']
 
-
 # Application definition
 
 INSTALLED_APPS = [
-    'user_management',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'user_management'
 ]
 
 MIDDLEWARE = [
-    'shared.Middleware.JWTIdentificationMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shared.Middleware.JWTIdentificationMiddleware'
 ]
 
 ROOT_URLCONF = 'alfred_project.urls'
@@ -74,7 +86,6 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -87,7 +98,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-
 ]
 
 
