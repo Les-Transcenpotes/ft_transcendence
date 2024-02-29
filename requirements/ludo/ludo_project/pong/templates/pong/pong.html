@@ -263,19 +263,19 @@ function gameLoop() {
     htmlopponent.style.top = opponent.pos - parseInt(opponentStyle.height, 10) / 2 + 'px';
     
     // Collision with opponent
-    if (ball.pos['x'] >= screenWidth - (parseInt(ballStyle.width, 10) + parseInt(opponentStyle.width, 10)) && isPlayerCollision(ball, opponent, opponentStyle)) {
-        playerCollision(ball, opponent, opponentStyle);
-    }
+    // if (ball.pos['x'] >= screenWidth - (parseInt(ballStyle.width, 10) + parseInt(opponentStyle.width, 10)) && isPlayerCollision(ball, opponent, opponentStyle)) {
+    //     playerCollision(ball, opponent, opponentStyle);
+    // }
     
     // Collision with me
-    if (ball.pos['x'] <= parseInt(ballStyle.width, 10) + parseInt(meStyle.width, 10) && isPlayerCollision(ball, me, meStyle)) {
-        playerCollision(ball, me, meStyle);
-    }
+    // if (ball.pos['x'] <= parseInt(ballStyle.width, 10) + parseInt(meStyle.width, 10) && isPlayerCollision(ball, me, meStyle)) {
+    //     playerCollision(ball, me, meStyle);
+    // }
     
     // Collision with walls
-    if (ball.pos['y'] <= parseInt(ballStyle.height, 10) / 2 || ball.pos['y'] >= screenHeight - parseInt(ballStyle.height, 10) / 2) {
-        ball.angle = - ball.angle;
-    }
+    // if (ball.pos['y'] <= parseInt(ballStyle.height, 10) / 2 || ball.pos['y'] >= screenHeight - parseInt(ballStyle.height, 10) / 2) {
+    //     ball.angle = - ball.angle;
+    // }
 }
 
 // Execute gameLoop every x ms

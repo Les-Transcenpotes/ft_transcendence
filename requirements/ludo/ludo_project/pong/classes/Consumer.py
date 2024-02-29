@@ -14,7 +14,7 @@ class Consumer(AsyncWebsocketConsumer):
         global match
 
         self.id = len(match.players)
-        self.gameSettings = gameSettings(0, 0, 0, 0, 0)
+        self.gameSettings = gameSettings(0, 0, 0, 0, 0) # Voir si on peut faire autrement
 
         # Join room group
         await self.channel_layer.group_add("myRoom", self.channel_name)
@@ -73,7 +73,10 @@ class Consumer(AsyncWebsocketConsumer):
         global match
 
         if (len(match.players) > 1):
-            match.ball.move(match.players[0], match.players[1], self.gameSettings)
+            pointWinner = match.ball.move(match.players[0], match.players[1], self.gameSettings)
+            if (pointWinner != ""):
+                match.score[pointWinner] += 1
+                print(pointWinner + " won a point")
 
         if (event["id"] == self.id):
             match.players[self.id].up = event["meUp"]
