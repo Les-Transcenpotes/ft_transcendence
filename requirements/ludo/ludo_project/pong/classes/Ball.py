@@ -24,12 +24,12 @@ class Ball:
     def hostCollision(self, host):
         if (self.pos[0] <= self.size + host.width and self.isPlayerCollision(host)):
             impactToMid = ((self.pos[1] - host.pos) / (host.height * 0.5))
-            self.angle = - (m.pi / 4) * impactToMid
+            self.angle = (m.pi / 4) * impactToMid
 
     def clientCollision(self, client, gameSettings):
         if (self.pos[0] >= gameSettings.screenWidth - self.size + client.width and self.isPlayerCollision(client)):
             impactToMid = ((self.pos[1] - client.pos) / (client.height * 0.5))
-            self.angle = m.pi + (m.pi / 4) * impactToMid
+            self.angle = - (m.pi + (m.pi / 4) * impactToMid)
     
     def wallCollision(self, gameSettings):
         if (self.pos[1] <= self.size / 2 or self.pos[1] >= gameSettings.screenHeight - self.size / 2):

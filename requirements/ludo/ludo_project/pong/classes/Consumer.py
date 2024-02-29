@@ -85,7 +85,7 @@ class Consumer(AsyncWebsocketConsumer):
                     "type": "myState",
                     "mePos": match.players[self.id].pos,
                     "ballPosX": match.ball.pos[0],
-                    "ballPosY": match.ball.pos[1], 
+                    "ballPosY": match.ball.pos[1],
                 }))
             else:
                 await self.send(text_data=json.dumps({
