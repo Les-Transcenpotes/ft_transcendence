@@ -1,17 +1,16 @@
-# A recup via un requete au front !
-from pong.classes.Match import match
-
 class Player:
-    def __init__(self, id):
+    def __init__(self, id, gameSettings):
+        self.width = 20 # A recup via un requete au front !
+        self.height = 180 # A recup via un requete au front !
         self.points = 0
-        self.pos = match.screenHeight / 2
+        self.pos = gameSettings.screenHeight / 2
         self.up = False
         self.down = False
         self.id = id
         # speed = 0
         # acceleration = 0
-    def move(self):
+    def move(self, gameSettings):
         mvt = self.down - self.up
-        newPos = self.pos + mvt * match.screenHeight / 300
-        if (newPos + match.playerHeight / 2 < match.screenHeight and newPos > match.playerHeight / 2):
+        newPos = self.pos + mvt * gameSettings.screenHeight / 300
+        if (newPos + gameSettings.playerHeight / 2 < gameSettings.screenHeight and newPos > gameSettings.playerHeight / 2):
             self.pos = newPos

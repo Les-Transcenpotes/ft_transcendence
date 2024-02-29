@@ -158,7 +158,7 @@ console.log("ws://" + window.location.host + '/pong/ws/me/')
 const exampleSocket = new WebSocket('wss://localhost:8000/ludo/pong/ws/'); // Probably add room name
 
 exampleSocket.onopen = function(event) {
-    sendStartGameData("gameStart", screenHeight, screenWidth, parseInt(meStyle.height, 10)); // Player names maybe ?
+    sendStartGameData("gameStart", screenHeight, screenWidth, parseInt(meStyle.height, 10), parseInt(ballStyle.height, 10)); // Player names maybe ?
     console.log("Socket opened in the front");
 };
 
@@ -177,15 +177,18 @@ exampleSocket.onmessage = (event) => {
         me.pos = data.mePos;
     else if (data.type == "opponentState")
         opponent.pos = data.opponentPos
+    ball.pos['x'] = data.ballPosX;
+    ball.pos['y'] = data.ballPosY;
 };
 
-function sendStartGameData(type, screenHeight, screenWidth, playerHeight) {
+function sendStartGameData(type, screenHeight, screenWidth, playerHeight, ballSize) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     const gameData = {
       type: type,
       playerHeight: playerHeight,
       screenHeight: screenHeight,
       screenWidth: screenWidth,
+      ballSize: ballSize,
     };
   
     // Send the msg object as a JSON-formatted string.
@@ -247,7 +250,7 @@ function gameLoop() {
     document.getElementById("score2").innerHTML = opponent.points.toString();
 
     // Update positions
-    ball.move();
+    // ball.move();
     // me.move(meStyle);
     sendData("gameState", me.up, me.down);
     console.log("Data sent to back");
