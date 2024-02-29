@@ -4,7 +4,6 @@ RUN         apt update -y && \
             apt upgrade -y && \
             apt install -y  apt-transport-https \
                             software-properties-common \
-                            vim \
                             curl \
                             wget && \
             mkdir -p /etc/apt/keyrings/ && \
