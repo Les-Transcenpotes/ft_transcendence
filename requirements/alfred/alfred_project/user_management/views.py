@@ -2,6 +2,8 @@ from django.contrib.admin.views.autocomplete import JsonResponse
 from user_management.models import Client
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
+
 
 @csrf_exempt
 def all_client(request):
@@ -73,3 +75,67 @@ def createUser(request):
 @csrf_exempt
 def newOne(request):
     request = request
+
+
+class clientInfoIdView(View):
+    def get(self, request) -> JsonResponse:
+        request = request
+        nick = "nick"
+        email = "mail"
+        return JsonResponse({"nick": nick, "mail": email})
+
+
+class friendView(View):
+    def get(self, request, id: int) -> JsonResponse:
+        emiter = Client.objects.get(unique_id=request.user.id)
+        try:
+            target = Client.objects.get(unique_id=id)
+        except ObjectDoesNotExist:
+            return JsonResponse({"Err": "Invalid id"})
+
+        if target.friendRequests.filter(unique_id=request.user.id):
+            return JsonResponse({"Friendship": "requested"})
+        if target.friends.filter(unique_id=request.user.id):
+            return JsonResponse({"Friendship": "established"})
+        return JsonResponse({"Friendship": "No request or friendship"})
+
+    def post(self, request, id: int) -> JsonResponse:
+        emiter = Client.objects.get(unique_id=request.user.id)
+        try:
+            target = Client.objects.get(unique_id=id)
+        except ObjectDoesNotExist:
+            return JsonResponse({"Err": "Invalid id"})
+
+        if target in emiter.friendRequests.all():
+            emiter.friends.add(target)
+            target.friends.add(emiter)
+
+            emiter.friendRequests.remove(target)
+            # Hermes
+            return JsonResponse({"Friendship": "established"})
+
+        emiter.friendRequests.add(target)
+        # Hermes
+        return JsonResponse({"Friendship": "requested"})
+
+    def delete(self, request, id: int) -> JsonResponse:
+        emiter = Client.objects.get(unique_id=request.user.id)
+        try:
+            target = Client.objects.get(unique_id=id)
+        except ObjectDoesNotExist:
+            return JsonResponse({"Err": "Invalid id"})
+
+        if target in emiter.friends.all():
+            target.friends.remove(emiter)
+            emiter.friends.remove(target)
+            return JsonResponse({"Friendship": "deleted"})
+
+        if target in emiter.friendRequests.all():
+            emiter.friendRequests.remove(target)
+            return JsonResponse({"Friendship": "deleted"})
+
+        if emiter in target.friendRequests.all():
+            target.friendRequests.remove(emiter)
+            return JsonResponse({"Friendship": "deleted"})
+
+        return JsonResponse({"Err": "Nothing to get deleted"})

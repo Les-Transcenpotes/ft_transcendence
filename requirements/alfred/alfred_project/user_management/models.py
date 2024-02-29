@@ -5,8 +5,10 @@ class Client(models.Model):
     unique_id = models.BigAutoField(primary_key=True)
     nick = models.CharField(max_length=16, unique=True)
     email = models.EmailField()
-    # avatar = models.ImageField('avatars/')
-    # friends = models.ManyToManyField('self', blank=True)
+    avatar = models.ImageField('avatars/', blank = True)
+    friendRequests = models.ManyToManyField('self', blank=True)
+    friends = models.ManyToManyField('self', blank=True)
+
     objects = models.Manager()
 
     def __str__(self):
@@ -23,3 +25,4 @@ class Client(models.Model):
             "email": self.email,
             "friends": None,
         }
+
