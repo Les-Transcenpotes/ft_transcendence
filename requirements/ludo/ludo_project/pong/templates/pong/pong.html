@@ -173,6 +173,11 @@ exampleSocket.onerror = function(event) {
 exampleSocket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     
+    if (data.type == "updateScore") {
+        me.points = data.myScore;
+        opponent.points = data.opponentScore;
+        return;
+    }
     if (data.type == "myState")
         me.pos = data.mePos;
     else if (data.type == "opponentState")
@@ -240,13 +245,13 @@ let ball = new Ball();
 
 function gameLoop() {
     // End of point
-    if (ball.pos['x'] > screenWidth) {
-        me.points++;
-        ball.init();
-    } else if (ball.pos['x'] < 0) {
-        opponent.points++;
-        ball.init();
-    }
+    // if (ball.pos['x'] > screenWidth) {
+    //     me.points++;
+    //     ball.init();
+    // } else if (ball.pos['x'] < 0) {
+    //     opponent.points++;
+    //     ball.init();
+    // }
     document.getElementById("score1").innerHTML = me.points.toString();
     document.getElementById("score2").innerHTML = opponent.points.toString();
 

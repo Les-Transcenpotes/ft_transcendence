@@ -5,7 +5,7 @@ from pong.classes.Ball import Ball
 class Match:
     def __init__(self):
         self.players = []
-        self.score = {"host": 0, "client": 0}
+        self.score = [0, 0]
         self.ball = Ball(gameSettings=gameSettings(0, 0, 0, 0, 0))
 
 match = Match()

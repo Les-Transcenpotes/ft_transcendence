@@ -74,9 +74,13 @@ class Consumer(AsyncWebsocketConsumer):
 
         if (len(match.players) > 1):
             pointWinner = match.ball.move(match.players[0], match.players[1], self.gameSettings)
-            if (pointWinner != ""):
+            if (pointWinner != -1):
                 match.score[pointWinner] += 1
-                print(pointWinner + " won a point")
+                await self.send (text_data=json.dumps({
+                    "type": "updateScore",
+                    "myScore": match.score[self.id],
+                    "opponentScore": match.score[(self.id + 1) % 2],
+                }))
 
         if (event["id"] == self.id):
             match.players[self.id].up = event["meUp"]
@@ -95,7 +99,7 @@ class Consumer(AsyncWebsocketConsumer):
                     "type": "myState",
                     "mePos": match.players[self.id].pos,
                     "ballPosX": self.gameSettings.screenWidth - match.ball.pos[0],
-                    "ballPosY": match.ball.pos[1], 
+                    "ballPosY": match.ball.pos[1],
                 }))
 
         else:
