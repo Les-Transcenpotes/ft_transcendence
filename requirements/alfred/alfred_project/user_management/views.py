@@ -82,12 +82,12 @@ class clientInfoIdView(View):
         request = request
         nick = "nick"
         email = "mail"
-        return JsonResponse({"nick": nick, "mail": email})
+        avatar = "avatar"
+        return JsonResponse({"nick": nick, "mail": email, "avatar": avatar})
 
 
 class friendView(View):
     def get(self, request, id: int) -> JsonResponse:
-        emiter = Client.objects.get(unique_id=request.user.id)
         try:
             target = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
