@@ -1,6 +1,5 @@
 // Input box nickname filling.
 
-
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
 	var	container = this.closest('.homepage-id-input-container');
 	var	warning = document.querySelector('.homepage-id-input-warning');
@@ -49,27 +48,27 @@ function submitNickname(nickname) {
 
 	document.querySelector('.homepage-id').classList.add('visually-hidden');
 
-	// fetch('/petrus/auth/signin/' + nickname)
-	// 	.then (response => {
-	// 		if (!response.ok) {
-	// 			throw new Error('HTTP error: ' + response.status);
-	// 		}
-	// 		return response.json();
-	// 	})
-	// 	.then (data => {
-	// 		if (data.Ava === true) {
-	// 			next = '.sign-up';
-	// 		}
-	// 		else {
-	// 			next = '.sign-in';
-	// 		}
-	// 		document.querySelector(next).classList.remove('visually-hidden');
-	// 	})
-	// 	.catch (error => {
-	// 		console.error('Fetch problem:', error.message);
-	// 	});
+	fetch('/petrus/auth/signin/' + nickname)
+		.then (response => {
+			if (!response.ok) {
+				throw new Error('HTTP error: ' + response.status);
+			}
+			return response.json();
+		})
+		.then (data => {
+			if (data.Ava === true) {
+				next = '.sign-up';
+			}
+			else {
+				next = '.sign-in';
+				document.querySelector('.sign-in-message').setAttribute('unique-id', data.id);
+			}
+			document.querySelector(next).classList.remove('visually-hidden');
+		})
+		.catch (error => {
+			console.error('Fetch problem:', error.message);
+		});
 
-	document.querySelector('.sign-in').classList.remove('visually-hidden');
 	switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
 	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 }
