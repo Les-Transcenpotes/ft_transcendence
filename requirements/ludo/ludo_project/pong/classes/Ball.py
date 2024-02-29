@@ -27,7 +27,7 @@ class Ball:
             self.angle = (m.pi / 4) * impactToMid
 
     def clientCollision(self, client, gameSettings):
-        if (self.pos[0] >= gameSettings.screenWidth - self.size + client.width and self.isPlayerCollision(client)):
+        if (self.pos[0] >= gameSettings.screenWidth - (self.size + client.width) and self.isPlayerCollision(client)):
             impactToMid = ((self.pos[1] - client.pos) / (client.height * 0.5))
             self.angle = - (m.pi + (m.pi / 4) * impactToMid)
     
