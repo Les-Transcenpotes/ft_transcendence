@@ -158,8 +158,8 @@ console.log("ws://" + window.location.host + '/pong/ws/me/')
 const exampleSocket = new WebSocket('wss://localhost:8000/ludo/pong/ws/'); // Probably add room name
 
 exampleSocket.onopen = function(event) {
-    sendStartGameData("gameStart", screenHeight, screenWidth, parseInt(meStyle.height, 10), parseInt(ballStyle.height, 10)); // Player names maybe ?
     console.log("Socket opened in the front");
+    sendStartGameData("gameStart", screenHeight, screenWidth, parseInt(meStyle.height, 10), parseInt(meStyle.width, 10), parseInt(ballStyle.height, 10)); // Player names maybe ?
 };
 
 exampleSocket.onclose = function() {
@@ -181,11 +181,12 @@ exampleSocket.onmessage = (event) => {
     ball.pos['y'] = data.ballPosY;
 };
 
-function sendStartGameData(type, screenHeight, screenWidth, playerHeight, ballSize) {
+function sendStartGameData(type, screenHeight, screenWidth, playerHeight, playerWidth, ballSize) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     const gameData = {
       type: type,
       playerHeight: playerHeight,
+      playerWidth: playerWidth,
       screenHeight: screenHeight,
       screenWidth: screenWidth,
       ballSize: ballSize,

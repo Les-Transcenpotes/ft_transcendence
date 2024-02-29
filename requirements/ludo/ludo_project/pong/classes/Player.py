@@ -1,7 +1,7 @@
 class Player:
     def __init__(self, id, gameSettings):
-        self.width = 20 # A recup via un requete au front !
-        self.height = 180 # A recup via un requete au front !
+        self.width = gameSettings.playerWidth
+        self.height = gameSettings.playerHeight
         self.points = 0
         self.pos = gameSettings.screenHeight / 2
         self.up = False

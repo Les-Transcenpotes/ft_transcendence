@@ -5,13 +5,13 @@ class Ball:
 
     def __init__(self, gameSettings):
         self.pos = [gameSettings.screenWidth / 2, gameSettings.screenHeight / 2]
-        self.speed = gameSettings.screenWidth / 5
+        self.speed = gameSettings.screenWidth / 5000
         self.angle = m.pi
         self.size = gameSettings.ballSize # A recup du front
 
     def start(self, gameSettings):
         self.pos = [gameSettings.screenWidth / 2, gameSettings.screenHeight / 2]
-        self.speed = gameSettings.screenWidth / 5
+        self.speed = gameSettings.screenWidth / 5000
         self.angle = m.pi
         self.size = gameSettings.ballSize / 100
 
@@ -39,5 +39,5 @@ class Ball:
         self.hostCollision(host)
         self.clientCollision(client, gameSettings)
         self.wallCollision(gameSettings)
-        print("Ball moving in the back")
-        self.pos += [m.cos(self.angle), m.sin(self.angle)]
+        self.pos[0] += m.cos(self.angle) * self.speed
+        self.pos[1] += m.sin(self.angle) * self.speed

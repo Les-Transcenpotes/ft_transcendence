@@ -14,6 +14,7 @@ class Consumer(AsyncWebsocketConsumer):
         global match
 
         self.id = len(match.players)
+        self.gameSettings = gameSettings(0, 0, 0, 0, 0)
 
         # Join room group
         await self.channel_layer.group_add("myRoom", self.channel_name)
@@ -42,6 +43,7 @@ class Consumer(AsyncWebsocketConsumer):
                 "myRoom", {
                     "type": self.type,
                     "playerHeight": gameDataJson["playerHeight"],
+                    "playerWidth": gameDataJson["playerWidth"],
                     "screenHeight": gameDataJson["screenHeight"],
                     "screenWidth": gameDataJson["screenWidth"],
                     "ballSize": gameDataJson["ballSize"],
@@ -62,7 +64,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         print("This is from the gameStart function")
 
-        self.gameSettings = gameSettings(event["screenHeight"], event["screenWidth"], event["playerHeight"], event["ballSize"])
+        self.gameSettings = gameSettings(event["screenHeight"], event["screenWidth"], event["playerHeight"], event["playerWidth"], event["ballSize"]) #Changer les valeurs plutot aue de creer un nouvel objet ?
         match.players.append(Player(self.id, self.gameSettings))
         match.ball = Ball(self.gameSettings)
 
@@ -78,22 +80,38 @@ class Consumer(AsyncWebsocketConsumer):
             match.players[self.id].down = event["meDown"]
             match.players[self.id].move(self.gameSettings)
             # Send mePos to WebSocket
-            await self.send(text_data=json.dumps({
-                "type": "myState",
-                "mePos": match.players[self.id].pos,
-                "ballPosX": match.ball.pos[0],
-                "ballPosY": match.ball.pos[1], 
-            }))
+            if (self.id % 2 == 0):
+                await self.send(text_data=json.dumps({
+                    "type": "myState",
+                    "mePos": match.players[self.id].pos,
+                    "ballPosX": match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1], 
+                }))
+            else:
+                await self.send(text_data=json.dumps({
+                    "type": "myState",
+                    "mePos": match.players[self.id].pos,
+                    "ballPosX": self.gameSettings.screenWidth - match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1], 
+                }))
 
         else:
             match.players[(self.id + 1) % 2].up = event["meUp"]
             match.players[(self.id + 1) % 2].down = event["meDown"]
             match.players[(self.id + 1) % 2].move(self.gameSettings)
             # Send mePos to WebSocket
-            await self.send(text_data=json.dumps({
-                "type": "opponentState",
-                "opponentPos": match.players[(self.id + 1) % 2].pos,
-                "ballPosX": match.ball.pos[0],
-                "ballPosY": match.ball.pos[1],
-            }))
+            if (self.id % 2 == 0):
+                await self.send(text_data=json.dumps({
+                    "type": "opponentState",
+                    "opponentPos": match.players[(self.id + 1) % 2].pos,
+                    "ballPosX": match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1],
+                }))
+            else:
+                await self.send(text_data=json.dumps({
+                    "type": "opponentState",
+                    "opponentPos": match.players[(self.id + 1) % 2].pos,
+                    "ballPosX": self.gameSettings.screenWidth - match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1],
+                }))
 
