@@ -5,13 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 
 
-@csrf_exempt
-def all_client(request):
-    request = request
-    clients = [object.to_dict() for object in Client.objects.all()]
-    return JsonResponse({"clients": list(clients)})
-
-
 class createUserView(View):
     def post(self, request) -> JsonResponse:
         email = request.POST.get("mail")
@@ -60,21 +53,6 @@ class personalInfoView(View):
 
         user.update()
         return JsonResponse({"Information": user.to_dict()})
-
-
-@csrf_exempt
-def createUser(request):
-    nick = "arthur"
-    request = request
-    mail = "delafforest@gmail.com"
-    client = Client.objects.create(nick=nick, email=mail)
-    client.save()
-    return JsonResponse({nick: mail})
-
-
-@csrf_exempt
-def newOne(request):
-    request = request
 
 
 class clientInfoIdView(View):
@@ -139,3 +117,20 @@ class friendView(View):
             return JsonResponse({"Friendship": "deleted"})
 
         return JsonResponse({"Err": "Nothing to get deleted"})
+
+
+@csrf_exempt
+def createUser(request):
+    nick = "arthur"
+    request = request
+    mail = "delafforest@gmail.com"
+    client = Client.objects.create(nick=nick, email=mail)
+    client.save()
+    return JsonResponse({nick: mail})
+
+
+@csrf_exempt
+def all_client(request):
+    request = request
+    clients = [object.to_dict() for object in Client.objects.all()]
+    return JsonResponse({"clients": list(clients)})
