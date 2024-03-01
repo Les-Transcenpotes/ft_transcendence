@@ -8,13 +8,13 @@ class Ball:
         self.pos = [gameSettings.screenWidth / 2, gameSettings.screenHeight / 2]
         self.speed = gameSettings.screenWidth / 5000
         self.angle = m.pi
-        self.size = gameSettings.ballSize # A recup du front
+        self.size = gameSettings.ballSize
 
     def newPoint(self, gameSettings):
         self.pos = [gameSettings.screenWidth / 2, gameSettings.screenHeight / 2]
         self.speed = gameSettings.screenWidth / 5000
         self.angle = m.pi
-        self.size = gameSettings.ballSize / 100
+        self.size = gameSettings.ballSize
 
     def isPlayerCollision(self, player): # Identifier les joueurs par id (si pair, ils sont hotes sinon clients)
         if (self.pos[1] > player.pos - (player.height / 2) and
