@@ -1,12 +1,17 @@
 from django.contrib.admin.views.autocomplete import JsonResponse
-from user_management.models import Client
+from django.utils.translation.trans_real import receiver
+from user_management.models import Client, FriendshipRequest
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 
 
+from shared.common_classes import User
+
+
 class createUserView(View):
     def post(self, request) -> JsonResponse:
+        # secu venant de petrus
         email = request.POST.get("mail")
         nickname = request.POST.get("nick")
         uniqueId = request.POST.get("id")
@@ -24,6 +29,13 @@ class createUserView(View):
         if success == False:
             return JsonResponse({"status": "Error"})
         return JsonResponse({"status": "Success"})
+
+    def delete(self, request) -> JsonResponse:
+        # secu venant de petrus
+        return JsonResponse({})
+
+    def patch(self, request):
+        request = request
 
 
 class personalInfoView(View):
@@ -66,6 +78,16 @@ class clientInfoIdView(View):
 
 class friendView(View):
     def get(self, request, id: int) -> JsonResponse:
+
+        emiter = Client.objects.get(unique_id=request.user.id)
+
+        if id == 0 or id == request.user.id:
+
+            friend_list = [object.friends_dict()
+                           for object in emiter.friends.all()]
+            return JsonResponse({"friends": list(friend_list),
+                                 "list": [object.to_dict() for object in list(FriendshipRequest.objects.filter())],
+                                 })
         try:
             target = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
@@ -78,45 +100,25 @@ class friendView(View):
         return JsonResponse({"Friendship": "No request or friendship"})
 
     def post(self, request, id: int) -> JsonResponse:
-        emiter = Client.objects.get(unique_id=request.user.id)
+        sender = Client.objects.get(unique_id=request.user.id)
         try:
-            target = Client.objects.get(unique_id=id)
+            receiver = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
             return JsonResponse({"Err": "Invalid id"})
 
-        if target in emiter.friendRequests.all():
-            emiter.friends.add(target)
-            target.friends.add(emiter)
+        return FriendshipRequest.processRequest(receiver, sender)
 
-            emiter.friendRequests.remove(target)
-            # Hermes
-            return JsonResponse({"Friendship": "established"})
-
-        emiter.friendRequests.add(target)
-        # Hermes
-        return JsonResponse({"Friendship": "requested"})
 
     def delete(self, request, id: int) -> JsonResponse:
         emiter = Client.objects.get(unique_id=request.user.id)
+
         try:
             target = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
             return JsonResponse({"Err": "Invalid id"})
 
-        if target in emiter.friends.all():
-            target.friends.remove(emiter)
-            emiter.friends.remove(target)
-            return JsonResponse({"Friendship": "deleted"})
+        return FriendshipRequest.deleteFriendship(emiter, target)
 
-        if target in emiter.friendRequests.all():
-            emiter.friendRequests.remove(target)
-            return JsonResponse({"Friendship": "deleted"})
-
-        if emiter in target.friendRequests.all():
-            target.friendRequests.remove(emiter)
-            return JsonResponse({"Friendship": "deleted"})
-
-        return JsonResponse({"Err": "Nothing to get deleted"})
 
 
 @csrf_exempt
@@ -130,7 +132,7 @@ def createUser(request):
 
 
 @csrf_exempt
-def all_client(request):
+def view_db(request):
     request = request
     clients = [object.to_dict() for object in Client.objects.all()]
     return JsonResponse({"clients": list(clients)})
