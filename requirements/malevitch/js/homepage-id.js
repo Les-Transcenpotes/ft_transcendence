@@ -1,31 +1,21 @@
-// Input box focus.
-
-document.querySelector('.homepage-id-input').addEventListener('focus', function() {
-	this.parentNode.classList.add('homepage-id-input-box-focused');
-});
-
-document.querySelector('.homepage-id-input').addEventListener('blur', function() {
-	this.parentNode.classList.remove('homepage-id-input-box-focused');
-});
-
-// Input box filling.
+// Input box nickname filling.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
 	var	container = this.closest('.homepage-id-input-container');
-	var	warning = document.querySelector('.homepage-id-warning');
+	var	warning = document.querySelector('.homepage-id-input-warning');
 	var	locale = document.querySelector('.homepage-id-language-selector button img').alt;
-
+	
 	if (this.value.length >  0) {
 		// Make the submit button appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
 		if (isNicknameValid(this.value, warning) === false) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
-			container.classList.remove('homepage-id-input-container-focused');
+			container.classList.remove('input-container-focused');
 		}
 		else {
 			warning.classList.add('visually-hidden');
-			container.classList.add('homepage-id-input-container-focused');
+			container.classList.add('input-container-focused');
 		}
 	} 
 	else {
@@ -33,23 +23,25 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 	}
 });
 
-// Submit using Enter key.
+// Submit nickname using Enter key.
 
 document.querySelector('.homepage-id-input').addEventListener('keypress', function(event) {
-	var	warning = document.querySelector('.homepage-id-warning');
+	var	warning = document.querySelector('.homepage-id-input-warning');
 
 	if (event.key === 'Enter' && isNicknameValid(this.value, warning) === true) {
 		submitNickname(this.value);
 	}
 });
 
-// Submit button.
+// Submit nickname using button.
 
 document.querySelector('.homepage-id-submit').addEventListener('click', function() {
 	var	input = document.querySelector('.homepage-id-input');
 
 	submitNickname(input.value);
 });
+
+// Submit nickname and redirect to signin or signup.
 
 function submitNickname(nickname) {
 	var	next;
@@ -69,6 +61,7 @@ function submitNickname(nickname) {
 			}
 			else {
 				next = '.sign-in';
+				document.querySelector('.sign-in-message').setAttribute('unique-id', data.id);
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
 		})
@@ -76,7 +69,6 @@ function submitNickname(nickname) {
 			console.error('Fetch problem:', error.message);
 		});
 
-	// document.querySelector('.sign-in').classList.remove('visually-hidden');
-	// switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
-	// addNicknameToSignInMessage(nickname);
+	switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
+	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 }
