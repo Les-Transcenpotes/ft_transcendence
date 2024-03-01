@@ -78,26 +78,26 @@ class clientInfoIdView(View):
 
 class friendView(View):
     def get(self, request, id: int) -> JsonResponse:
-
         emiter = Client.objects.get(unique_id=request.user.id)
-
-        if id == 0 or id == request.user.id:
-
-            friend_list = [object.friends_dict()
-                           for object in emiter.friends.all()]
-            return JsonResponse({"friends": list(friend_list),
-                                 "list": [object.to_dict() for object in list(FriendshipRequest.objects.filter())],
-                                 })
-        try:
-            target = Client.objects.get(unique_id=id)
-        except ObjectDoesNotExist:
-            return JsonResponse({"Err": "Invalid id"})
-
-        if target.friendRequests.filter(unique_id=request.user.id):
-            return JsonResponse({"Friendship": "requested"})
-        if target.friends.filter(unique_id=request.user.id):
-            return JsonResponse({"Friendship": "established"})
-        return JsonResponse({"Friendship": "No request or friendship"})
+        return JsonResponse({
+            "id": request.user.id,
+            "friends": [
+                object.friends_dict()
+                for object
+                in emiter
+                .friends
+                .all()
+            ],
+            "requests": [
+                {"id": object.sender.unique_id,
+                 "nick": object.sender.nick}
+                for object in list(
+                    FriendshipRequest
+                    .objects
+                    .filter(receiver=emiter)
+                )
+            ],
+        })
 
     def post(self, request, id: int) -> JsonResponse:
         sender = Client.objects.get(unique_id=request.user.id)
@@ -105,20 +105,15 @@ class friendView(View):
             receiver = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
             return JsonResponse({"Err": "Invalid id"})
-
         return FriendshipRequest.processRequest(receiver, sender)
-
 
     def delete(self, request, id: int) -> JsonResponse:
         emiter = Client.objects.get(unique_id=request.user.id)
-
         try:
             target = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
             return JsonResponse({"Err": "Invalid id"})
-
         return FriendshipRequest.deleteFriendship(emiter, target)
-
 
 
 @csrf_exempt

@@ -57,20 +57,22 @@ class FriendshipRequest(models.Model):
 
     def to_dict(self):
         return {
-            "sender": self.sender.to_dict(),
-            "receiver": self.receiver.to_dict(),
+            "sender": [self.sender.nick, self.sender.unique_id],
+            "receiver": [self.receiver.nick, self.receiver.unique_id],
         }
 
     @staticmethod
     def processRequest(sender, receiver) -> JsonResponse:
+        if receiver in sender.friends.all():
+            return JsonResponse({"Err": "redondantRequest"})
+
         redondantRequest = FriendshipRequest.objects.filter(
             sender=sender, receiver=receiver).first()
         if redondantRequest is not None:
-            print("damned")
             return JsonResponse({"Err": "redondantRequest"})
 
         pastRequest = FriendshipRequest.objects.filter(
-            sender=receiver, receiver=sender)
+            sender=receiver, receiver=sender).first()
         if pastRequest is None:
             newRequest = FriendshipRequest.objects.create(
                 sender=sender, receiver=receiver)
