@@ -57,13 +57,15 @@ function submitNickname(nickname) {
 		})
 		.then (data => {
 			if (data.Ava === true) {
-				next = '.sign-up';
+				next = '.sign-in';
 			}
 			else {
 				next = '.sign-in';
 				document.querySelector('.sign-in-message').setAttribute('unique-id', data.id);
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
+			next = next.replace('.', '');
+			history.pushState({ path: next }, null, next);
 		})
 		.catch (error => {
 			console.error('Fetch problem:', error.message);

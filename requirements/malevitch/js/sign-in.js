@@ -1,3 +1,30 @@
+// History management.
+
+window.addEventListener('popstate', function(e) {
+    var location = e.state && e.state.path;
+    
+    if (location) {
+        console.log(location);
+    }
+	// else {
+    //     // If there's no state object, navigate back to the previous page
+    //     window.history.back();
+    // }
+});
+
+// "Sign in with another nickname" button.
+
+document.querySelector('.sign-in-other-nickname a').addEventListener('click', function () {
+	// Switch page and go back to homepage-id.
+	document.querySelector('.sign-in').classList.add('visually-hidden');
+	document.querySelector('.homepage-id').classList.remove('visually-hidden');
+	// Clear the homepage-id-input
+	document.querySelector('.homepage-id-input').value = '';
+	// Erase the old nickname in sign-in-message.
+	var	newContent = document.querySelector('.sign-in-message').innerHTML.split('<b>')[0];
+	document.querySelector('.sign-in-message').innerHTML = newContent;
+});
+
 // Input box password filling.
 
 document.querySelector('.sign-in-input').addEventListener('input', function() {
