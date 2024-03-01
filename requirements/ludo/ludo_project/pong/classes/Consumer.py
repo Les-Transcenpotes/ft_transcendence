@@ -68,6 +68,13 @@ class Consumer(AsyncWebsocketConsumer):
         match.players.append(Player(self.id, self.gameSettings))
         match.ball = Ball(self.gameSettings)
 
+    async def updateScore(self, event):
+        await self.send (text_data=json.dumps({
+            "type": "updateScore",
+            "myScore": match.score[self.id],
+            "opponentScore": match.score[(self.id + 1) % 2],
+        }))
+
     # Receive gameState from room group
     async def myState(self, event):
         global match
@@ -76,11 +83,11 @@ class Consumer(AsyncWebsocketConsumer):
             pointWinner = match.ball.move(match.players[0], match.players[1], self.gameSettings)
             if (pointWinner != -1):
                 match.score[pointWinner] += 1
-                await self.send (text_data=json.dumps({
-                    "type": "updateScore",
-                    "myScore": match.score[self.id],
-                    "opponentScore": match.score[(self.id + 1) % 2],
-                }))
+                await self.channel_layer.group_send (
+                    "myRoom", {
+                        "type": "updateScore",
+                    }
+                )
 
         if (event["id"] == self.id):
             match.players[self.id].up = event["meUp"]
