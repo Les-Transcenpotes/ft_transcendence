@@ -63,7 +63,7 @@ function submitNickname(nickname) {
 			}
 			else {
 				next = '.sign-in';
-				document.querySelector('.sign-in-message').setAttribute('unique-id', data.id);
+				userId = data.Id;
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
 			next = next.replace('.', '');

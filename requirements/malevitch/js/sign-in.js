@@ -59,7 +59,6 @@ document.querySelector('.sign-in-submit').addEventListener('click', function() {
 // Submit password to database.
 
 async function submitPassword(password) {
-	var	id = document.querySelector('.sign-in-message').getAttribute('unique-id');
 	var	nickname = document.querySelector('.sign-in-message b').textContent;
 	nickname = nickname.trim();
 
@@ -69,7 +68,7 @@ async function submitPassword(password) {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({id: id, pass: password,}),
+			body: JSON.stringify({id: userId, pass: password,}),
 		});
 
 		const result = await response.json();

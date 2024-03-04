@@ -1,3 +1,6 @@
+// Global variables.
+let userId;
+
 // Translation functions.
 
 function loadTranslations() {
