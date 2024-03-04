@@ -6,6 +6,8 @@
 		<link rel="icon" href="assets/general/favicon.png" type="image/x-icon">
 		<link rel="stylesheet" href="css/general.css" type="text/css" media="all">
 		<link rel="stylesheet" href="css/homepage-id.css" type="text/css" media="all">
+		<link rel="stylesheet" href="css/sign-in.css" type="text/css" media="all">
+		<link rel="stylesheet" href="css/sign-up.css" type="text/css" media="all">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,27 +15,77 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	</head>
 	<body class="dot-pattern">
-		<div class="homepage-id">
-			<div class="container position-absolute start-50 translate-middle w-50">
+		<!-- HOMEPAGE-ID -->
+		<div class="homepage-id d-flex justify-content-center align-items-center">
+			<div class="position-absolute start-50 translate-middle w-50">
 				<img src="assets/general/batch-purple.svg" alt="BATCH logo" draggable="false" (dragstart)="false;" class="w-100 purple-shadow unselectable">
 			</div>
-			<div class="homepage-id-input-container container d-flex justify-content-center position-absolute start-50 translate-middle w-50">
-				<div class="homepage-id-language-selector purple-shadow">
-					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown" lang="en">en</button>
+			<div class="homepage-id-input-container input-container d-flex justify-content-center w-50 position-absolute">
+				<div class="homepage-id-language-selector language-selector purple-shadow">
+					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
+						<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+					</button>
 					<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
-						<li><a class="dropdown-item border-0" lang="fr" role="menuitem" href="#">fr</a></li>
-						<li><a class="dropdown-item border-0" lang="zh" role="menuitem" href="#">zh</a></li>
+						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
+						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
 					</ul>
 				</div>
-				<div class="homepage-id-input-box w-50 bg-white purple-shadow">
-					<label for="nickname-input" data-language="nickname" class="visually-hidden">Enter your nickname...</label>
-					<input id="nickname-input" type="text" name="nickname" label="nickname" data-language="nickname" placeholder="Enter your nickname..." class="homepage-id-input w-100 border-0 text-center">
+				<div class="w-50 d-flex flex-column justify-content-center align-items-center">
+					<div class="homepage-id-input-box input-box w-100 bg-white purple-shadow">
+						<label for="nickname-input" data-language="nickname" class="visually-hidden">Enter your nickname...</label>
+						<input id="nickname-input" type="text" name="nickname" label="nickname" data-language="nickname" placeholder="Enter your nickname..." autocomplete="off" class="homepage-id-input input w-100 border-0 text-center">
+					</div>
+					<div class="homepage-id-input-warning input-warning w-100 visually-hidden text-center" data-language="nickname-invalid-char">Invalid nickname.</div>
 				</div>
-				<button type="button" value="" class="homepage-id-submit border-0 purple-shadow" disabled>
+				<button type="button" value="" class="homepage-id-submit submit border-0 purple-shadow d-flex align-items-center justify-content-center">
+					<img src="assets/general/right-arrow-white.svg" alt="→" draggable="false" (dragstart)="false;" class="unselectable">
+				</button>
 			</div>
+		</div>
+		<!-- SIGN IN -->
+		<div class="sign-in d-flex justify-content-center align-items-center visually-hidden">
+			<div class="container position-absolute start-50 translate-middle">
+				<img src="assets/general/batch-purple.svg" alt="BATCH logo" draggable="false" (dragstart)="false;" class="w-100 purple-shadow unselectable">
+			</div>
+			<div class="sign-in-message d-flex text-center justify-content-center align-items-center w-50 position-absolute text-shadow" data-language="sign-in-message">Hello, user !</div>
+			<div class="sign-in-input-container input-container d-flex justify-content-center w-50 position-absolute">
+				<div class="sign-in-language-selector language-selector purple-shadow">
+					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
+						<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+					</button>
+					<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
+						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
+						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
+					</ul>
+				</div>
+				<div class="w-50 d-flex flex-column justify-content-center align-items-center">
+					<div class="sign-in-input-box input-box w-100 bg-white purple-shadow">
+						<label for="sign-in-input" data-language="password" class="visually-hidden">Enter your password...</label>
+						<input id="sign-in-input" type="password" name="password" label="password" data-language="password" placeholder="Enter your password..." autocomplete="off" class="sign-in-input input w-100 border-0 text-center">
+					</div>
+					<div class="sign-in-input-warning input-warning w-100 visually-hidden text-center" data-language="invalid-password">Invalid password.</div>
+				</div>
+				<button type="button" value="" class="sign-in-submit submit border-0 purple-shadow d-flex align-items-center justify-content-center">
+					<img src="assets/general/right-arrow-white.svg" alt="→" draggable="false" (dragstart)="false;" class="unselectable">
+				</button>
+			</div>
+		</div>
+		<!-- SIGN UP -->
+		<div class="sign-up d-flex justify-content-center align-items-center visually-hidden">
+			Sign up
 		</div>
 		<script src="js/general.js"></script>
 		<script src="js/homepage-id.js"></script>
+		<script src="js/sign-in.js"></script>
+		<script src="js/sign-up.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	</body>
 </html>

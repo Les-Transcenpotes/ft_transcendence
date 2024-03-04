@@ -1,31 +1,33 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
-from pong.gameLoop import gameLoop, match
+from pong.classes.Match import match
 from pong.classes.Player import Player
+from pong.classes.gameSettings import gameSettings
+from pong.classes.Ball import Ball
 import json
-import asyncio
 
-# Commencer a reflechir a comment faire avec 2 joueurs separes !
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
 
-# Cf doc django channels (Tuto part 2 and 3)
 class Consumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         global match
 
         self.id = len(match.players)
-        match.players.append(Player(self.id))
+        self.gameSettings = gameSettings(0, 0, 0, 0, 0) # Voir si on peut faire autrement
 
         # Join room group
-        await self.channel_layer.group_add("self.room_group_name", self.channel_name)
-        print("New consumer in room self.room_group_name")
+        await self.channel_layer.group_add("myRoom", self.channel_name)
+        print("New consumer in room myRoom")
 
         await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
-        await self.channel_layer.group_discard("self.room_group_name", self.channel_name)
+        global match
+
+        del match.players[self.id]
+        await self.channel_layer.group_discard("myRoom", self.channel_name)
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -35,20 +37,23 @@ class Consumer(AsyncWebsocketConsumer):
         self.type = gameDataJson["type"]
         # Game logic here !
 
-        # Send mePos to room group
+        # Send to room group
         if (self.type == "gameStart"):
             await self.channel_layer.group_send(
-                "self.room_group_name", {
+                "myRoom", {
                     "type": self.type,
                     "playerHeight": gameDataJson["playerHeight"],
+                    "playerWidth": gameDataJson["playerWidth"],
                     "screenHeight": gameDataJson["screenHeight"],
                     "screenWidth": gameDataJson["screenWidth"],
+                    "ballSize": gameDataJson["ballSize"],
                 }
             )
-        else:
+        elif (self.type == "gameState"):
             await self.channel_layer.group_send(
-                "self.room_group_name", {
-                    "type": self.type,
+                "myRoom", {
+                    "type": "myState",
+                    "id": self.id,
                     "meUp": gameDataJson["meUp"],
                     "meDown": gameDataJson["meDown"],
                 }
@@ -58,22 +63,69 @@ class Consumer(AsyncWebsocketConsumer):
         global match
 
         print("This is from the gameStart function")
-        match.playerHeight = event["playerHeight"]
-        match.screenHeight = event["screenHeight"]
-        match.screenWidth = event["screenWidth"]
 
-        # if (self.id == 0):
-        #     asyncio.create_task(gameLoop()) # Can't do this here, or only the host
+        self.gameSettings = gameSettings(event["screenHeight"], event["screenWidth"], event["playerHeight"], event["playerWidth"], event["ballSize"]) #Changer les valeurs plutot aue de creer un nouvel objet ?
+        match.players.append(Player(self.id, self.gameSettings))
+        match.ball = Ball(self.gameSettings)
+
+    async def updateScore(self, event):
+        await self.send (text_data=json.dumps({
+            "type": "updateScore",
+            "myScore": match.score[self.id],
+            "opponentScore": match.score[(self.id + 1) % 2],
+        }))
 
     # Receive gameState from room group
-    async def gameState(self, event):
+    async def myState(self, event):
         global match
 
-        match.players[self.id].up = event["meUp"]
-        match.players[self.id].down = event["meDown"]
-        match.players[self.id].move()
-        # Send mePos to WebSocket
-        await self.send(text_data=json.dumps({
-            "mePos": match.players[self.id].pos,
-            # "advPos": match.players[(self.id + 1) % 2].pos,
-        }))
+        if (len(match.players) > 1):
+            pointWinner = match.ball.move(match.players[0], match.players[1], self.gameSettings)
+            if (pointWinner != -1):
+                match.score[pointWinner] += 1
+                await self.channel_layer.group_send (
+                    "myRoom", {
+                        "type": "updateScore",
+                    }
+                )
+
+        if (event["id"] == self.id):
+            match.players[self.id].up = event["meUp"]
+            match.players[self.id].down = event["meDown"]
+            match.players[self.id].move(self.gameSettings)
+            # Send mePos to WebSocket
+            if (self.id % 2 == 0):
+                await self.send(text_data=json.dumps({
+                    "type": "myState",
+                    "mePos": match.players[self.id].pos,
+                    "ballPosX": match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1],
+                }))
+            else:
+                await self.send(text_data=json.dumps({
+                    "type": "myState",
+                    "mePos": match.players[self.id].pos,
+                    "ballPosX": self.gameSettings.screenWidth - match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1],
+                }))
+
+        else:
+            match.players[(self.id + 1) % 2].up = event["meUp"]
+            match.players[(self.id + 1) % 2].down = event["meDown"]
+            match.players[(self.id + 1) % 2].move(self.gameSettings)
+            # Send mePos to WebSocket
+            if (self.id % 2 == 0):
+                await self.send(text_data=json.dumps({
+                    "type": "opponentState",
+                    "opponentPos": match.players[(self.id + 1) % 2].pos,
+                    "ballPosX": match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1],
+                }))
+            else:
+                await self.send(text_data=json.dumps({
+                    "type": "opponentState",
+                    "opponentPos": match.players[(self.id + 1) % 2].pos,
+                    "ballPosX": self.gameSettings.screenWidth - match.ball.pos[0],
+                    "ballPosY": match.ball.pos[1],
+                }))
+

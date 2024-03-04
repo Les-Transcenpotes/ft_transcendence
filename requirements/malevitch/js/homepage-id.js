@@ -1,56 +1,74 @@
-// Input box focus.
-
-document.querySelector('.homepage-id-input').addEventListener('focus', function() {
-    this.parentNode.classList.add('homepage-id-input-box-focused');
-});
-
-document.querySelector('.homepage-id-input').addEventListener('blur', function() {
-    this.parentNode.classList.remove('homepage-id-input-box-focused');
-});
-
-// Make the submit button appear only when there is text in the input box.
+// Input box nickname filling.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
-	var container = this.closest('.homepage-id-input-container');
-    if (this.value.length >  0) {
-		container.classList.add('homepage-id-input-container-focused');
-    } else {
-		container.classList.remove('homepage-id-input-container-focused');
-    }
-});
-
-// Language selector.
-
-document.querySelectorAll('.dropdown-item').forEach(function(item) {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        var button = document.querySelector('.homepage-id-language-selector button');
-		var activeLangAttr = button.getAttribute('lang');
-		var activeLangUrl = window.getComputedStyle(button).getPropertyValue('background-image');
-		var activeLangContent = button.textContent;
-		var selectedLangAttr = this.getAttribute('lang');
-		var selectedLangUrl;
-		var	selectedLangContent = this.textContent;
-		if (selectedLangAttr === 'fr') {
-			selectedLangUrl = 'url(./assets/general/flag-france.png)';
-			switchLanguageAttr('fr', 'placeholder');
-			switchLanguageContent('fr');
-		}
-		else if (selectedLangAttr === 'zh') {
-			selectedLangUrl = 'url(./assets/general/flag-china.png)';
-			switchLanguageAttr('zh', 'placeholder');
-			switchLanguageContent('zh');
+	var	container = this.closest('.homepage-id-input-container');
+	var	warning = document.querySelector('.homepage-id-input-warning');
+	var	locale = document.querySelector('.homepage-id-language-selector button img').alt;
+	
+	if (this.value.length >  0) {
+		// Make the submit button appear only when the choosen nickname is valid.
+		// Warn and block invalid characters, or nicknames too short or too long.
+		if (isNicknameValid(this.value, warning) === false) {
+			switchLanguageContent(locale);
+			warning.classList.remove('visually-hidden');
+			container.classList.remove('input-container-focused');
 		}
 		else {
-			selectedLangUrl = 'url(./assets/general/flag-unitedkingdom.png)';
-			switchLanguageAttr('en', 'placeholder');
-			switchLanguageContent('en');
+			warning.classList.add('visually-hidden');
+			container.classList.add('input-container-focused');
 		}
-        button.style.backgroundImage = selectedLangUrl;
-		button.setAttribute('lang', selectedLangAttr);
-		button.textContent = selectedLangContent;
-		this.setAttribute('lang', activeLangAttr);
-		this.style.backgroundImage = activeLangUrl;
-		this.textContent = activeLangContent;
-    });
+	} 
+	else {
+		warning.classList.add('visually-hidden');
+	}
 });
+
+// Submit nickname using Enter key.
+
+document.querySelector('.homepage-id-input').addEventListener('keypress', function(event) {
+	var	warning = document.querySelector('.homepage-id-input-warning');
+
+	if (event.key === 'Enter' && isNicknameValid(this.value, warning) === true) {
+		submitNickname(this.value);
+	}
+});
+
+// Submit nickname using button.
+
+document.querySelector('.homepage-id-submit').addEventListener('click', function() {
+	var	input = document.querySelector('.homepage-id-input');
+
+	submitNickname(input.value);
+});
+
+// Submit nickname and redirect to signin or signup.
+
+function submitNickname(nickname) {
+	var	next;
+
+	document.querySelector('.homepage-id').classList.add('visually-hidden');
+
+	fetch('/petrus/auth/signin/' + nickname)
+		.then (response => {
+			if (!response.ok) {
+				throw new Error('HTTP error: ' + response.status);
+			}
+			return response.json();
+		})
+		.then (data => {
+			if (data.Ava === true) {
+				next = '.sign-up';
+			}
+			else {
+				next = '.sign-in';
+				document.querySelector('.sign-in-message').setAttribute('unique-id', data.id);
+			}
+			document.querySelector(next).classList.remove('visually-hidden');
+		})
+		.catch (error => {
+			console.error('Fetch problem:', error.message);
+		});
+
+	switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
+	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
+}

@@ -17,7 +17,7 @@ services:
       context: ./requirements/aegis
       dockerfile: Dockerfile
     ports:
-      - 8001:80
+      - 7999:80
       - 8000:443
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
@@ -36,8 +36,8 @@ services:
     volumes:
       - ./requirements/alfred/alfred_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8001:8001"
+    ports:
+      - "8001:8001"
     depends_on:
       - aegis
     networks:
@@ -53,8 +53,8 @@ services:
     volumes:
       - ./requirements/coubertin/coubertin_project:/app
       - shared_code:/app/shared
-    # ports:
-    #   - "8002:8002"
+    ports:
+      - "8002:8002"
     depends_on:
       - aegis
     networks:
@@ -70,12 +70,29 @@ services:
     volumes:
       - ./requirements/cupidon/cupidon_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8003:8003"
+    ports:
+      - "8003:8003"
     depends_on:
       - aegis
     networks:
       - atlas
+
+# Matchmaking container
+  davinci:
+    container_name: davinci
+    image: davinci
+    build:
+      context: ./requirements/davinci
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "8010:8010"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+      - aegis guard
 
 # Notification container
   hermes:
@@ -87,8 +104,8 @@ services:
     volumes:
       - ./requirements/hermes/hermes_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8004:8004"
+    ports:
+      - "8004:8004"
     depends_on:
       - aegis
     networks:
@@ -104,8 +121,8 @@ services:
     volumes:
       - ./requirements/lovelace/lovelace_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8005:8005"
+    ports:
+      - "8005:8005"
     depends_on:
       - aegis
     networks:
@@ -121,8 +138,8 @@ services:
     volumes:
       - ./requirements/ludo/ludo_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8006:8006"
+    ports:
+      - "8006:8006"
     depends_on:
       - aegis
     networks:
@@ -137,13 +154,29 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./requirements/malevitch:/usr/share/nginx/html
-    # ports:
-    #   - "8007:80"
+    ports:
+      - "8007:80"
     depends_on:
       - aegis
     networks:
       - atlas
     restart: on-failure
+
+# Prometheus container
+  mensura:
+    container_name: mensura
+    image: mensura
+    build:
+      context: ./requirements/mensura
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "8011:8011"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
 
 # Stats container
   mnemosine:
@@ -155,8 +188,8 @@ services:
     volumes:
       - ./requirements/mnemosine/mnemosine_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8008:8008"
+    ports:
+      - "8008:8008"
     depends_on:
       - aegis
     networks:
@@ -172,8 +205,8 @@ services:
     volumes:
       - ./requirements/petrus/petrus_project:/app
       - shared_code:/app/shared
-    # ports:
-      # - "8009:8009"
+    ports:
+      - "8009:8009"
     depends_on:
       - aegis
     networks:
