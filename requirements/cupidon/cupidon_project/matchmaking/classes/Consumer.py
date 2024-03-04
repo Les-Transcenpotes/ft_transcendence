@@ -1,26 +1,22 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-
-playerList = []
+from matchmaking.classes.Matchmaking import matchmaking
 
 class Consumer(AsyncWebsocketConsumer):
     async def connect(self):
-        global playerList
-        # self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
-        # self.room_group_name = f"chat_{self.room_name}"
+        global matchmaking
 
         # Join room group
-        await self.channel_layer.group_add("matchmaking_room", self.channel_name)
+        await self.channel_layer.group_add("matchmakingRoom", self.channel_name)
 
-        playerList.append("Player") # Get player name with the token here
+        self.id = len(matchmaking.waitingList)
+        matchmaking.waitingList.append(self.id) # Get player name with the token here
         await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
-        global playerList
-        await self.channel_layer.group_discard("matchmaking_room", self.channel_name)
-        print("Bye !")
-        playerList.remove("Player")
+        global matchmaking
+        await self.channel_layer.group_discard("matchmakingRoom", self.channel_name)
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -29,19 +25,21 @@ class Consumer(AsyncWebsocketConsumer):
         
         # Send message to room group
         await self.channel_layer.group_send(
-            "matchmaking_room", {"type": state}
+            "matchmakingRoom", {
+                "type": state
+            }
         )
 
-    # Receive message from room group
+    # Receive message from room group (mettre un _ dans le nom de la room entre les deux joueurs)
     async def Ready(self, event):
-        if len(playerList) > 1:
-            print("yo !")
-            playerList.remove("Player")
-            playerList.remove("Player")
-            await self.send(json.dumps({"action": "redirect", "url": "https://localhost:8000/ludo/pong/"}))
-    
-    async def Leaving(self, event):
-        global playerList
-        print("Bye !")
-        playerList.remove("Player")
-
+        if len(matchmaking.waitingList) > 1:
+            matchmaking.inGame += [matchmaking.waitingList[0], matchmaking.waitingList[1]]
+            matchmaking.waitingList.remove[matchmaking.waitingList[0]]
+            matchmaking.waitingList.remove[matchmaking.waitingList[1]]
+            await self.send(json.dumps({
+                    "action": "redirect", 
+                    "url": "https://localhost:8000/ludo/pong/"
+                            + str(matchmaking.waitingList[0])
+                            + "-"
+                            + str(matchmaking.waitingList[1])
+                    }))
