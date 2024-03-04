@@ -82,10 +82,10 @@ class friendView(View):
         return JsonResponse({
             "id": request.user.id,
             "friends": [
-                {"id": object.sender.unique_id,
-                 "nick": object.sender.nick,
-                 "mail": object.sender.email,
-                 "avatar": object.sender.avatar}
+                {"id": object.unique_id,
+                 "nick": object.nick,
+                 "mail": object.email,
+                 "avatar": object.avatar} 
                 for object
                 in emiter
                 .friends
