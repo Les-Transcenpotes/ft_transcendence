@@ -28,8 +28,8 @@
         <div class="ball"></div>
         <div classe="score" id="score2"></div>
         <div class="score" id="score1"></div>
+        {{ roomName|json_script:"roomName" }}
         <script>
-
 
 
 
@@ -154,8 +154,9 @@ gameArea.addEventListener("keyup", (e) => { // Booleans with on press and on rel
 
 /***************************************** Websockets *****************************************/
 
-console.log("ws://" + window.location.host + '/pong/ws/me/')
-const exampleSocket = new WebSocket('wss://localhost:8000/ludo/pong/ws/'); // Probably add room name
+const roomName = JSON.parse(document.getElementById('roomName').textContent);
+console.log(roomName);
+const exampleSocket = new WebSocket('wss://localhost:8000/ludo/pong/ws/' + roomName + '/'); // Probably add room name
 
 exampleSocket.onopen = function(event) {
     console.log("Socket opened in the front");
