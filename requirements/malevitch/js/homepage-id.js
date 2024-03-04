@@ -5,7 +5,7 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 	var	warning = document.querySelector('.homepage-id-input-warning');
 	var	locale = document.querySelector('.homepage-id-language-selector button img').alt;
 	
-	if (this.value.length >  0) {
+	if (this.value.length > 0) {
 		// Make the submit button appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
 		if (isNicknameValid(this.value, warning) === false) {
@@ -20,6 +20,7 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 	} 
 	else {
 		warning.classList.add('visually-hidden');
+		container.classList.remove('input-container-focused');
 	}
 });
 
@@ -57,7 +58,8 @@ function submitNickname(nickname) {
 		})
 		.then (data => {
 			if (data.Ava === true) {
-				next = '.sign-in';
+				next = '.sign-up';
+				getSignUpNickname(nickname);
 			}
 			else {
 				next = '.sign-in';
@@ -65,7 +67,7 @@ function submitNickname(nickname) {
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
 			next = next.replace('.', '');
-			history.pushState({ path: next }, null, next);
+			// history.pushState({ path: next }, null, next);
 		})
 		.catch (error => {
 			console.error('Fetch problem:', error.message);

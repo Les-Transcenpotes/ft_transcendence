@@ -31,7 +31,7 @@ document.querySelector('.sign-in-input').addEventListener('input', function() {
 	var	container = this.closest('.sign-in-input-container');
 	var	warning = document.querySelector('.sign-in-input-warning');
 	
-	if (this.value.length >  0) {
+	if (this.value.length > 0) {
 		container.classList.add('input-container-focused');
 		warning.classList.add('visually-hidden');
 	} 
