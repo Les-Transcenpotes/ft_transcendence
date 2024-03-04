@@ -20,18 +20,34 @@ class Client(models.Model):
 
     def to_dict(self):
         return {
-            "Unique_id": self.unique_id,
+            "Id": self.unique_id,
             "Nick": self.nick,
             "Email": self.email,
             "Friends": self.list_friends(),
         }
 
+    def public_dict(self):
+        return {
+            "Id": self.unique_id,
+            "Nick": self.nick,
+            "Avatar": "avatar"
+        }
+
     def friends_dict(self):
         return {
-            "Unique_id": self.unique_id,
+            "Id": self.unique_id,
             "Nick": self.nick,
             "Email": self.email,
             "Avatar": "avatar"
+        }
+
+    def personal_dict(self):
+        return {
+            "Id": self.unique_id,
+            "Nick": self.nick,
+            "Email": self.email,
+            "Accessibility": "access",
+            "Avatar": "avatar",
         }
 
     def list_friends(self):

@@ -92,7 +92,6 @@ services:
       - aegis
     networks:
       - atlas
-      - aegis guard
 
 # Notification container
   hermes:
