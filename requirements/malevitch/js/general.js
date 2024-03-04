@@ -108,7 +108,7 @@ document.querySelectorAll('.input').forEach(function(item) {
 // Nickname checking functions
 
 function nicknameValidChar(nickname) {
-	let regex = /[^A-Za-z0-9-_]/g;
+	let regex = /[^A-Za-z0-9_]/g;
 	return !regex.test(nickname);
 }
 
