@@ -5,16 +5,11 @@
 	width: 35%;
 }
 
-/* info container */
-
-.sign-in-info-container {
-	top: 40%;
-}
-
 /* sign in message */
 
 .sign-in-message {
+	top: 34%;
 	height: 46px;
 	color: #7300E6;
-	font-size: 18pt;
+	font-size: 32pt;
 }
