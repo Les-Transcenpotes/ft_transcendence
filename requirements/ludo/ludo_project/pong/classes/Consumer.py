@@ -1,5 +1,5 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
-from pong.classes.Match import match, Match
+from pong.classes.Match import matches, Match
 from pong.classes.Player import Player
 from pong.classes.gameSettings import gameSettings
 from pong.classes.Ball import Ball
@@ -11,32 +11,32 @@ import json
 class Consumer(AsyncWebsocketConsumer):
 
     async def connect(self):
-        global match
+        global matches
 
         self.roomName = self.scope["url_route"]["kwargs"]["roomName"]
         print("Room name is " + self.roomName)
 
-        if (self.roomName not in match):
-            match[self.roomName] = Match()
+        if (self.roomName not in matches):
+            matches[self.roomName] = Match()
 
         # Join room group
         await self.channel_layer.group_add(self.roomName, self.channel_name)
 
-        self.myMatch = match[self.roomName]
+        self.myMatch = matches[self.roomName]
         self.id = len(self.myMatch.players)
         self.gameSettings = gameSettings(0, 0, 0, 0, 0) # Voir si on peut faire autrement
         await self.accept()
 
     async def disconnect(self, close_code):
         # Leave room group
-        global match
+        global matches
 
         del self.myMatch.players[self.id]
         await self.channel_layer.group_discard(self.roomName, self.channel_name)
 
     # Receive message from WebSocket
     async def receive(self, text_data):
-        global match
+        global matches
 
         gameDataJson = json.loads(text_data)
         self.type = gameDataJson["type"]
@@ -65,7 +65,7 @@ class Consumer(AsyncWebsocketConsumer):
             )
 
     async def gameStart(self, event):
-        global match
+        global matches
 
         print("This is from the gameStart function")
 
@@ -82,7 +82,7 @@ class Consumer(AsyncWebsocketConsumer):
 
     # Receive gameState from room group
     async def myState(self, event):
-        global match
+        global matches
 
         if (len(self.myMatch.players) > 1):
             pointWinner = self.myMatch.ball.move(self.myMatch.players[0], self.myMatch.players[1], self.gameSettings)
