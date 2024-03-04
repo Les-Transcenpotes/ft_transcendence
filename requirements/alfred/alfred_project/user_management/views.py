@@ -69,10 +69,10 @@ class userProfileView(View):
             return JsonResponse({"Err": "JSON cannot be extracted"})
         if "Nick" in data:
             marker = True
-            client.nick = client["nick"]
+            client.nick = client["Nick"]
         if "Email" in data:
             marker = True
-            client.email = client["email"]
+            client.email = client["Email"]
         if marker is False:
             return JsonResponse({"Err": "no changes"})
         client.update()
