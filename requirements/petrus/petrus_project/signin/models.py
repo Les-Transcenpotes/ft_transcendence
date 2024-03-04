@@ -5,7 +5,7 @@ class Client(models.Model):
     unique_id = models.BigAutoField(primary_key=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
-    nick = models.CharField(max_length=15, unique=True)
+    nick = models.CharField(max_length=16, unique=True)
 
     objects = models.Manager()
 
