@@ -1,6 +1,6 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.pong, name="pong"),
+    path("<str:roomName>/", views.pong, name="pong"),
 ]
