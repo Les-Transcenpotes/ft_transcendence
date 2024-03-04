@@ -64,12 +64,12 @@ class FriendshipRequest(models.Model):
     @staticmethod
     def processRequest(sender, receiver) -> JsonResponse:
         if receiver in sender.friends.all():
-            return JsonResponse({"Err": "redondantRequest"})
+            return JsonResponse({"Err": "redondant request"})
 
         redondantRequest = FriendshipRequest.objects.filter(
             sender=sender, receiver=receiver).first()
         if redondantRequest is not None:
-            return JsonResponse({"Err": "redondantRequest"})
+            return JsonResponse({"Err": "redondant request"})
 
         pastRequest = FriendshipRequest.objects.filter(
             sender=receiver, receiver=sender).first()
