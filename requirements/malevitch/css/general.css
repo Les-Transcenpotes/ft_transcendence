@@ -18,6 +18,10 @@ body {
 	filter: drop-shadow(10px 10px 12px rgba(115, 0, 230, 0.3));
 }
 
+.text-shadow {
+	text-shadow: 10px 10px 12px rgba(115, 0, 230, 0.3);
+}
+
 .unselectable {
 	user-select: none;
 	-moz-user-select: none;
@@ -59,4 +63,74 @@ body {
 	cursor: pointer;
 	box-shadow: 0 0 5px 1px rgba(115, 0, 230, 0.5) inset;
 	outline: 0;
+}
+
+/* input container */
+
+.input-container {
+	top: 50%;
+}
+
+/* text input */
+
+.input-box {
+	padding: 10px;
+	outline-color: #7300E6;
+	outline-style: solid;
+	outline-width: 2px;
+	outline-offset: -2px;
+	border-radius: 12px;
+	margin-right: 16px;
+}
+
+.input-box-focused {
+	outline-width: 3px;
+	outline-offset: -3px;
+}
+
+.input {
+	color: #7300E6;
+}
+
+.input::placeholder {
+	color: rgba(115, 0, 230, 0.75);
+}
+
+.input:focus {
+	outline: 0;
+}
+
+/* submit button */
+
+.submit {
+	visibility: hidden;
+    opacity:  0;
+	width: 0;
+	height: 46px;
+	padding: 0;
+	background-color: #7300E6;
+	border-radius: 12px;
+}
+
+.submit img {
+	width: 16px;
+}
+
+.input-container-focused .submit {
+	visibility: visible;
+    opacity:  1;
+	width: 10px;
+	padding: 0 22px;
+}
+
+.input-container-focused .submit:hover {
+	cursor: pointer;
+}
+
+/* invalid nickname warning */
+
+.input-warning {
+	margin-top: 16px;
+	color: #E2123C;
+	font-size: 13pt;
 }

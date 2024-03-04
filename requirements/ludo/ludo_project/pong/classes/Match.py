@@ -1,10 +1,11 @@
-from .Ball import Ball
+from pong.classes.gameSettings import gameSettings
+from pong.classes.Ball import Ball
 
-# A iniit autrement
+# A init autrement
 class Match:
     def __init__(self):
         self.players = []
-        self.ball = Ball()
-        self.screenHeight = 400
-        self.screenWidth = 1920
-        self.playerHeight = 180
+        self.score = [0, 0]
+        self.ball = Ball(gameSettings=gameSettings(0, 0, 0, 0, 0))
+
+matches = {}
