@@ -17,7 +17,7 @@ class userInfoView(View):
             return JsonResponse({"Err", "invalid id"})
         if client in target.friends.all():
             return JsonResponse({target.friends_dict()})
-        return JsonResponse(client.public_info_dict())
+        return JsonResponse(target.public_info_dict())
 
     def patch(self, request, id: int) -> JsonResponse:
         client = Client.objects.get(request.user.id)
