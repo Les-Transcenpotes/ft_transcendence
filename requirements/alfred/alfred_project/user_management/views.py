@@ -1,79 +1,93 @@
 from django.contrib.admin.views.autocomplete import JsonResponse
-from django.utils.translation.trans_real import receiver
 from user_management.models import Client, FriendshipRequest
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
+import json
 
 
-from shared.common_classes import User
+class userInfoView(View):
+    def get(self, request, id: int) -> JsonResponse:
+        client = Client.objects.get(unique_id=id)
+        if id == 0 or id == request.user.id:
+            return JsonResponse(client.personal_dict())
+        try:
+            target = Client.objects.get(unique_id=id)
+        except ObjectDoesNotExist:
+            return JsonResponse({"Err", "invalid id"})
+        if client in target.friends.all():
+            return JsonResponse({target.friends_dict()})
+        return JsonResponse(client.public_info_dict())
+
+    def patch(self, request, id: int) -> JsonResponse:
+        client = Client.objects.get(request.user.id)
+        marker: bool = False
+        try:
+            data = json.loads(request.body)
+        except BaseException:
+            return JsonResponse({"Err": "JSON cannot be extracted"})
+        if "Avatar" in data:
+            marker = True
+            client.avatar = client["avatar"]
+            # suppression de l'ancien avatar
+        if "Accessibility" in data:
+            marker = True
+            # client accessibility update
+        if marker is False:
+            return JsonResponse({"Err": "no changes"})
+        client.update()
+        return JsonResponse({"Client": "updated"})
 
 
-class createUserView(View):
-    def post(self, request) -> JsonResponse:
-        # secu venant de petrus
+class userProfileView(View):
+    def post(self, request, id: int) -> JsonResponse:
         email = request.POST.get("mail")
         nickname = request.POST.get("nick")
-        uniqueId = request.POST.get("id")
+        unique_id = id
+        if (email is None or not nickname is None or unique_id is None):
+            return JsonResponse({"Err": "field not filled"})
+        newUser = Client.objects.create(
+            unique_id=unique_id,
+            email=email,
+            nick=nickname
+        )
+        try:
+            newUser.save()
+        except BaseException:
+            return JsonResponse({"Err": "internal server error"})
+        return JsonResponse({"Client": "created"})
 
-        if (email is None or not nickname is None or uniqueId is None):
-            return JsonResponse(
-                {"status": "Error", "Error": "field not filled"})
+    def patch(self, request, id: int) -> JsonResponse:
+        try:
+            client = Client.objects.get(unique_id=id)
+        except BaseException:
+            return JsonResponse({"Err": "invalid id"})
+        marker: bool = False
+        try:
+            data = json.loads(request.body)
+        except BaseException:
+            return JsonResponse({"Err": "JSON cannot be extracted"})
+        if "Nick" in data:
+            marker = True
+            client.nick = client["nick"]
+        if "Email" in data:
+            marker = True
+            client.email = client["email"]
+        if marker is False:
+            return JsonResponse({"Err": "no changes"})
+        client.update()
+        return JsonResponse({"Client": "updated"})
 
-        newUser = Client()
-        newUser.unique_id = uniqueId
-        newUser.unique_id = email
-        newUser.nick = nickname
-
-        success = newUser.save()
-        if success == False:
-            return JsonResponse({"status": "Error"})
-        return JsonResponse({"status": "Success"})
-
-    def delete(self, request) -> JsonResponse:
-        # secu venant de petrus
-        return JsonResponse({})
-
-    def patch(self, request):
-        request = request
-
-
-class personalInfoView(View):
-    def get(self, request) -> JsonResponse:
-        if request.user.is_autenticated is False:
-            return JsonResponse({"Err": request.user.error})
-        user = Client.objects.filter(unique_id=request.user.id).first()
-        if user is None:
-            return JsonResponse({"Err": "Internal Servor Error"}, status=500)
-        return JsonResponse({"Information": user.to_dict()})
-
-    def post(self, request) -> JsonResponse:
-        if request.user.is_autenticated is False:
-            return JsonResponse({"Err": request.user.error})
-        user = Client.objects.filter(unique_id=request.user.id).first()
-        if user is None:
-            return JsonResponse({"Err": "Internal Servor Error"}, status=500)
-
-        email = request.POST.get("mail")
-        if email is not None:
-            user.email = email
-        nickname = request.POST.get("nick")
-        if nickname is not None:
-            user.nick = nickname
-
-        # alfred -> notifier le changement
-
-        user.update()
-        return JsonResponse({"Information": user.to_dict()})
-
-
-class clientInfoIdView(View):
-    def get(self, request) -> JsonResponse:
-        request = request
-        nick = "nick"
-        email = "mail"
-        avatar = "avatar"
-        return JsonResponse({"nick": nick, "mail": email, "avatar": avatar})
+    def delete(self, request, id: int) -> JsonResponse:
+        try:
+            client = Client.objects.get(unique_id=id)
+        except BaseException:
+            return JsonResponse({"Err": "invalid id"})
+        try:
+            client.delete()
+        except BaseException:
+            return JsonResponse({"Err": "internal database error"})
+        return JsonResponse({"Client": "suppressed"})
 
 
 class friendView(View):
@@ -85,7 +99,7 @@ class friendView(View):
                 {"id": object.unique_id,
                  "nick": object.nick,
                  "mail": object.email,
-                 "avatar": object.avatar} 
+                 "avatar": object.avatar}
                 for object
                 in emiter
                 .friends
