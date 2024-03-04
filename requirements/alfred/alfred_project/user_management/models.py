@@ -20,18 +20,18 @@ class Client(models.Model):
 
     def to_dict(self):
         return {
-            "unique_id": self.unique_id,
-            "nick": self.nick,
-            "email": self.email,
-            "friends": self.list_friends(),
+            "Unique_id": self.unique_id,
+            "Nick": self.nick,
+            "Email": self.email,
+            "Friends": self.list_friends(),
         }
 
     def friends_dict(self):
         return {
-            "unique_id": self.unique_id,
-            "nick": self.nick,
-            "email": self.email,
-            "avatar": "avatar"
+            "Unique_id": self.unique_id,
+            "Nick": self.nick,
+            "Email": self.email,
+            "Avatar": "avatar"
         }
 
     def list_friends(self):
@@ -103,4 +103,4 @@ class FriendshipRequest(models.Model):
             oldRequest.delete()
             return JsonResponse({"Friendship": "aborted"})
 
-        return JsonResponse({"Err": "Nothing to get deleted"})
+        return JsonResponse({"Err": "nothing to get deleted"})

@@ -82,7 +82,10 @@ class friendView(View):
         return JsonResponse({
             "id": request.user.id,
             "friends": [
-                object.friends_dict()
+                {"id": object.sender.unique_id,
+                 "nick": object.sender.nick,
+                 "mail": object.sender.email,
+                 "avatar": object.sender.avatar}
                 for object
                 in emiter
                 .friends
@@ -90,7 +93,8 @@ class friendView(View):
             ],
             "requests": [
                 {"id": object.sender.unique_id,
-                 "nick": object.sender.nick}
+                 "nick": object.sender.nick,
+                 "avatar": object.sender.avatar}
                 for object in list(
                     FriendshipRequest
                     .objects
@@ -104,7 +108,7 @@ class friendView(View):
         try:
             receiver = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
-            return JsonResponse({"Err": "Invalid id"})
+            return JsonResponse({"Err": "invalid id"})
         return FriendshipRequest.processRequest(receiver, sender)
 
     def delete(self, request, id: int) -> JsonResponse:
@@ -112,7 +116,7 @@ class friendView(View):
         try:
             target = Client.objects.get(unique_id=id)
         except ObjectDoesNotExist:
-            return JsonResponse({"Err": "Invalid id"})
+            return JsonResponse({"Err": "invalid id"})
         return FriendshipRequest.deleteFriendship(emiter, target)
 
 
