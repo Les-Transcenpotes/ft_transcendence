@@ -211,6 +211,20 @@ services:
     networks:
       - atlas
 
+  node_exporter:
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter
+    volumes:
+      - "/:/host:ro,rslave"
+    ports:
+      - "9100:9100"
+    command: ["--path.rootfs=/host"]
+    networks:
+      - atlas
+    pid: "host"
+    depends_on:
+      - aegis
+
   redis:
     container_name: redis
     image: 'bitnami/redis:latest'
