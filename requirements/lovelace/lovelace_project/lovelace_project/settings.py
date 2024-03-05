@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-mtzn-@2f3a97fcof(c4&h^+en02)@xdwpd*0_zc%j6^&8mcr*3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'batch.42.fr', 'lovelace']
+ALLOWED_HOSTS = ['localhost', 'batch42.me', 'lovelace']
 
 
 # Application definition
