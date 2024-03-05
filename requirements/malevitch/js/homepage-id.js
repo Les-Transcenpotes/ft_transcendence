@@ -60,6 +60,7 @@ function submitNickname(nickname) {
 			if (data.Ava) {
 				next = '.sign-up';
 				getSignUpNickname(nickname);
+				document.querySelector('.sign-up-email-input').focus();
 			}
 			else {
 				next = '.sign-in';
