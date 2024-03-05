@@ -9,8 +9,8 @@ function getSignUpNickname(nickname) {
 
 // ---
 
-function isNicknameAvailable(nickname, element) {
-	fetch('/petrus/auth/signup/' + nickname)
+function isUserInfoAvailable(userInfo, infoType, element) {
+	fetch('/petrus/auth/signin/' + userInfo)
 	.then (response => {
 		if (!response.ok) {
 			throw new Error('HTTP error: ' + response.status);
@@ -19,7 +19,7 @@ function isNicknameAvailable(nickname, element) {
 	})
 	.then (data => {
 		if (data.Ava === false) {
-			element.setAttribute('data-language', 'nickname-taken');
+			element.setAttribute('data-language', infoType + '-taken');
 		}
 		return data.Ava;
 	})
@@ -114,7 +114,7 @@ function signUpNickname(input) {
 	if (input.value.length > 0) {
 		// Make the following inputs appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
-		if (!isNicknameValid(input.value, warning) || !isNicknameAvailable(input.value, warning)) {
+		if (!isNicknameValid(input.value, warning) || !isUserInfoAvailable(input.value, 'nickname', warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
@@ -147,7 +147,7 @@ function signUpEmail(input) {
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen email is valid.
-		if (isEmailValid(input.value, warning) === false) {
+		if (!isEmailValid(input.value, warning) || !isUserInfoAvailable(input.value, 'email', warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
@@ -178,7 +178,7 @@ function signUpPassword(input) {
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen password is valid.
-		if (isPasswordValid(input.value, warning) === false) {
+		if (!isPasswordValid(input.value, warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
@@ -209,7 +209,7 @@ function signUpPasswordConfirm(input) {
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen password is valid.
-		if (arePasswordsSame(input.value, passToCheck.value, warning) === false) {
+		if (!arePasswordsSame(input.value, passToCheck.value, warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			container.classList.remove('input-container-focused');
