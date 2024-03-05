@@ -41,10 +41,10 @@ class Ball:
     def updatePoints(self, gameSettings):
         if (self.pos[0] < 0):
             self.newPoint(gameSettings)
-            return 0
+            return 1
         elif (self.pos[0] > gameSettings.screenWidth):
             self.newPoint(gameSettings)
-            return 1
+            return 0
         return -1
 
     def move(self, host, client, gameSettings):
