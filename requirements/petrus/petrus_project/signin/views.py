@@ -4,6 +4,8 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from shared.jwt import JWT
 import requests
+import json
+import io
 
 from signin.models import Client
 
@@ -60,25 +62,27 @@ class signupView(View):
         return JsonResponse({"Ava": True})
 
     def post(self, request):
-        password = request.POST.get("pass")
-        email = request.POST.get("mail")
-        nick = request.POST.get("nick")
-        accessibility = request.POST.get("accessibility")
-        if not id or not password or not nick or not accessibility:
+        data = json.load(io.BytesIO(request.body))
+        email = data.get('email', None)
+        nickname = data.get('nick', None)
+        password = data.get('pass', None)
+        print("email", email, "nick", nickname, "pass", password)
+        accessibility = data.get("accessibility", "default")
+        if password is None or nickname is None or accessibility is None:
             return JsonResponse(
                 {"Err": "all information must be filled"}, status=200)
         hashed_password = make_password(accessibility)
-        client = Client()
-        client.password = password
-        client.email = email
-        client.nick = nick
+        client = Client.objects.filter(email=email).first()
+
+        if client is None:
+            client = Client.objects.create(password=hashed_password, email=email, nick=nickname)
+
         try:
             client.save()
         except IntegrityError as e:
             print("An integrity error occured:", e)
             return JsonResponse({"Err": e}, status=409)
-        request = requests.post(f'http://alfred/user/user-profile/{client.unique_id}',  # creation de la ressource
-                                json=client.to_alfred())
+        request = requests.post(f'http://alfred:8001/user/user-profile/{client.unique_id}', json=client.to_alfred())
         if request.status_code != 200:
             client.delete()
             return JsonResponse(request)
