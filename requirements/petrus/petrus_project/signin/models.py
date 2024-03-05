@@ -12,11 +12,16 @@ class Client(models.Model):
     def __init__(self, *args, **kwargs):
         super(Client, self).__init__(*args, **kwargs)
 
-    def toAlfred(self):
+    def to_alfred(self):
         return {
             "mail": self.email,
             "nick": self.nick,
             "id": self.unique_id,
+        }
+
+    def to_mnemosine(self):
+        return {
+                "id": self.unique_id
         }
 
     def toDict(self):
