@@ -281,7 +281,7 @@ async function submitCreateAccount() {
 		const result = await response.json();
 
 		if ('Err' in result) {
-			console.error(result.Err);
+			console.error('Error: ' + result.Err);
 		}
 		else {
 			console.log('sign up successful');
