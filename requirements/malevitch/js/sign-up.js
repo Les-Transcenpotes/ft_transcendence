@@ -254,7 +254,7 @@ document.querySelectorAll('.sign-up input').forEach(function (item) {
 	item.addEventListener('keypress', function (event) {
 		var submit = document.querySelector('.sign-up-submit');
 
-		if (event.key === 'Enter' && !submit.classList.contains('visually-hidden')) {
+		if (event.key === 'Enter' && window.getComputedStyle(submit).visibility !== 'hidden') {
 			submitCreateAccount();
 		}
 	});
