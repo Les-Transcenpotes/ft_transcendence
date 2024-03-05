@@ -80,6 +80,7 @@ async function submitPassword(password) {
 			console.error(result.Err);
 		}
 		else {
+			console.log('sign in successful');
 			// switch to homepage.
 		}
 	}

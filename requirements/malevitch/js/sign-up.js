@@ -7,6 +7,27 @@ function getSignUpNickname(nickname) {
 	signUpNicknameInput.querySelector('input').value = nickname;
 }
 
+// ---
+
+function isNicknameAvailable(nickname, element) {
+	fetch('/petrus/auth/signup/' + nickname)
+	.then (response => {
+		if (!response.ok) {
+			throw new Error('HTTP error: ' + response.status);
+		}
+		return response.json();
+	})
+	.then (data => {
+		if (data.Ava === false) {
+			element.setAttribute('data-language', 'nickname-taken');
+		}
+		return data.Ava;
+	})
+	.catch (error => {
+		console.error('Fetch problem:', error.message);
+	});
+}
+
 // Email checking functions
 
 function isEmailValid(email, element) {
@@ -93,7 +114,7 @@ function signUpNickname(input) {
 	if (input.value.length > 0) {
 		// Make the following inputs appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
-		if (isNicknameValid(input.value, warning) === false) {
+		if (!isNicknameValid(input.value, warning) || !isNicknameAvailable(input.value, warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
@@ -224,5 +245,50 @@ function togglePasswordView(container) {
 	else {
 		input.setAttribute('type', 'password');
 		icon.setAttribute('src', 'assets/general/view-purple.png');
+	}
+}
+
+// Submit info and create account
+
+document.querySelectorAll('.sign-up input').forEach(function (item) {
+	item.addEventListener('keypress', function (event) {
+		var submit = document.querySelector('.sign-up-submit');
+
+		if (event.key === 'Enter' && !submit.classList.contains('visually-hidden')) {
+			submitCreateAccount();
+		}
+	});
+});
+
+document.querySelector('.sign-up-submit').addEventListener('click', function () {
+	submitCreateAccount();
+});
+
+async function submitCreateAccount() {
+	var	nick = document.querySelector('.sign-up-nickname-input').value;
+	var	email = document.querySelector('.sign-up-email-input').value;
+	var	password = document.querySelector('.sign-up-password-input').value;
+
+	try {
+		const response = await fetch('/petrus/auth/signup', {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({nick: nick, email:email, pass: password,}),
+		});
+
+		const result = await response.json();
+
+		if ('Err' in result) {
+			console.error(result.Err);
+		}
+		else {
+			console.log('sign up successful');
+			// switch to homepage.
+		}
+	}
+	catch (error) {
+		console.error("Error:", error);
 	}
 }
