@@ -224,30 +224,6 @@ function signUpPasswordConfirm(input) {
 	}
 }
 
-// Password eye icons
-
-document.querySelector('.sign-up-password-input-box button').addEventListener('click', function() {
-	togglePasswordView(this.parentNode);
-});
-
-document.querySelector('.sign-up-password-confirm-input-box button').addEventListener('click', function() {
-	togglePasswordView(this.parentNode);
-});
-
-function togglePasswordView(container) {
-	var	input = container.querySelector('input');
-	var	icon = container.querySelector('button img');
-
-	if (input.getAttribute('type') == 'password') {
-		input.setAttribute('type', 'text');
-		icon.setAttribute('src', 'assets/general/hidden-purple.png');
-	}
-	else {
-		input.setAttribute('type', 'password');
-		icon.setAttribute('src', 'assets/general/view-purple.png');
-	}
-}
-
 // Submit info and create account
 
 document.querySelectorAll('.sign-up input').forEach(function (item) {

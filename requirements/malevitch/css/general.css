@@ -127,10 +127,35 @@ body {
 	cursor: pointer;
 }
 
-/* invalid nickname warning */
+/* input warning */
 
 .input-warning {
 	margin-top: 16px;
 	color: #E2123C;
 	font-size: 13pt;
+}
+
+/* range input */
+
+.range-input {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+}
+
+/* password eye icons */
+
+.input-box button {
+	width: 36px;
+	padding: 4px;
+	right: 2%;
+}
+
+.input-box button:hover {
+	cursor: pointer;
+}
+
+.input-box button img {
+	width: 100%;
 }

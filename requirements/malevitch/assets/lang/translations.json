@@ -1,5 +1,6 @@
 {
 	"en": {
+		"font-size": "Font size",
 		"nickname": "Enter your nickname...",
 		"nickname-invalid-char": "Your nickname cannot contain symbols other than '_'.",
 		"nickname-too-short": "Your nickname must contain at least 3 characters.",
@@ -24,6 +25,7 @@
 		"sign-up": "Sign up"
 	},
 	"fr": {
+		"font-size": "Taille de la police",
 		"nickname": "Entrez votre pseudonyme...",
 		"nickname-invalid-char": "Votre pseudonyme ne peut pas contenir de symboles autres que '_'.",
 		"nickname-too-short": "Votre pseudonyme doit contenir au moins 3 caractères.",
@@ -48,6 +50,7 @@
 		"sign-up": "Créer un compte"
 	},
 	"zh": {
+		"font-size": "字体大小",
 		"nickname": "输入你的名称。。。",
 		"nickname-invalid-char": "您的昵称不能包含“_”以外的符号。",
 		"nickname-too-short": "您的昵称必须包含至少 3 个字符。",

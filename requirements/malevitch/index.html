@@ -45,6 +45,10 @@
 					<img src="assets/general/right-arrow-white.svg" alt="→" draggable="false" (dragstart)="false;" class="unselectable">
 				</button>
 			</div>
+			<div class="homepage-id-font-size-box w-25 d-flex justify-content-center align-items-center position-absolute">
+				<label for="homepage-id-font-size" data-language="font-size" class="visually-hidden">Font size</label>
+				<input type="range" name="font-size" id="homepage-id-font-size" class="homepage-id-font-size range-input form-range" min="0" max="5">
+			</div>
 		</div>
 		<!-- SIGN IN -->
 		<div class="sign-in d-flex justify-content-center align-items-center visually-hidden">
@@ -67,9 +71,12 @@
 					</ul>
 				</div>
 				<div class="w-50 d-flex flex-column justify-content-center align-items-center">
-					<div class="sign-in-input-box input-box w-100 bg-white purple-shadow">
+					<div class="sign-in-input-box input-box input-box w-100 d-flex justify-content-between align-items-center bg-white purple-shadow">
 						<label for="sign-in-input" data-language="password" class="visually-hidden">Enter your password...</label>
 						<input id="sign-in-input" type="password" name="password" label="password" data-language="password" placeholder="Enter your password..." autocomplete="off" class="sign-in-input input w-100 border-0 text-center">
+						<button type="button" value="" class="border-0 bg-transparent position-absolute d-flex align-items-center justify-content-center">
+							<img src="assets/general/view-purple.png" alt="view password">
+						</button>
 					</div>
 					<div class="sign-in-input-warning input-warning w-100 visually-hidden text-center" data-language="invalid-password">Invalid password.</div>
 				</div>

@@ -23,25 +23,6 @@
 	margin-bottom: 5%;
 }
 
-/* password eye icons */
-
-.sign-up-password-input-box button,
-.sign-up-password-confirm-input-box button {
-	width: 36px;
-	padding: 4px;
-	right: 2%;
-}
-
-.sign-up-password-input-box button:hover,
-.sign-up-password-confirm-input-box button:hover {
-	cursor: pointer;
-}
-
-.sign-up-password-input-box button img,
-.sign-up-password-confirm-input-box button img {
-	width: 100%;
-}
-
 /* language selector */
 
 .sign-up-language-selector button {
