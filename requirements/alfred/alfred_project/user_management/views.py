@@ -4,6 +4,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 import json
+import io
 
 
 class userInfoView(View):
@@ -41,16 +42,26 @@ class userInfoView(View):
 
 class userProfileView(View):
     def post(self, request, id: int) -> JsonResponse:
-        email = request.POST.get("mail")
-        nickname = request.POST.get("nick")
+        data = json.load(io.BytesIO(request.body))
+        email = data.get('mail', None)
+        nickname = data.get('nick', None)
         unique_id = id
-        if (email is None or not nickname is None or unique_id is None):
+        if email is None:
+            return JsonResponse({"Err": "email not filled"})
+        if nickname is None:
+            return JsonResponse({"Err": "nick not filled"})
+        if unique_id is None:
             return JsonResponse({"Err": "field not filled"})
-        newUser = Client.objects.create(
-            unique_id=unique_id,
-            email=email,
-            nick=nickname
-        )
+
+
+        try:
+            newUser = Client.objects.create(
+                unique_id=unique_id,
+                email=email,
+                nick=nickname
+            )
+        except:
+            return JsonResponse({"Err": "no good db"})
         try:
             newUser.save()
         except BaseException:
