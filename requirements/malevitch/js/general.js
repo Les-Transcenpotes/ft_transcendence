@@ -1,3 +1,6 @@
+// Global variables.
+let userId;
+
 // Translation functions.
 
 function loadTranslations() {
@@ -108,12 +111,12 @@ document.querySelectorAll('.input').forEach(function(item) {
 // Nickname checking functions
 
 function nicknameValidChar(nickname) {
-	let regex = /[^A-Za-z0-9-_]/g;
+	let regex = /[^A-Za-z0-9_]/g;
 	return !regex.test(nickname);
 }
 
-function isNicknameValid(nickname, element) {
-	if (nicknameValidChar(nickname) === false) {
+function warnInvalidNickname(nickname, element) {
+	if (!nicknameValidChar(nickname)) {
 		element.setAttribute('data-language', 'nickname-invalid-char');
 		return false;
 	}

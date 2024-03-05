@@ -1,10 +1,37 @@
+// History management.
+
+window.addEventListener('popstate', function(e) {
+    var location = e.state && e.state.path;
+    
+    if (location) {
+        console.log(location);
+    }
+	// else {
+    //     // If there's no state object, navigate back to the previous page
+    //     window.history.back();
+    // }
+});
+
+// "Sign in with another nickname" button.
+
+document.querySelector('.sign-in-other-nickname a').addEventListener('click', function () {
+	// Switch page and go back to homepage-id.
+	document.querySelector('.sign-in').classList.add('visually-hidden');
+	document.querySelector('.homepage-id').classList.remove('visually-hidden');
+	// Clear the homepage-id-input
+	document.querySelector('.homepage-id-input').value = '';
+	// Erase the old nickname in sign-in-message.
+	var	newContent = document.querySelector('.sign-in-message').innerHTML.split('<b>')[0];
+	document.querySelector('.sign-in-message').innerHTML = newContent;
+});
+
 // Input box password filling.
 
 document.querySelector('.sign-in-input').addEventListener('input', function() {
 	var	container = this.closest('.sign-in-input-container');
 	var	warning = document.querySelector('.sign-in-input-warning');
 	
-	if (this.value.length >  0) {
+	if (this.value.length > 0) {
 		container.classList.add('input-container-focused');
 		warning.classList.add('visually-hidden');
 	} 
@@ -32,7 +59,6 @@ document.querySelector('.sign-in-submit').addEventListener('click', function() {
 // Submit password to database.
 
 async function submitPassword(password) {
-	var	id = document.querySelector('.sign-in-message').getAttribute('unique-id');
 	var	nickname = document.querySelector('.sign-in-message b').textContent;
 	nickname = nickname.trim();
 
@@ -42,7 +68,7 @@ async function submitPassword(password) {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({id: id, pass: password,}),
+			body: JSON.stringify({id: userId, pass: password,}),
 		});
 
 		const result = await response.json();
@@ -54,6 +80,7 @@ async function submitPassword(password) {
 			console.error(result.Err);
 		}
 		else {
+			console.log('sign in successful');
 			// switch to homepage.
 		}
 	}
