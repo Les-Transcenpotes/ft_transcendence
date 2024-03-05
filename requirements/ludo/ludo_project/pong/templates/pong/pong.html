@@ -175,8 +175,9 @@ exampleSocket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     
     if (data.type == "youWin" || data.type == "youLose") {
-        console.log(data.type);
-        // window.location.href = "https://localhost:8000/cupidon/test";
+        console.log(data.type); // Sleep pour faire pop une fenetre ?
+        window.location.href =  "https://localhost:8000/";
+        return;
     }
 
     if (data.type == "updateScore") {

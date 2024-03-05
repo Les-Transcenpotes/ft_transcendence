@@ -21,7 +21,7 @@ class Consumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        state = text_data_json["state"]
+        state = text_data_json['state']
         
         # Send message to room group
         await self.channel_layer.group_send(
@@ -33,13 +33,14 @@ class Consumer(AsyncWebsocketConsumer):
     # Receive message from room group (mettre un _ dans le nom de la room entre les deux joueurs)
     async def Ready(self, event):
         if len(matchmaking.waitingList) > 1:
-            matchmaking.inGame += [matchmaking.waitingList[0], matchmaking.waitingList[1]]
-            matchmaking.waitingList.remove[matchmaking.waitingList[0]]
-            matchmaking.waitingList.remove[matchmaking.waitingList[1]]
+            matchmaking.inGame[str(matchmaking.waitingList[0]) + '-' + str(matchmaking.waitingList[1])] = [str(matchmaking.waitingList[0]), str(matchmaking.waitingList[1])]
+            # matchmaking.waitingList.remove[matchmaking.waitingList[0]]
+            # matchmaking.waitingList.remove[matchmaking.waitingList[1]]
             await self.send(json.dumps({
                     "action": "redirect", 
                     "url": "https://localhost:8000/ludo/pong/"
                             + str(matchmaking.waitingList[0])
                             + "-"
                             + str(matchmaking.waitingList[1])
+                            + "/"
                     }))

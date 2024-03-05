@@ -4,6 +4,7 @@ from pong.classes.Player import Player
 from pong.classes.gameSettings import gameSettings
 from pong.classes.Ball import Ball
 import json
+import requests
 
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
@@ -93,6 +94,7 @@ class Consumer(AsyncWebsocketConsumer):
                 "myScore": self.myMatch.score[self.id],
                 "opponentScore": self.myMatch.score[(self.id + 1) % 2],
             }))
+        # requests.post() # Poster direct a la db
 
     # Receive gameState from room group
     async def myState(self, event):
