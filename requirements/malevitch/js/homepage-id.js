@@ -8,7 +8,7 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 	if (this.value.length > 0) {
 		// Make the submit button appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
-		if (isNicknameValid(this.value, warning) === false) {
+		if (!warnInvalidNickname(this.value, warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			container.classList.remove('input-container-focused');
@@ -29,7 +29,7 @@ document.querySelector('.homepage-id-input').addEventListener('input', function(
 document.querySelector('.homepage-id-input').addEventListener('keypress', function(event) {
 	var	warning = document.querySelector('.homepage-id-input-warning');
 
-	if (event.key === 'Enter' && isNicknameValid(this.value, warning) === true) {
+	if (event.key === 'Enter' && warnInvalidNickname(this.value, warning)) {
 		submitNickname(this.value);
 	}
 });
@@ -57,7 +57,7 @@ function submitNickname(nickname) {
 			return response.json();
 		})
 		.then (data => {
-			if (data.Ava === true) {
+			if (data.Ava) {
 				next = '.sign-up';
 				getSignUpNickname(nickname);
 			}

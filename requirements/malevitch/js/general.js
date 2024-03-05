@@ -115,8 +115,8 @@ function nicknameValidChar(nickname) {
 	return !regex.test(nickname);
 }
 
-function isNicknameValid(nickname, element) {
-	if (nicknameValidChar(nickname) === false) {
+function warnInvalidNickname(nickname, element) {
+	if (!nicknameValidChar(nickname)) {
 		element.setAttribute('data-language', 'nickname-invalid-char');
 		return false;
 	}

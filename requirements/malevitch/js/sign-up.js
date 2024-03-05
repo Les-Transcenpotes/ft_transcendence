@@ -9,8 +9,8 @@ function getSignUpNickname(nickname) {
 
 // ---
 
-function isUserInfoAvailable(userInfo, infoType, element) {
-	fetch('/petrus/auth/signin/' + userInfo)
+async function warnUnavailableUserInfo(userInfo, infoType, element) {
+	return await fetch('/petrus/auth/signin/' + userInfo)
 	.then (response => {
 		if (!response.ok) {
 			throw new Error('HTTP error: ' + response.status);
@@ -18,7 +18,7 @@ function isUserInfoAvailable(userInfo, infoType, element) {
 		return response.json();
 	})
 	.then (data => {
-		if (data.Ava === false) {
+		if (!data.Ava) {
 			element.setAttribute('data-language', infoType + '-taken');
 		}
 		return data.Ava;
@@ -30,7 +30,7 @@ function isUserInfoAvailable(userInfo, infoType, element) {
 
 // Email checking functions
 
-function isEmailValid(email, element) {
+function warnInvalidEmail(email, element) {
 	const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	var result = regex.test(String(email).toLowerCase());
 	if (!result) {
@@ -63,7 +63,7 @@ function containsSymbols(str) {
 	return symbols.test(str);
    }
 
-function isPasswordValid(password, element) {
+function warnInvalidPassword(password, element) {
 	if (!containsLetters(password)) {
 		element.setAttribute('data-language', 'password-letter');
 		return false;
@@ -93,7 +93,7 @@ function isPasswordValid(password, element) {
 
 // Checking password confirmation
 
-function arePasswordsSame(pass1, pass2, element) {
+function warnDifferentPasswords(pass1, pass2, element) {
 	if (pass1 != pass2) {
 		element.setAttribute('data-language', 'different-passwords');
 		return false;
@@ -114,7 +114,7 @@ function signUpNickname(input) {
 	if (input.value.length > 0) {
 		// Make the following inputs appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
-		if (!isNicknameValid(input.value, warning) || !isUserInfoAvailable(input.value, 'nickname', warning)) {
+		if (!warnInvalidNickname(input.value, warning) || !warnUnavailableUserInfo(input.value, 'nickname', warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
@@ -147,7 +147,7 @@ function signUpEmail(input) {
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen email is valid.
-		if (!isEmailValid(input.value, warning) || !isUserInfoAvailable(input.value, 'email', warning)) {
+		if (!warnInvalidEmail(input.value, warning) || !warnUnavailableUserInfo(input.value, 'email', warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
@@ -178,7 +178,7 @@ function signUpPassword(input) {
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen password is valid.
-		if (!isPasswordValid(input.value, warning)) {
+		if (!warnInvalidPassword(input.value, warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
@@ -209,7 +209,7 @@ function signUpPasswordConfirm(input) {
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen password is valid.
-		if (!arePasswordsSame(input.value, passToCheck.value, warning)) {
+		if (!warnDifferentPasswords(input.value, passToCheck.value, warning)) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			container.classList.remove('input-container-focused');
