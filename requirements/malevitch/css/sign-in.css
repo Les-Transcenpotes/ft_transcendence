@@ -13,3 +13,14 @@
 	color: #7300E6;
 	font-size: 32pt;
 }
+
+/* sign in with another nickname */
+
+.sign-in-other-nickname {
+	top: 65%;
+}
+
+.sign-in-other-nickname a {
+	color:#7300E6;
+	font-size: 14pt;
+}

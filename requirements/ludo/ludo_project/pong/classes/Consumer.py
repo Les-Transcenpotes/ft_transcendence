@@ -4,6 +4,7 @@ from pong.classes.Player import Player
 from pong.classes.gameSettings import gameSettings
 from pong.classes.Ball import Ball
 import json
+import requests
 
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
@@ -80,6 +81,21 @@ class Consumer(AsyncWebsocketConsumer):
             "opponentScore": self.myMatch.score[(self.id + 1) % 2],
         }))
 
+    async def gameEnd(self, event):
+        if (event["winner"] == self.id):
+            await self.send (text_data=json.dumps({
+                "type": "youWin",
+                "myScore": self.myMatch.score[self.id],
+                "opponentScore": self.myMatch.score[(self.id + 1) % 2],
+            }))
+        else:
+            await self.send (text_data=json.dumps({
+                "type": "youLose",
+                "myScore": self.myMatch.score[self.id],
+                "opponentScore": self.myMatch.score[(self.id + 1) % 2],
+            }))
+        # requests.post() # Poster direct a la db
+
     # Receive gameState from room group
     async def myState(self, event):
         global matches
@@ -91,6 +107,13 @@ class Consumer(AsyncWebsocketConsumer):
                 await self.channel_layer.group_send (
                     self.roomName, {
                         "type": "updateScore",
+                    }
+                )
+            if (self.myMatch.score[self.id] == 5):
+                await self.channel_layer.group_send (
+                    self.roomName, {
+                        "type": "gameEnd",
+                        "winner": self.id
                     }
                 )
 
@@ -133,4 +156,3 @@ class Consumer(AsyncWebsocketConsumer):
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
                 }))
-
