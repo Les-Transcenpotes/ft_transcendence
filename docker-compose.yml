@@ -26,23 +26,6 @@ services:
       - atlas
     restart: on-failure
 
-  letsencrypt:
-      container_name: letsencrypt
-      image: linuxserver/letsencrypt
-      environment:
-        - PUID=1000
-        - PGID=1000
-        - TZ=Europe/Lyon
-        - URL=batch42.me
-        - SUBDOMAINS=wildcard,
-        - VALIDATION=dns
-        - DNSPLUGIN=digitalocean
-        - EMAIL=theawang@yahoo.com
-        - DHLEVEL=4096
-      volumes:
-        - ./requirements/letsencrypt:/config
-      restart: unless-stopped
-
 # Profil container
   alfred:
     container_name: alfred
