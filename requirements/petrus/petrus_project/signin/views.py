@@ -6,6 +6,7 @@ from shared.jwt import JWT
 import requests
 import json
 import io
+import bcrypt
 
 from signin.models import Client
 
@@ -37,17 +38,20 @@ class signinView(View):
         return JsonResponse({"Ava": Ava, "Id": id, "Nick": nick}, status=200)
 
     def post(self, request, string: str) -> JsonResponse:
-        string = string
-        id = request.POST.get("id")
-        password = request.POST.get("pass")
+        data = json.load(io.BytesIO(request.body))
+        id = data.get('id', None)
+        password = data.get('pass', None)
         if id is None:
             return JsonResponse({"Err", "no id provided"})
+
+        if password is None:
+            return JsonResponse({"Err", "no password provided"})
         client = Client.objects.filter(unique_id=id).first()
         if client is None:
             return JsonResponse({"Err", "invalid id provided"})
 
-        hashedPassword = make_password(password)
-        if client.password != hashedPassword:
+        if bcrypt.checkpw(password.encode('utf-8'),
+                          client.password.encode('utf-8')) == False:
             return JsonResponse({"Err": "invalid password"})
         refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
         jwt = JWT.objectToAccessToken(client)
@@ -66,25 +70,23 @@ class signupView(View):
         email = data.get('email', None)
         nickname = data.get('nick', None)
         password = data.get('pass', None)
-        print("email", email, "nick", nickname, "pass", password)
         accessibility = data.get("accessibility", "default")
         if password is None or nickname is None or accessibility is None:
             return JsonResponse(
                 {"Err": "all information must be filled"}, status=200)
-        hashed_password = make_password(accessibility)
-        client = Client.objects.filter(email=email).first()
-
-        if client is None:
-            client = Client.objects.create(password=hashed_password, email=email, nick=nickname)
-
+        hashed_password = bcrypt.hashpw(
+            password.encode('utf-8'),
+            bcrypt.gensalt()).decode('utf-8')
         try:
-            client.save()
+            client = Client.objects.create(
+                password=hashed_password, email=email, nick=nickname)
         except IntegrityError as e:
             print("An integrity error occured:", e)
             return JsonResponse({"Err": e}, status=409)
-        request = requests.post(f'http://alfred:8001/user/user-profile/{client.unique_id}', json=client.to_alfred())
+        request = requests.post(
+            f'http://alfred:8001/user/user-profile/{client.unique_id}',
+            json=client.to_alfred())
         if request.status_code != 200:
-            client.delete()
             return JsonResponse(request)
 
         # requests.post("http://mnemosine/",  # creation de la ressource dans la table,
@@ -149,11 +151,12 @@ class checkInView(View):
         return JsonResponse({"status": "success"})
         return JsonResponse({"": ""})
 
+
 def new_view(request, nick: str, mail: str, password: str):
     client = Client.objects.all().filter(nick=nick).first()
     # if yo is not None:
-        # yo.delete()
-        # return JsonResponse({"damned": "youpi"})
+    # yo.delete()
+    # return JsonResponse({"damned": "youpi"})
 
     print(mail, nick)
     # client = Client.objects.create(email=mail, password=make_password(password), nick=nick)
@@ -164,3 +167,9 @@ def new_view(request, nick: str, mail: str, password: str):
                             json=client.to_alfred())
     print(request)
     return JsonResponse({"": ""}, safe=False)
+
+
+def test_view(request, password: str) -> JsonResponse:
+    hashed_password = bcrypt.hashpw(
+        password.encode('utf-8'), salt)
+    return JsonResponse({"pass": hashed_password.__str__()})
