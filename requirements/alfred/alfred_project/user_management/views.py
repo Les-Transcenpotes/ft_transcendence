@@ -160,3 +160,7 @@ def view_db(request):
     request = request
     clients = [object.to_dict() for object in Client.objects.all()]
     return JsonResponse({"clients": list(clients)})
+
+class avatartView(View):
+    def get(self, request):
+        return
