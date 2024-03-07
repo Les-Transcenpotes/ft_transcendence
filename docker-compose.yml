@@ -225,6 +225,21 @@ services:
     depends_on:
       - aegis
 
+  nginx_exporter:
+    container_name: nginx_exporter
+    image: nginx_exporter
+    build:
+      context: ./requirements/mensura/nginx_exporter
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "9113:9113"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+
   redis:
     container_name: redis
     image: 'bitnami/redis:latest'
