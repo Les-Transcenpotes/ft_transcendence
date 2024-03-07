@@ -18,4 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('auth/', include("signin.urls")),
+    path('metrics/', include('django_prometheus.urls')),
 ]
