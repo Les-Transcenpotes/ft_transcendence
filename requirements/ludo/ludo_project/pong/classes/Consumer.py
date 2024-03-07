@@ -4,7 +4,6 @@ from pong.classes.Player import Player
 from pong.classes.gameSettings import gameSettings
 from pong.classes.Ball import Ball
 import json
-import requests
 
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
@@ -55,13 +54,13 @@ class Consumer(AsyncWebsocketConsumer):
                     "ballSize": gameDataJson["ballSize"],
                 }
             )
+
         elif (self.type == "gameState"):
             await self.channel_layer.group_send(
                 self.roomName, {
                     "type": "myState",
                     "id": self.id,
-                    "meUp": gameDataJson["meUp"],
-                    "meDown": gameDataJson["meDown"],
+                    "frames": gameDataJson["frames"],
                 }
             )
 
@@ -95,33 +94,39 @@ class Consumer(AsyncWebsocketConsumer):
                 "opponentScore": self.myMatch.score[(self.id + 1) % 2],
             }))
         # requests.post() # Poster direct a la db
+            
+    async def gameLogic(self, frames, id):
+        global matches
+
+        for frame in frames:
+            self.myMatch.players[id].up = frames[frame]["meUp"]
+            self.myMatch.players[id].down = frames[frame]["meDown"]
+            self.myMatch.players[id].move(self.gameSettings)
+
+            # Ball and score management
+            if (len(self.myMatch.players) > 1):
+                pointWinner = self.myMatch.ball.move(self.myMatch.players[0], self.myMatch.players[1], self.gameSettings)
+                if (pointWinner != -1):
+                    self.myMatch.score[pointWinner] += 1
+                    await self.channel_layer.group_send (
+                        self.roomName, {
+                            "type": "updateScore",
+                        }
+                    )
+                if (self.myMatch.score[self.id] == 5):
+                    await self.channel_layer.group_send (
+                        self.roomName, {
+                            "type": "gameEnd",
+                            "winner": self.id
+                        }
+                    )
 
     # Receive gameState from room group
     async def myState(self, event):
         global matches
 
-        if (len(self.myMatch.players) > 1):
-            pointWinner = self.myMatch.ball.move(self.myMatch.players[0], self.myMatch.players[1], self.gameSettings)
-            if (pointWinner != -1):
-                self.myMatch.score[pointWinner] += 1
-                await self.channel_layer.group_send (
-                    self.roomName, {
-                        "type": "updateScore",
-                    }
-                )
-            if (self.myMatch.score[self.id] == 5):
-                await self.channel_layer.group_send (
-                    self.roomName, {
-                        "type": "gameEnd",
-                        "winner": self.id
-                    }
-                )
-
         if (event["id"] == self.id):
-            self.myMatch.players[self.id].up = event["meUp"]
-            self.myMatch.players[self.id].down = event["meDown"]
-            self.myMatch.players[self.id].move(self.gameSettings)
-            # Send mePos to WebSocket
+            await self.gameLogic(event["frames"], self.id)
             if (self.id % 2 == 0):
                 await self.send(text_data=json.dumps({
                     "type": "myState",
@@ -135,13 +140,10 @@ class Consumer(AsyncWebsocketConsumer):
                     "mePos": self.myMatch.players[self.id].pos,
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
-                }))
-
+            }))
+                
         else:
-            self.myMatch.players[(self.id + 1) % 2].up = event["meUp"]
-            self.myMatch.players[(self.id + 1) % 2].down = event["meDown"]
-            self.myMatch.players[(self.id + 1) % 2].move(self.gameSettings)
-            # Send mePos to WebSocket
+            await self.gameLogic(event["frames"], (self.id + 1) % 2)
             if (self.id % 2 == 0):
                 await self.send(text_data=json.dumps({
                     "type": "opponentState",
