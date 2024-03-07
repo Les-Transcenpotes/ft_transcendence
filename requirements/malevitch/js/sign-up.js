@@ -1,3 +1,12 @@
+// Font size
+
+document.querySelector('.sign-up-font-size').addEventListener('input', function () {
+	var	newSize = this.value;
+
+	updateFontSizeOfPage(document.querySelector('.sign-up'), newSize - prevFontSize);
+	prevFontSize = newSize;
+});
+
 // Pre-fill input with nickname.
 
 function getSignUpNickname(nickname) {
