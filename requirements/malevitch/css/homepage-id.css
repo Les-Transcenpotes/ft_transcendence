@@ -1,10 +1,20 @@
-/* logo */
-
 .homepage-id div:first-child{
 	top: 30%;
 }
 
+.homepage-id div:nth-child(2) {
+	top: 50%;
+}
+
 .homepage-id-font-size-box {
-	top: 65%;
-	width: 20%;
+	margin-top: 5%;
+	width: 40%;
+}
+
+.homepage-id-input {
+	font-size: 12pt;
+}
+
+.homepage-id-input-warning {
+	font-size: 13pt;
 }

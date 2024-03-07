@@ -1,3 +1,15 @@
+// Font size
+
+document.querySelector('.homepage-id-font-size').addEventListener('input', function () {
+	var	newSize = this.value;
+	var	nickInput = document.querySelector('.homepage-id-input');
+	var	warning = document.querySelector('.homepage-id-input-warning');
+
+	updateFontSize(nickInput, newSize - prevFontSize);
+	updateFontSize(warning, newSize - prevFontSize);
+	prevFontSize = newSize;
+});
+
 // Input box nickname filling.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {

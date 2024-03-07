@@ -65,12 +65,6 @@ body {
 	outline: 0;
 }
 
-/* input container */
-
-.input-container {
-	top: 50%;
-}
-
 /* text input */
 
 .input-box {
@@ -90,6 +84,7 @@ body {
 
 .input {
 	color: #7300E6;
+	font-size: 12pt;
 }
 
 .input::placeholder {
@@ -168,10 +163,11 @@ body {
 }
    
 .range-input::-moz-range-thumb {
-	border-width: 3px;
-	border-style: solid;
-	border-color: #7300E6;
-	background: rgba(115, 0, 230, 0.75);
+	outline-width: 5px;
+	outline-offset: -3px;
+	outline-style: solid;
+	outline-color: #7300E6;
+	background: #FFFFFF;
 	height: 15px;
 	width: 15px;
 	border-radius: 50%;

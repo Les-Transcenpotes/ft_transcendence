@@ -1,5 +1,6 @@
 // Global variables.
 let userId;
+let	prevFontSize = 0;
 
 // Translation functions.
 
@@ -155,4 +156,15 @@ function togglePasswordView(container) {
 		input.setAttribute('type', 'password');
 		icon.setAttribute('src', 'assets/general/view-purple.png');
 	}
+}
+
+//
+
+function updateFontSize(element, difference) {
+	var computedStyle = window.getComputedStyle(element);
+	var fontSizeInPx = parseFloat(computedStyle.fontSize);
+	var fontSizeInPt = fontSizeInPx * (72 / 96);
+	fontSizeInPt += 2 * difference;
+	var newFontSizeInPx = fontSizeInPt * (96 / 72);
+	element.style.fontSize = newFontSizeInPx + "px";
 }
