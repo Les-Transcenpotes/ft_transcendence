@@ -2,11 +2,8 @@
 
 document.querySelector('.homepage-id-font-size').addEventListener('input', function () {
 	var	newSize = this.value;
-	var	nickInput = document.querySelector('.homepage-id-input');
-	var	warning = document.querySelector('.homepage-id-input-warning');
 
-	updateFontSize(nickInput, newSize - prevFontSize);
-	updateFontSize(warning, newSize - prevFontSize);
+	updateFontSizeOfPage(document.querySelector('.homepage-id'), newSize - prevFontSize);
 	prevFontSize = newSize;
 });
 
@@ -79,6 +76,11 @@ function submitNickname(nickname) {
 				userId = data.Id;
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
+			// Update language content
+			switchNextLanguageFromPreviousSelector('.homepage-id', next);
+			// Update accessibility content
+			switchNextFontSizeFromPreviousSelector('.homepage-id', next);
+			// Update history
 			next = next.replace('.', '');
 			// history.pushState({ path: next }, null, next);
 		})
@@ -86,6 +88,6 @@ function submitNickname(nickname) {
 			console.error('Fetch problem:', error.message);
 		});
 
-	switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
+	// If sign in screen
 	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 }

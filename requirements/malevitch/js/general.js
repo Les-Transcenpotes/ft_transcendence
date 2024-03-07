@@ -158,7 +158,7 @@ function togglePasswordView(container) {
 	}
 }
 
-//
+// Font size functions
 
 function updateFontSize(element, difference) {
 	var computedStyle = window.getComputedStyle(element);
@@ -167,4 +167,25 @@ function updateFontSize(element, difference) {
 	fontSizeInPt += 2 * difference;
 	var newFontSizeInPx = fontSizeInPt * (96 / 72);
 	element.style.fontSize = newFontSizeInPx + "px";
+}
+
+function updateFontSizeOfPage(element, size) {
+	var	computedStyle = window.getComputedStyle(element);
+	var	elementFontSize = computedStyle.fontSize;
+	if (elementFontSize !== '' && parseFloat(elementFontSize) > 0) {
+		updateFontSize(element, size);
+	}
+
+	for (let child of element.children) {
+		updateFontSizeOfPage(child, size);
+	}
+}
+
+function switchNextFontSizeFromPreviousSelector(previous, next) {
+	var	prevFontSizeInput = document.querySelector(previous + '-font-size');
+	var	nextFontSizeInput = document.querySelector(next + '-font-size');
+
+	nextFontSizeInput.value = prevFontSizeInput.value;
+	
+	updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
 }

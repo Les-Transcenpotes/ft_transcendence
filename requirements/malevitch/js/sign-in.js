@@ -1,3 +1,12 @@
+// Font size
+
+document.querySelector('.sign-in-font-size').addEventListener('input', function () {
+	var	newSize = this.value;
+
+	updateFontSizeOfPage(document.querySelector('.sign-in'), newSize - prevFontSize);
+	prevFontSize = newSize;
+});
+
 // History management.
 
 window.addEventListener('popstate', function(e) {

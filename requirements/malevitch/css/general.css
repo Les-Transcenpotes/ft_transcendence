@@ -1,5 +1,6 @@
 * {
 	font-family: "Syne", sans-serif;
+	font-size: 0pt;
 }
 
 body {
@@ -148,17 +149,21 @@ body {
    
 .range-input::-webkit-slider-thumb {
 	-webkit-appearance: none;
-	background: #f00;
-	border: none;
-	height: 20px;
-	width: 20px;
+	outline-width: 5px;
+	outline-offset: -3px;
+	outline-style: solid;
+	outline-color: #7300E6;
+	background: #FFFFFF;
+	height: 15px;
+	width: 15px;
 	border-radius: 50%;
 	cursor: pointer;
 }
    
 /* Firefox */
 .range-input::-moz-range-track {
-	background: #ddd;
+	background: #B77DEE;
+	border-radius: 2px;
 	height: 4px;
 }
    

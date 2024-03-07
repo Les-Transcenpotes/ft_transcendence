@@ -58,38 +58,45 @@
 			<div class="container position-absolute start-50 translate-middle">
 				<img src="assets/general/batch-purple.svg" alt="BATCH logo" draggable="false" (dragstart)="false;" class="w-100 purple-shadow unselectable">
 			</div>
-			<div class="sign-in-message d-flex text-center justify-content-center align-items-center w-50 position-absolute text-shadow" data-language="sign-in-message">Hello, user !</div>
-			<div class="sign-in-input-container input-container d-flex justify-content-center w-50 position-absolute">
-				<div class="sign-in-language-selector language-selector purple-shadow">
-					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
-						<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
-					</button>
-					<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
-						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-							<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
-						</a></li>
-						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-							<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
-						</a></li>
-					</ul>
-				</div>
-				<div class="w-50 d-flex flex-column justify-content-center align-items-center">
-					<div class="sign-in-input-box input-box input-box w-100 d-flex justify-content-between align-items-center bg-white purple-shadow">
-						<label for="sign-in-input" data-language="password" class="visually-hidden">Enter your password...</label>
-						<input id="sign-in-input" type="password" name="password" label="password" data-language="password" placeholder="Enter your password..." autocomplete="off" class="sign-in-input input w-100 border-0 text-center">
-						<button type="button" value="" class="border-0 bg-transparent position-absolute d-flex align-items-center justify-content-center">
-							<img src="assets/general/view-purple.png" alt="view password">
+			<div class="d-flex flex-column justify-content-center align-items-center w-50 position-absolute">
+				<div class="sign-in-message d-flex text-center justify-content-center align-items-center w-100 text-shadow" data-language="sign-in-message">Hello, user !</div>
+				<div class="sign-in-input-container input-container d-flex justify-content-center w-100">
+					<div class="sign-in-language-selector language-selector purple-shadow">
+						<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
+							<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
 						</button>
+						<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
+							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+								<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+							</a></li>
+							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+								<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+							</a></li>
+						</ul>
 					</div>
-					<div class="sign-in-input-warning input-warning w-100 visually-hidden text-center" data-language="invalid-password">Invalid password.</div>
+					<div class="w-50 d-flex flex-column justify-content-center align-items-center">
+						<div class="sign-in-input-box input-box input-box w-100 d-flex justify-content-between align-items-center bg-white purple-shadow">
+							<label for="sign-in-input" data-language="password" class="visually-hidden">Enter your password...</label>
+							<input id="sign-in-input" type="password" name="password" label="password" data-language="password" placeholder="Enter your password..." autocomplete="off" class="sign-in-input input w-100 border-0 text-center">
+							<button type="button" value="" class="border-0 bg-transparent position-absolute d-flex align-items-center justify-content-center">
+								<img src="assets/general/view-purple.png" alt="view password">
+							</button>
+						</div>
+						<div class="sign-in-input-warning input-warning w-100 visually-hidden text-center" data-language="invalid-password">Invalid password.</div>
+					</div>
+					<button type="button" value="" class="sign-in-submit submit border-0 purple-shadow d-flex align-items-center justify-content-center">
+						<img src="assets/general/right-arrow-white.svg" alt="→" draggable="false" (dragstart)="false;" class="unselectable">
+					</button>
 				</div>
-				<button type="button" value="" class="sign-in-submit submit border-0 purple-shadow d-flex align-items-center justify-content-center">
-					<img src="assets/general/right-arrow-white.svg" alt="→" draggable="false" (dragstart)="false;" class="unselectable">
-				</button>
+				<div class="sign-in-other-nickname w-100 text-center text-shadow"><a href="#" role="button" data-language="other-nickname">
+					Sign in using another nickname
+				</a></div>
+				<div class="sign-in-font-size-box font-size-box d-flex justify-content-center align-items-center">
+					<img src="assets/general/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
+					<label for="sign-in-font-size" data-language="font-size" class="visually-hidden">Font size</label>
+					<input type="range" name="font-size" id="sign-in-font-size" class="sign-in-font-size range-input" min="0" max="5" value="0">
+				</div>
 			</div>
-			<div class="sign-in-other-nickname w-100 text-center position-absolute text-shadow"><a href="#" role="button" data-language="other-nickname">
-				Sign in using another nickname
-			</a></div>
 		</div>
 		<!-- SIGN UP -->
 		<div class="sign-up d-flex justify-content-center align-items-center visually-hidden">

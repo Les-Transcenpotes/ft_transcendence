@@ -5,22 +5,44 @@
 	width: 35%;
 }
 
+/*  */
+
+.sign-in div:nth-child(2) {
+	top: 34%;
+}
+
 /* sign in message */
 
 .sign-in-message {
-	top: 34%;
 	height: 46px;
 	color: #7300E6;
 	font-size: 32pt;
 }
 
+.sign-in-message b {
+	font-size: 32pt;
+}
+
+/* input container */
+
+.sign-in-input-container {
+	margin-top: 5%;
+}
+
 /* sign in with another nickname */
 
 .sign-in-other-nickname {
-	top: 65%;
+	margin-top: 5%;
 }
 
 .sign-in-other-nickname a {
 	color:#7300E6;
 	font-size: 14pt;
+}
+
+/* font size */
+
+.sign-in-font-size-box {
+	margin-top: 5%;
+	width: 40%;
 }
