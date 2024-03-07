@@ -234,6 +234,7 @@ function playerCollision(ball, player, playerStyle) {
     } else if (player.name === "opponent") {
         ball.angle = Math.PI + (Math.PI / 4) * impactToMid;
     }
+    ball.speed *= 1.1;
 }
 
 function normAngle(angle) {

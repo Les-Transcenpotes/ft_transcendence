@@ -19,7 +19,6 @@ class Consumer(AsyncWebsocketConsumer):
         if (self.roomName not in matches):
             matches[self.roomName] = Match()
 
-        # Join room group
         await self.channel_layer.group_add(self.roomName, self.channel_name)
 
         self.myMatch = matches[self.roomName]
@@ -28,19 +27,17 @@ class Consumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Leave room group
         global matches
 
         del self.myMatch.players[self.id]
         await self.channel_layer.group_discard(self.roomName, self.channel_name)
 
-    # Receive message from WebSocket
+    # Receive message from front
     async def receive(self, text_data):
         global matches
 
         gameDataJson = json.loads(text_data)
         self.type = gameDataJson["type"]
-        # Game logic here !
 
         # Send to room group
         if (self.type == "gameStart"):
@@ -125,6 +122,7 @@ class Consumer(AsyncWebsocketConsumer):
     async def myState(self, event):
         global matches
 
+        # Received from me
         if (event["id"] == self.id):
             await self.gameLogic(event["frames"], self.id)
             if (self.id % 2 == 0):
@@ -141,7 +139,8 @@ class Consumer(AsyncWebsocketConsumer):
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
             }))
-                
+
+        # Received from opponent 
         else:
             await self.gameLogic(event["frames"], (self.id + 1) % 2)
             if (self.id % 2 == 0):
