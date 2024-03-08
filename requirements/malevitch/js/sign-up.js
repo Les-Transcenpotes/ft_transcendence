@@ -3,8 +3,8 @@
 document.querySelector('.sign-up-font-size').addEventListener('input', function () {
 	var	newSize = this.value;
 
-	updateFontSizeOfPage(document.querySelector('.sign-up'), newSize - prevFontSize);
-	prevFontSize = newSize;
+	updateFontSizeOfPage(document.querySelector('.sign-up'), newSize - g_prevFontSize);
+	g_prevFontSize = newSize;
 });
 
 // Pre-fill input with nickname.
@@ -266,6 +266,8 @@ async function submitCreateAccount() {
 	var	email = document.querySelector('.sign-up-email-input').value;
 	var	password = document.querySelector('.sign-up-password-input').value;
 
+	g_userNick = nick;
+
 	try {
 		const response = await fetch('/petrus/auth/signup', {
 			method: "POST",
@@ -296,6 +298,8 @@ document.querySelector('.sign-up-sign-in a').addEventListener('click', function 
 	// Switch page and go back to homepage-id.
 	document.querySelector('.sign-up').classList.add('visually-hidden');
 	document.querySelector('.homepage-id').classList.remove('visually-hidden');
+	switchNextFontSizeFromPreviousSelector('.sign-up', '.homepage-id');
+	switchNextLanguageFromPreviousSelector('.sign-up', '.homepage-id');
 	// Clear the homepage-id-input
 	document.querySelector('.homepage-id-input').value = '';
 	// Clear the inputs on previous sign up screen
