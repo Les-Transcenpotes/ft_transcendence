@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Build and Start Docker Services
         run: |
-          docker compose docker-compose.yml up --build
+          docker-compose docker-compose.yml up --build
 
   run-tests:
     name: Run Tests
@@ -48,4 +48,4 @@ jobs:
     needs: run-tests
     steps:
       - name: Stop Docker Services
-        run: docker compose docker-compose.yml down
+        run: docker-compose docker-compose.yml down
