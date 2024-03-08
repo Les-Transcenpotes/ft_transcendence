@@ -77,6 +77,10 @@ class signupView(View):
         hashed_password = bcrypt.hashpw(
             password.encode('utf-8'),
             bcrypt.gensalt()).decode('utf-8')
+        if Client.objects.filter(email=email).exists():
+            return JsonResponse({"Err": "known email"})
+        if Client.objects.filter(nick=nickname).exists():
+            return JsonResponse({"Err": "nick unavalable"})
         try:
             client = Client.objects.create(
                 password=hashed_password, email=email, nick=nickname)
