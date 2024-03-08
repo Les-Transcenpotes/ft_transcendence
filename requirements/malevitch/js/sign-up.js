@@ -272,7 +272,7 @@ async function submitCreateAccount() {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({nick: nick, email:email, pass: password,}),
+			body: JSON.stringify({Nick: nick, Email:email, Pass: password,}),
 		});
 
 		const result = await response.json();

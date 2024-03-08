@@ -62,7 +62,7 @@ document.querySelector('.sign-in-input').addEventListener('keypress', function(e
 // Submit password using button.
 
 document.querySelector('.sign-in-submit').addEventListener('click', function() {
-	var	input = document.querySelector('.homepage-id-input');
+	var	input = document.querySelector('.sign-in-input');
 
 	submitPassword(input.value);
 });
@@ -73,6 +73,7 @@ async function submitPassword(password) {
 	var	nickname = document.querySelector('.sign-in-message b').textContent;
 	nickname = nickname.trim();
 
+	console.log(password);
 	try {
 		const response = await fetch('/petrus/auth/signin/' + nickname, {
 			method: "POST",

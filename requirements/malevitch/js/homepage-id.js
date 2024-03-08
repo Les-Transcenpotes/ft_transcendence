@@ -74,6 +74,7 @@ function submitNickname(nickname) {
 			else {
 				next = '.sign-in';
 				userId = data.Id;
+				document.querySelector('.sign-in-input').focus();
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
 			// Update language content
