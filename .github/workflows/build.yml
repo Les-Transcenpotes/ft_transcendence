@@ -49,9 +49,3 @@ jobs:
     steps:
       - name: Stop Docker Services
         run: make down
-
-stages:
-  - build-check
-  - start-services
-  - run-tests
-  - stop-services
