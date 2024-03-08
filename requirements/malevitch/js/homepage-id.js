@@ -3,8 +3,8 @@
 document.querySelector('.homepage-id-font-size').addEventListener('input', function () {
 	var	newSize = this.value;
 
-	updateFontSizeOfPage(document.querySelector('.homepage-id'), newSize - prevFontSize);
-	prevFontSize = newSize;
+	updateFontSizeOfPage(document.querySelector('.homepage-id'), newSize - g_prevFontSize);
+	g_prevFontSize = newSize;
 });
 
 // Input box nickname filling.
@@ -56,6 +56,7 @@ document.querySelector('.homepage-id-submit').addEventListener('click', function
 function submitNickname(nickname) {
 	var	next;
 
+	g_userNick = nickname;
 	document.querySelector('.homepage-id').classList.add('visually-hidden');
 
 	fetch('/petrus/auth/signin/' + nickname)
@@ -73,7 +74,7 @@ function submitNickname(nickname) {
 			}
 			else {
 				next = '.sign-in';
-				userId = data.Id;
+				g_userId = data.Id;
 				document.querySelector('.sign-in-input').focus();
 			}
 			document.querySelector(next).classList.remove('visually-hidden');

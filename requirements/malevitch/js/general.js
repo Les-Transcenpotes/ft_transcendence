@@ -1,6 +1,7 @@
 // Global variables.
-let userId;
-let	prevFontSize = 0;
+let g_userId;
+let	g_userNick;
+let	g_prevFontSize = 0;
 
 // Translation functions.
 
@@ -62,13 +63,14 @@ function switchNextLanguageFromPreviousSelector(previous, next) {
 			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
 		}
 		else if (nextSelectorButtons[1].getAttribute('alt') === locale) {
-			nextSelectorButtons[0].setAttribute('src', nextSelectorImgSrc);
-			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
+			nextSelectorButtons[1].setAttribute('src', nextSelectorImgSrc);
+			nextSelectorButtons[1].setAttribute('alt', nextSelectorImgAlt);
+		}
+		else {
+			nextSelectorButtons[2].setAttribute('src', nextSelectorImgSrc);
+			nextSelectorButtons[2].setAttribute('alt', nextSelectorImgAlt);
 		}
 	}
-
-	// switchLanguageContent(locale);
-	// switchLanguageAttr(locale, 'placeholder');
 }
 
 // Language selector : updates the page language / updates the selector images.
