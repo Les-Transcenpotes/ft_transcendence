@@ -6,14 +6,52 @@ on:
       - dev
 
 jobs:
-  build-check:
-    name: Check Build
+  checkout-code:
+    name: Checkout Code
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-        
-    - name: Build Project
-      run: |
-        make build
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+  start-services:
+    name: Start Docker Services
+    runs-on: ubuntu-latest
+    needs: checkout-code
+    steps:
+      - name: Build and Start Docker Services
+        run: |
+          make
+
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: start-services
+    steps:
+      - name: Run Tests
+        run: |
+          if curl -ksSf https://localhost:8000/davinci/ >/dev/null; then
+            echo "Grafana is up and running."
+          else
+            echo "Grafana is not running."
+            exit 1
+          fi
+          if curl -ksSf https://localhost:8000/mensura/ >/dev/null; then
+            echo "Prometheus is up and running."
+          else
+            echo "Prometheus is not running."
+            exit 1
+          fi
+
+  stop-services:
+    name: Stop Docker Services
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - name: Stop Docker Services
+        run: make down
+
+stages:
+  - build-check
+  - start-services
+  - run-tests
+  - stop-services
