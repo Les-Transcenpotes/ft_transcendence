@@ -7,6 +7,8 @@ DOCKER_FILE		=	docker-compose.yml
 VOLUMES_DIR		=	front_db auth_db game_db
 VOLUMES_PATH	=	$(HOME)/data/transcendence_data
 VOLUMES			=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
+DJANGO_CTT			=	alfred coubertin cupidon hermes lovelace ludo mnemosine petrus
+
 
 #---- docker commands -------------------------------------------------#
 
@@ -20,16 +22,16 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | volumes
+debug: | migrate volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
-all: | volumes
+all: | migrate volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
-up: | volumes
+up: | migrate volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
 
-build: | volumes
+build: | migrate volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) build
 
 down:
@@ -37,6 +39,10 @@ down:
 
 volumes:
 	mkdir -p $(VOLUMES)
+
+migrate:
+	./tools/shared.sh $(DJANGO_CTT)
+	./tools/migrate.sh $(DJANGO_CTT)
 
 #---- debug ----#
 
@@ -94,5 +100,5 @@ re: down debug
 .SILENT:
 .DEFAULT: debug
 # pour la prod: remettre all
-.PHONY: all up build down volumes debug clean fclean prune re
+.PHONY: all up build down volumes migrate debug clean fclean prune re
 
