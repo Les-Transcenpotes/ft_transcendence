@@ -31,10 +31,13 @@ ALLOWED_HOSTS = ['localhost', 'batch42.me', 'petrus']
 
 INSTALLED_APPS = [
     "signin",
+    "django_prometheus",
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'shared.Middleware.JWTIdentificationMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'petrus_project.urls'
