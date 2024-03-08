@@ -23,7 +23,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         self.myMatch = matches[self.roomName]
         self.id = len(self.myMatch.players)
-        self.gameSettings = gameSettings(0, 0, 0, 0, 0) # Voir si on peut faire autrement
+        self.gameSettings = gameSettings() # Voir si on peut faire autrement
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -44,11 +44,6 @@ class Consumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.roomName, {
                     "type": self.type,
-                    "playerHeight": gameDataJson["playerHeight"],
-                    "playerWidth": gameDataJson["playerWidth"],
-                    "screenHeight": gameDataJson["screenHeight"],
-                    "screenWidth": gameDataJson["screenWidth"],
-                    "ballSize": gameDataJson["ballSize"],
                 }
             )
 
@@ -66,9 +61,15 @@ class Consumer(AsyncWebsocketConsumer):
 
         print("This is from the gameStart function")
 
-        self.gameSettings = gameSettings(event["screenHeight"], event["screenWidth"], event["playerHeight"], event["playerWidth"], event["ballSize"]) #Changer les valeurs plutot aue de creer un nouvel objet ?
         self.myMatch.players.append(Player(self.id, self.gameSettings))
         self.myMatch.ball = Ball(self.gameSettings)
+        await self.send (text_data=json.dumps({
+            "type": "gameParameters",
+            "playerHeight": self.gameSettings.playerHeight,
+            "playerWidth": self.gameSettings.playerWidth,
+            "ballSize": self.gameSettings.ballSize,
+            "ballSpeed": self.myMatch.ball.speed,
+        }))
 
     async def updateScore(self, event):
         await self.send (text_data=json.dumps({

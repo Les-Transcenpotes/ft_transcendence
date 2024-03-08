@@ -4,15 +4,15 @@
     <head>
         <style>
             .ball {
-                height: 25px;
-                width: 25px;
+                height: 13px;
+                width: 13px;
                 background-color: #bbb;
                 border-radius: 50%;
                 position: absolute;
             }
             .player {
-                height: 180px;
-                width: 20px;
+                height: 72px;
+                width: 9px;
                 background-color: #000000;
                 position: absolute;
             }
@@ -84,10 +84,28 @@ const ballStyle = getComputedStyle(htmlBall);
 const meStyle = getComputedStyle(htmlme);
 const opponentStyle = getComputedStyle(htmlopponent);
 
-const screenHeight = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
-const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-htmlopponent.style.left = screenWidth - parseInt(meStyle.width, 10) - 10 + 'px';
+const tmpScreenHeight = window.innerHeight|| document.documentElement.clientHeight|| document.body.clientHeight;
+const tmpScreenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+ratio1 = tmpScreenHeight / 1080;
+ratio2 = tmpScreenWidth / 1920;
+const ratio = Math.min(ratio1, ratio2);
 
+var screenHeight = tmpScreenHeight
+var screenWidth = tmpScreenWidth
+if (ratio == ratio1) {
+    screenHeight = tmpScreenHeight;
+    screenWidth = screenHeight * 1920 / 1080;
+} else {
+    screenWidth = tmpScreenWidth;
+    screenHeight = screenWidth * 1080 / 1920;
+}
+
+console.log("tmpScreenHeight is: " + tmpScreenHeight.toString());
+console.log("tmpScreenWidth is: " + tmpScreenWidth.toString());
+console.log("screenHeight is: " + screenHeight.toString());
+console.log("screenWidth is: " + screenWidth.toString());
+
+htmlopponent.style.left = screenWidth - parseInt(meStyle.width, 10) - 10 + 'px';
 
 /***************************************** Classes *****************************************/
 
@@ -111,9 +129,10 @@ class Player {
 class Ball {
     constructor() {
         this.pos = {x: screenWidth / 2, y: screenHeight / 2};
-        this.speed = screenHeight / 500;
+        this.speedStart = 0; // Non !
+        this.speed = 0
         this.angle = Math.PI;
-        this.size = screenHeight / 100;
+        this.size = 0; // Non !
     }
     move() {
         this.pos['x'] += this.speed * Math.cos(this.angle);
@@ -121,9 +140,8 @@ class Ball {
     }
     init() {
         this.pos = {x: screenWidth / 2, y: screenHeight / 2};
-        this.speed = screenHeight / 500;
+        this.speed = this.speedStart; // Non !
         this.angle = Math.PI;
-        this.size = screenHeight / 100;
     }
 }
 
@@ -160,7 +178,7 @@ const socket = new WebSocket('wss://localhost:8000/ludo/pong/ws/' + roomName + '
 
 socket.onopen = function(event) {
     console.log("Socket opened in the front");
-    sendStartGameData("gameStart", screenHeight, screenWidth, parseInt(meStyle.height, 10), parseInt(meStyle.width, 10), parseInt(ballStyle.height, 10)); // Player names maybe ?
+    sendStartGameData("gameStart"); // Player names maybe ?
 };
 
 socket.onclose = function() {
@@ -177,31 +195,45 @@ socket.onmessage = (event) => {
     if (data.type == "youWin" || data.type == "youLose") {
         console.log(data.type); // Sleep pour faire pop une fenetre ?
         window.location.href =  "https://localhost:8000/";
-        return;
     }
 
-    if (data.type == "updateScore") {
+    else if (data.type == "gameStart") {
+        // Display
+        meStyle.height = data.playerHeight * ratio;
+        opponentStyle.height = data.playerHeight * ratio;
+        meStyle.width = data.playerWidth * ratio;
+        opponentStyle.width = data.playerWidth * ratio;
+        ballStyle.height = data.ballSize * ratio;
+        ballStyle.width = data.ballSize * ratio;
+
+        // Actual objects
+        ball.size = data.ballSize * ratio;
+        ball.speedStart = data.ballSpeed * ratio;
+        ball.speed = ball.speedStart;
+    }
+
+    else if (data.type == "updateScore") {
         me.points = data.myScore;
         opponent.points = data.opponentScore;
-        return;
     }
-    if (data.type == "myState")
-        me.pos = data.mePos;
-    else if (data.type == "opponentState")
-        opponent.pos = data.opponentPos
-    ball.pos['x'] = data.ballPosX;
-    ball.pos['y'] = data.ballPosY;
+
+    if (data.type == "myState" || data.type == "opponentState") {
+        if (data.type == "myState") {
+            me.pos = data.mePos * ratio;
+        } else {
+            opponent.pos = data.opponentPos * ratio;
+        }
+        console.log("Pos of ball before back return: x=" + ball.pos['x'].toString() + " y=" + ball.pos['y'].toString());
+        ball.pos['x'] = data.ballPosX * ratio;
+        ball.pos['y'] = data.ballPosY * ratio;
+        console.log("Pos of ball after back return: x=" + ball.pos['x'].toString() + " y=" + ball.pos['y'].toString());
+    }
 };
 
-function sendStartGameData(type, screenHeight, screenWidth, playerHeight, playerWidth, ballSize) {
+function sendStartGameData(type) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     const gameData = {
       type: type,
-      playerHeight: playerHeight,
-      playerWidth: playerWidth,
-      screenHeight: screenHeight,
-      screenWidth: screenWidth,
-      ballSize: ballSize,
     };
   
     // Send the msg object as a JSON-formatted string.
@@ -266,8 +298,8 @@ function gameLoop() {
     document.getElementById("score2").innerHTML = opponent.points.toString();
 
     // Update positions
-    ball.move();
-    me.move(meStyle);
+    // ball.move();
+    // me.move(meStyle);
     frames[i] = {"meUp": me.up, "meDown": me.down};
 
     // Send info to back
@@ -285,19 +317,19 @@ function gameLoop() {
     htmlopponent.style.top = opponent.pos - parseInt(opponentStyle.height, 10) / 2 + 'px';
     
     // Collision with opponent
-    if (ball.pos['x'] >= screenWidth - (parseInt(ballStyle.width, 10) + parseInt(opponentStyle.width, 10)) && isPlayerCollision(ball, opponent, opponentStyle)) {
-        playerCollision(ball, opponent, opponentStyle);
-    }
+    // if (ball.pos['x'] >= screenWidth - (parseInt(ballStyle.width, 10) + parseInt(opponentStyle.width, 10)) && isPlayerCollision(ball, opponent, opponentStyle)) {
+    //     playerCollision(ball, opponent, opponentStyle);
+    // }
     
     // Collision with me
-    if (ball.pos['x'] <= parseInt(ballStyle.width, 10) + parseInt(meStyle.width, 10) && isPlayerCollision(ball, me, meStyle)) {
-        playerCollision(ball, me, meStyle);
-    }
+    // if (ball.pos['x'] <= parseInt(ballStyle.width, 10) + parseInt(meStyle.width, 10) && isPlayerCollision(ball, me, meStyle)) {
+    //     playerCollision(ball, me, meStyle);
+    // }
     
     // Collision with walls
-    if (ball.pos['y'] <= parseInt(ballStyle.height, 10) / 2 || ball.pos['y'] >= screenHeight - parseInt(ballStyle.height, 10) / 2) {
-        ball.angle = - ball.angle;
-    }
+    // if (ball.pos['y'] <= parseInt(ballStyle.height, 10) / 2 || ball.pos['y'] >= screenHeight - parseInt(ballStyle.height, 10) / 2) {
+    //     ball.angle = - ball.angle;
+    // }
 
     i++;
 }

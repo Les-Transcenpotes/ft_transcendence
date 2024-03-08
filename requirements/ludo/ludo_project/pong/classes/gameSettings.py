@@ -1,10 +1,10 @@
 class gameSettings:
-    def __init__(self, screenHeight, screenWidth, playerHeight, playerWidth, ballSize):
-        self.screenHeight = screenHeight
-        self.screenWidth = screenWidth
-        self.playerHeight = playerHeight
-        self.playerWidth = playerWidth
-        self.ballSize = ballSize
+    def __init__(self):
+        self.screenHeight = 1080
+        self.screenWidth = 1920
+        self.playerHeight = self.screenHeight / 15
+        self.playerWidth = self.screenWidth / 200
+        self.ballSize = self.screenWidth / 150
         print("gameSettings are:")
         print("screenHeight: " + str(self.screenHeight))
         print("screenWidth: " + str(self.screenWidth))
