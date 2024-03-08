@@ -1,3 +1,12 @@
+// Font size
+
+document.querySelector('.sign-in-font-size').addEventListener('input', function () {
+	var	newSize = this.value;
+
+	updateFontSizeOfPage(document.querySelector('.sign-in'), newSize - prevFontSize);
+	prevFontSize = newSize;
+});
+
 // History management.
 
 window.addEventListener('popstate', function(e) {
@@ -23,6 +32,8 @@ document.querySelector('.sign-in-other-nickname a').addEventListener('click', fu
 	// Erase the old nickname in sign-in-message.
 	var	newContent = document.querySelector('.sign-in-message').innerHTML.split('<b>')[0];
 	document.querySelector('.sign-in-message').innerHTML = newContent;
+	// Clear the password input in sign-in screen
+	document.querySelector('.sign-in-input').value = '';
 });
 
 // Input box password filling.
@@ -51,7 +62,7 @@ document.querySelector('.sign-in-input').addEventListener('keypress', function(e
 // Submit password using button.
 
 document.querySelector('.sign-in-submit').addEventListener('click', function() {
-	var	input = document.querySelector('.homepage-id-input');
+	var	input = document.querySelector('.sign-in-input');
 
 	submitPassword(input.value);
 });
@@ -62,17 +73,17 @@ async function submitPassword(password) {
 	var	nickname = document.querySelector('.sign-in-message b').textContent;
 	nickname = nickname.trim();
 
+	console.log(password);
 	try {
 		const response = await fetch('/petrus/auth/signin/' + nickname, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({id: userId, pass: password,}),
+			body: JSON.stringify({Id: userId, Pass: password,}),
 		});
 
 		const result = await response.json();
-
 		if ('Err' in result && 'Err' === 'Invalid password') {
 			sendInvalidPassword();
 		}

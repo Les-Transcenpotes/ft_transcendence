@@ -1,3 +1,12 @@
+// Font size
+
+document.querySelector('.sign-up-font-size').addEventListener('input', function () {
+	var	newSize = this.value;
+
+	updateFontSizeOfPage(document.querySelector('.sign-up'), newSize - prevFontSize);
+	prevFontSize = newSize;
+});
+
 // Pre-fill input with nickname.
 
 function getSignUpNickname(nickname) {
@@ -107,24 +116,30 @@ document.querySelector('.sign-up-nickname-input').addEventListener('input', func
 	signUpNickname(this);
 });
 
-function signUpNickname(input) {
+async function signUpNickname(input) {
 	var	warning = document.querySelector('.sign-up-nickname-input-warning');
 	var	locale = document.querySelector('.sign-up-language-selector button img').alt;
 	
 	if (input.value.length > 0) {
 		// Make the following inputs appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
-		if (!warnInvalidNickname(input.value, warning) || !warnUnavailableUserInfo(input.value, 'nickname', warning)) {
-			switchLanguageContent(locale);
-			warning.classList.remove('visually-hidden');
-			document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+		try {
+			const nickAvailability = await warnUnavailableUserInfo(input.value, 'nickname', warning);
+			if (!warnInvalidNickname(input.value, warning) || !nickAvailability) {
+				switchLanguageContent(locale);
+				warning.classList.remove('visually-hidden');
+				document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+			}
+			else {
+				warning.classList.add('visually-hidden');
+				document.querySelector('.sign-up-email-input-box').classList.remove('visually-hidden');
+				signUpEmail(document.querySelector('.sign-up-email-input'));
+			}
 		}
-		else {
-			warning.classList.add('visually-hidden');
-			document.querySelector('.sign-up-email-input-box').classList.remove('visually-hidden');
-			signUpEmail(document.querySelector('.sign-up-email-input'));
+		catch (error) {
+			console.error('Error: ' + error);
 		}
 	} 
 	else {
@@ -141,22 +156,28 @@ document.querySelector('.sign-up-email-input').addEventListener('input', functio
 	signUpEmail(this);
 });
 
-function signUpEmail(input) {
+async function signUpEmail(input) {
 	var	warning = document.querySelector('.sign-up-email-input-warning');
 	var	locale = document.querySelector('.sign-up-language-selector button img').alt;
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen email is valid.
-		if (!warnInvalidEmail(input.value, warning) || !warnUnavailableUserInfo(input.value, 'email', warning)) {
-			switchLanguageContent(locale);
-			warning.classList.remove('visually-hidden');
-			document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+		try {
+			const emailAvailability = await warnUnavailableUserInfo(input.value, 'email', warning);
+			if (!warnInvalidEmail(input.value, warning) || !emailAvailability) {
+				switchLanguageContent(locale);
+				warning.classList.remove('visually-hidden');
+				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+			}
+			else {
+				warning.classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-box').classList.remove('visually-hidden');
+				signUpPassword(document.querySelector('.sign-up-password-input'));
+			}
 		}
-		else {
-			warning.classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-input-box').classList.remove('visually-hidden');
-			signUpPassword(document.querySelector('.sign-up-password-input'));
+		catch(error) {
+			console.error('Error: ' + error);
 		}
 	} 
 	else {
@@ -224,30 +245,6 @@ function signUpPasswordConfirm(input) {
 	}
 }
 
-// Password eye icons
-
-document.querySelector('.sign-up-password-input-box button').addEventListener('click', function() {
-	togglePasswordView(this.parentNode);
-});
-
-document.querySelector('.sign-up-password-confirm-input-box button').addEventListener('click', function() {
-	togglePasswordView(this.parentNode);
-});
-
-function togglePasswordView(container) {
-	var	input = container.querySelector('input');
-	var	icon = container.querySelector('button img');
-
-	if (input.getAttribute('type') == 'password') {
-		input.setAttribute('type', 'text');
-		icon.setAttribute('src', 'assets/general/hidden-purple.png');
-	}
-	else {
-		input.setAttribute('type', 'password');
-		icon.setAttribute('src', 'assets/general/view-purple.png');
-	}
-}
-
 // Submit info and create account
 
 document.querySelectorAll('.sign-up input').forEach(function (item) {
@@ -275,7 +272,7 @@ async function submitCreateAccount() {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({nick: nick, email:email, pass: password,}),
+			body: JSON.stringify({Nick: nick, Email:email, Pass: password,}),
 		});
 
 		const result = await response.json();
@@ -292,3 +289,17 @@ async function submitCreateAccount() {
 		console.error("Error:", error);
 	}
 }
+
+// "I already have an account" button.
+
+document.querySelector('.sign-up-sign-in a').addEventListener('click', function () {
+	// Switch page and go back to homepage-id.
+	document.querySelector('.sign-up').classList.add('visually-hidden');
+	document.querySelector('.homepage-id').classList.remove('visually-hidden');
+	// Clear the homepage-id-input
+	document.querySelector('.homepage-id-input').value = '';
+	// Clear the inputs on previous sign up screen
+	document.querySelector('.sign-up-email-input').value = '';
+	document.querySelector('.sign-up-password-input').value = '';
+	document.querySelector('.sign-up-password-confirm-input').value = '';
+});
