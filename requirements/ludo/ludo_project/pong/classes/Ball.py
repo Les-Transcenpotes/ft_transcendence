@@ -6,13 +6,13 @@ class Ball:
 
     def __init__(self, gameSettings):
         self.pos = [gameSettings.screenWidth / 2, gameSettings.screenHeight / 2]
-        self.speed = gameSettings.screenWidth / 5000
+        self.speed = gameSettings.screenWidth / 2000
         self.angle = m.pi
         self.size = gameSettings.ballSize
 
     def newPoint(self, gameSettings):
         self.pos = [gameSettings.screenWidth / 2, gameSettings.screenHeight / 2]
-        self.speed = gameSettings.screenWidth / 5000
+        self.speed = gameSettings.screenWidth / 2000
         self.angle = m.pi
         self.size = gameSettings.ballSize
 
