@@ -48,6 +48,17 @@
 	white-space: nowrap;
 }
 
+/* sign in */
+
+.sign-up-sign-in {
+	margin-top: 5%;
+}
+
+.sign-up-sign-in a {
+	color:#7300E6;
+	font-size: 14pt;
+}
+
 /* font size */
 
 .sign-up-font-size-box {

@@ -32,6 +32,8 @@ document.querySelector('.sign-in-other-nickname a').addEventListener('click', fu
 	// Erase the old nickname in sign-in-message.
 	var	newContent = document.querySelector('.sign-in-message').innerHTML.split('<b>')[0];
 	document.querySelector('.sign-in-message').innerHTML = newContent;
+	// Clear the password input in sign-in screen
+	document.querySelector('.sign-in-input').value = '';
 });
 
 // Input box password filling.
@@ -77,11 +79,10 @@ async function submitPassword(password) {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({id: userId, pass: password,}),
+			body: JSON.stringify({Id: userId, Pass: password,}),
 		});
 
 		const result = await response.json();
-
 		if ('Err' in result && 'Err' === 'Invalid password') {
 			sendInvalidPassword();
 		}

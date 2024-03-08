@@ -22,7 +22,8 @@
 		"password-too-short": "Your password must contain at least 8 characters.",
 		"password-confirm": "Confirm your password...",
 		"different-passwords": "The passwords are different.",
-		"sign-up": "Sign up"
+		"sign-up": "Sign up",
+		"sign-up-sign-in": "I already have an account"
 	},
 	"fr": {
 		"font-size": "Taille de la police",
@@ -47,7 +48,8 @@
 		"password-too-short": "Votre mot de passe doit contenir au moins 8 caractères.",
 		"password-confirm": "Confirmez votre mot de passe...",
 		"different-passwords": "Les mots de passe sont différents.",
-		"sign-up": "Créer un compte"
+		"sign-up": "Créer un compte",
+		"sign-up-sign-in": "J'ai déjà un compte"
 	},
 	"zh": {
 		"font-size": "字体大小",
@@ -72,7 +74,8 @@
 		"password-too-short": "您的密码必须包含至少 8 个字符。",
 		"password-confirm": "确认你的密码。。。",
 		"different-passwords": "密码不同。",
-		"sign-up": "报名"
+		"sign-up": "报名",
+		"sign-up-sign-in": "我已经有一个帐户"
 	}
 }
  

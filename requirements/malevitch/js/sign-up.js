@@ -116,24 +116,30 @@ document.querySelector('.sign-up-nickname-input').addEventListener('input', func
 	signUpNickname(this);
 });
 
-function signUpNickname(input) {
+async function signUpNickname(input) {
 	var	warning = document.querySelector('.sign-up-nickname-input-warning');
 	var	locale = document.querySelector('.sign-up-language-selector button img').alt;
 	
 	if (input.value.length > 0) {
 		// Make the following inputs appear only when the choosen nickname is valid.
 		// Warn and block invalid characters, or nicknames too short or too long.
-		if (!warnInvalidNickname(input.value, warning) || !warnUnavailableUserInfo(input.value, 'nickname', warning)) {
-			switchLanguageContent(locale);
-			warning.classList.remove('visually-hidden');
-			document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+		try {
+			const nickAvailability = await warnUnavailableUserInfo(input.value, 'nickname', warning);
+			if (!warnInvalidNickname(input.value, warning) || !nickAvailability) {
+				switchLanguageContent(locale);
+				warning.classList.remove('visually-hidden');
+				document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+			}
+			else {
+				warning.classList.add('visually-hidden');
+				document.querySelector('.sign-up-email-input-box').classList.remove('visually-hidden');
+				signUpEmail(document.querySelector('.sign-up-email-input'));
+			}
 		}
-		else {
-			warning.classList.add('visually-hidden');
-			document.querySelector('.sign-up-email-input-box').classList.remove('visually-hidden');
-			signUpEmail(document.querySelector('.sign-up-email-input'));
+		catch (error) {
+			console.error('Error: ' + error);
 		}
 	} 
 	else {
@@ -150,22 +156,28 @@ document.querySelector('.sign-up-email-input').addEventListener('input', functio
 	signUpEmail(this);
 });
 
-function signUpEmail(input) {
+async function signUpEmail(input) {
 	var	warning = document.querySelector('.sign-up-email-input-warning');
 	var	locale = document.querySelector('.sign-up-language-selector button img').alt;
 	
 	if (input.value.length > 0 && !input.classList.contains('visually-hidden')) {
 		// Make the following inputs appear only when the choosen email is valid.
-		if (!warnInvalidEmail(input.value, warning) || !warnUnavailableUserInfo(input.value, 'email', warning)) {
-			switchLanguageContent(locale);
-			warning.classList.remove('visually-hidden');
-			document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+		try {
+			const emailAvailability = await warnUnavailableUserInfo(input.value, 'email', warning);
+			if (!warnInvalidEmail(input.value, warning) || !emailAvailability) {
+				switchLanguageContent(locale);
+				warning.classList.remove('visually-hidden');
+				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+			}
+			else {
+				warning.classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-box').classList.remove('visually-hidden');
+				signUpPassword(document.querySelector('.sign-up-password-input'));
+			}
 		}
-		else {
-			warning.classList.add('visually-hidden');
-			document.querySelector('.sign-up-password-input-box').classList.remove('visually-hidden');
-			signUpPassword(document.querySelector('.sign-up-password-input'));
+		catch(error) {
+			console.error('Error: ' + error);
 		}
 	} 
 	else {
@@ -277,3 +289,17 @@ async function submitCreateAccount() {
 		console.error("Error:", error);
 	}
 }
+
+// "I already have an account" button.
+
+document.querySelector('.sign-up-sign-in a').addEventListener('click', function () {
+	// Switch page and go back to homepage-id.
+	document.querySelector('.sign-up').classList.add('visually-hidden');
+	document.querySelector('.homepage-id').classList.remove('visually-hidden');
+	// Clear the homepage-id-input
+	document.querySelector('.homepage-id-input').value = '';
+	// Clear the inputs on previous sign up screen
+	document.querySelector('.sign-up-email-input').value = '';
+	document.querySelector('.sign-up-password-input').value = '';
+	document.querySelector('.sign-up-password-confirm-input').value = '';
+});
