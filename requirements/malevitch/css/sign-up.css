@@ -23,25 +23,6 @@
 	margin-bottom: 5%;
 }
 
-/* password eye icons */
-
-.sign-up-password-input-box button,
-.sign-up-password-confirm-input-box button {
-	width: 36px;
-	padding: 4px;
-	right: 2%;
-}
-
-.sign-up-password-input-box button:hover,
-.sign-up-password-confirm-input-box button:hover {
-	cursor: pointer;
-}
-
-.sign-up-password-input-box button img,
-.sign-up-password-confirm-input-box button img {
-	width: 100%;
-}
-
 /* language selector */
 
 .sign-up-language-selector button {
@@ -56,6 +37,7 @@
 
 .sign-up-submit p {
 	color: #FFFFFF;
+	font-size: 14pt;
 	font-weight: 700;
 	margin-left: 12px;
 	margin-bottom: 0;
@@ -64,4 +46,22 @@
 .input-container-focused .sign-up-submit {
 	width: fit-content;
 	white-space: nowrap;
+}
+
+/* sign in */
+
+.sign-up-sign-in {
+	margin-top: 5%;
+}
+
+.sign-up-sign-in a {
+	color:#7300E6;
+	font-size: 14pt;
+}
+
+/* font size */
+
+.sign-up-font-size-box {
+	margin-top: 5%;
+	width: 80%;
 }

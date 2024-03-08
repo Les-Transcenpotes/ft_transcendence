@@ -1,5 +1,6 @@
 {
 	"en": {
+		"font-size": "Font size",
 		"nickname": "Enter your nickname...",
 		"nickname-invalid-char": "Your nickname cannot contain symbols other than '_'.",
 		"nickname-too-short": "Your nickname must contain at least 3 characters.",
@@ -21,9 +22,11 @@
 		"password-too-short": "Your password must contain at least 8 characters.",
 		"password-confirm": "Confirm your password...",
 		"different-passwords": "The passwords are different.",
-		"sign-up": "Sign up"
+		"sign-up": "Sign up",
+		"sign-up-sign-in": "I already have an account"
 	},
 	"fr": {
+		"font-size": "Taille de la police",
 		"nickname": "Entrez votre pseudonyme...",
 		"nickname-invalid-char": "Votre pseudonyme ne peut pas contenir de symboles autres que '_'.",
 		"nickname-too-short": "Votre pseudonyme doit contenir au moins 3 caractères.",
@@ -45,9 +48,11 @@
 		"password-too-short": "Votre mot de passe doit contenir au moins 8 caractères.",
 		"password-confirm": "Confirmez votre mot de passe...",
 		"different-passwords": "Les mots de passe sont différents.",
-		"sign-up": "Créer un compte"
+		"sign-up": "Créer un compte",
+		"sign-up-sign-in": "J'ai déjà un compte"
 	},
 	"zh": {
+		"font-size": "字体大小",
 		"nickname": "输入你的名称。。。",
 		"nickname-invalid-char": "您的昵称不能包含“_”以外的符号。",
 		"nickname-too-short": "您的昵称必须包含至少 3 个字符。",
@@ -69,7 +74,8 @@
 		"password-too-short": "您的密码必须包含至少 8 个字符。",
 		"password-confirm": "确认你的密码。。。",
 		"different-passwords": "密码不同。",
-		"sign-up": "报名"
+		"sign-up": "报名",
+		"sign-up-sign-in": "我已经有一个帐户"
 	}
 }
  

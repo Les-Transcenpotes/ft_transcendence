@@ -211,8 +211,8 @@ services:
     networks:
       - atlas
 
-  node_exporter:
-    container_name: node_exporter
+  mensura_exporter:
+    container_name: mensura_exporter
     image: quay.io/prometheus/node-exporter
     volumes:
       - "/:/host:ro,rslave"
@@ -224,6 +224,21 @@ services:
     pid: "host"
     depends_on:
       - aegis
+
+  aegis_exporter:
+    container_name: aegis_exporter
+    image: aegis_exporter
+    build:
+      context: ./requirements/mensura/aegis_exporter
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "9113:9113"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
 
   redis:
     container_name: redis

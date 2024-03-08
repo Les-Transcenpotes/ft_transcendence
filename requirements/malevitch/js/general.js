@@ -1,5 +1,7 @@
 // Global variables.
-let userId;
+let g_userId;
+let	g_userNick;
+let	g_prevFontSize = 0;
 
 // Translation functions.
 
@@ -61,13 +63,14 @@ function switchNextLanguageFromPreviousSelector(previous, next) {
 			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
 		}
 		else if (nextSelectorButtons[1].getAttribute('alt') === locale) {
-			nextSelectorButtons[0].setAttribute('src', nextSelectorImgSrc);
-			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
+			nextSelectorButtons[1].setAttribute('src', nextSelectorImgSrc);
+			nextSelectorButtons[1].setAttribute('alt', nextSelectorImgAlt);
+		}
+		else {
+			nextSelectorButtons[2].setAttribute('src', nextSelectorImgSrc);
+			nextSelectorButtons[2].setAttribute('alt', nextSelectorImgAlt);
 		}
 	}
-
-	// switchLanguageContent(locale);
-	// switchLanguageAttr(locale, 'placeholder');
 }
 
 // Language selector : updates the page language / updates the selector images.
@@ -135,4 +138,56 @@ function warnInvalidNickname(nickname, element) {
 
 function addInfoToElement(info, element) {
 	element.innerHTML = element.textContent + '<b>&nbsp;' + info + '&nbsp;</b>!';
+}
+
+// Password eye icons
+
+document.querySelector('.input-box button').addEventListener('click', function() {
+	togglePasswordView(this.parentNode);
+});
+
+function togglePasswordView(container) {
+	var	input = container.querySelector('input');
+	var	icon = container.querySelector('button img');
+
+	if (input.getAttribute('type') == 'password') {
+		input.setAttribute('type', 'text');
+		icon.setAttribute('src', 'assets/general/hidden-purple.png');
+	}
+	else {
+		input.setAttribute('type', 'password');
+		icon.setAttribute('src', 'assets/general/view-purple.png');
+	}
+}
+
+// Font size functions
+
+function updateFontSize(element, difference) {
+	var computedStyle = window.getComputedStyle(element);
+	var fontSizeInPx = parseFloat(computedStyle.fontSize);
+	var fontSizeInPt = fontSizeInPx * (72 / 96);
+	fontSizeInPt += 2 * difference;
+	var newFontSizeInPx = fontSizeInPt * (96 / 72);
+	element.style.fontSize = newFontSizeInPx + "px";
+}
+
+function updateFontSizeOfPage(element, size) {
+	var	computedStyle = window.getComputedStyle(element);
+	var	elementFontSize = computedStyle.fontSize;
+	if (elementFontSize !== '' && parseFloat(elementFontSize) > 0) {
+		updateFontSize(element, size);
+	}
+
+	for (let child of element.children) {
+		updateFontSizeOfPage(child, size);
+	}
+}
+
+function switchNextFontSizeFromPreviousSelector(previous, next) {
+	var	prevFontSizeInput = document.querySelector(previous + '-font-size');
+	var	nextFontSizeInput = document.querySelector(next + '-font-size');
+
+	nextFontSizeInput.value = prevFontSizeInput.value;
+	
+	updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
 }
