@@ -3,6 +3,7 @@ from pong.classes.Match import matches, Match
 from pong.classes.Player import Player
 from pong.classes.gameSettings import gameSettings
 from pong.classes.Ball import Ball
+import math as m
 import json
 
 # match[self.id] = moi
@@ -132,6 +133,8 @@ class Consumer(AsyncWebsocketConsumer):
                     "mePos": self.myMatch.players[self.id].pos,
                     "ballPosX": self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
+                    "ballSpeed": self.myMatch.ball.speed,
+                    "ballAngle": self.myMatch.ball.angle,
                 }))
             else:
                 await self.send(text_data=json.dumps({
@@ -139,6 +142,8 @@ class Consumer(AsyncWebsocketConsumer):
                     "mePos": self.myMatch.players[self.id].pos,
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
+                    "ballSpeed": self.myMatch.ball.speed,
+                    "ballAngle": m.pi - self.myMatch.ball.angle,
             }))
 
         # Received from opponent 
@@ -150,6 +155,8 @@ class Consumer(AsyncWebsocketConsumer):
                     "opponentPos": self.myMatch.players[(self.id + 1) % 2].pos,
                     "ballPosX": self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
+                    "ballSpeed": self.myMatch.ball.speed,
+                    "ballAngle": self.myMatch.ball.angle,
                 }))
             else:
                 await self.send(text_data=json.dumps({
@@ -157,4 +164,6 @@ class Consumer(AsyncWebsocketConsumer):
                     "opponentPos": self.myMatch.players[(self.id + 1) % 2].pos,
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
+                    "ballSpeed": self.myMatch.ball.speed,
+                    "ballAngle": m.pi - self.myMatch.ball.angle,
                 }))

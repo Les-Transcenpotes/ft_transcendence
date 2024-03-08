@@ -228,6 +228,9 @@ socket.onmessage = (event) => {
         // console.log("Pos of ball before back return: x=" + ball.pos['x'].toString() + " y=" + ball.pos['y'].toString());
         ball.pos['x'] = data.ballPosX * ratio;
         ball.pos['y'] = data.ballPosY * ratio;
+        ball.speed = data.ballSpeed * ratio;
+        ball.angle = data.ballAngle * ratio;
+        // Ajouter vitesse et angle de la balle.
         // console.log("Pos of ball after back return: x=" + ball.pos['x'].toString() + " y=" + ball.pos['y'].toString());
     }
 };
