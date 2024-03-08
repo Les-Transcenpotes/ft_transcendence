@@ -1,5 +1,6 @@
 * {
 	font-family: "Syne", sans-serif;
+	font-size: 0pt;
 }
 
 body {
@@ -65,12 +66,6 @@ body {
 	outline: 0;
 }
 
-/* input container */
-
-.input-container {
-	top: 50%;
-}
-
 /* text input */
 
 .input-box {
@@ -90,6 +85,7 @@ body {
 
 .input {
 	color: #7300E6;
+	font-size: 12pt;
 }
 
 .input::placeholder {
@@ -127,10 +123,81 @@ body {
 	cursor: pointer;
 }
 
-/* invalid nickname warning */
+/* input warning */
 
 .input-warning {
 	margin-top: 16px;
 	color: #E2123C;
 	font-size: 13pt;
+}
+
+/* range input */
+
+.range-input {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+	width: 100%;
+}
+
+/* Chrome, Safari, Edge */
+.range-input::-webkit-slider-runnable-track {
+	background: #ddd;
+	height: 4px;
+}
+   
+.range-input::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	outline-width: 5px;
+	outline-offset: -3px;
+	outline-style: solid;
+	outline-color: #7300E6;
+	background: #FFFFFF;
+	height: 15px;
+	width: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+   
+/* Firefox */
+.range-input::-moz-range-track {
+	background: #B77DEE;
+	border-radius: 2px;
+	height: 4px;
+}
+   
+.range-input::-moz-range-thumb {
+	outline-width: 5px;
+	outline-offset: -3px;
+	outline-style: solid;
+	outline-color: #7300E6;
+	background: #FFFFFF;
+	height: 15px;
+	width: 15px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+/* font size */
+
+.font-size-icon {
+	width: 48px;
+	margin-right: 16px;
+}
+
+/* password eye icons */
+
+.input-box button {
+	width: 36px;
+	padding: 4px;
+	right: 2%;
+}
+
+.input-box button:hover {
+	cursor: pointer;
+}
+
+.input-box button img {
+	width: 100%;
 }

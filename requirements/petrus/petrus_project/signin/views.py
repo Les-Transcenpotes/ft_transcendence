@@ -39,8 +39,8 @@ class signinView(View):
 
     def post(self, request, string: str) -> JsonResponse:
         data = json.load(io.BytesIO(request.body))
-        id = data.get('id', None)
-        password = data.get('pass', None)
+        id = data.get('Id', None)
+        password = data.get('Pass', None)
         if id is None:
             return JsonResponse({"Err", "no id provided"})
 
@@ -67,16 +67,20 @@ class signupView(View):
 
     def post(self, request):
         data = json.load(io.BytesIO(request.body))
-        email = data.get('email', None)
-        nickname = data.get('nick', None)
-        password = data.get('pass', None)
-        accessibility = data.get("accessibility", "default")
+        email = data.get('Email', None)
+        nickname = data.get('Nick', None)
+        password = data.get('Pass', None)
+        accessibility = data.get("Accessibility", "default")
         if password is None or nickname is None or accessibility is None:
             return JsonResponse(
                 {"Err": "all information must be filled"}, status=200)
         hashed_password = bcrypt.hashpw(
             password.encode('utf-8'),
             bcrypt.gensalt()).decode('utf-8')
+        if Client.objects.filter(email=email).exists():
+            return JsonResponse({"Err": "known email"})
+        if Client.objects.filter(nick=nickname).exists():
+            return JsonResponse({"Err": "nick unavalable"})
         try:
             client = Client.objects.create(
                 password=hashed_password, email=email, nick=nickname)

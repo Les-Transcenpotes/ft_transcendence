@@ -1,3 +1,12 @@
+// Font size
+
+document.querySelector('.homepage-id-font-size').addEventListener('input', function () {
+	var	newSize = this.value;
+
+	updateFontSizeOfPage(document.querySelector('.homepage-id'), newSize - g_prevFontSize);
+	g_prevFontSize = newSize;
+});
+
 // Input box nickname filling.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
@@ -47,6 +56,7 @@ document.querySelector('.homepage-id-submit').addEventListener('click', function
 function submitNickname(nickname) {
 	var	next;
 
+	g_userNick = nickname;
 	document.querySelector('.homepage-id').classList.add('visually-hidden');
 
 	fetch('/petrus/auth/signin/' + nickname)
@@ -64,9 +74,15 @@ function submitNickname(nickname) {
 			}
 			else {
 				next = '.sign-in';
-				userId = data.Id;
+				g_userId = data.Id;
+				document.querySelector('.sign-in-input').focus();
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
+			// Update language content
+			switchNextLanguageFromPreviousSelector('.homepage-id', next);
+			// Update accessibility content
+			switchNextFontSizeFromPreviousSelector('.homepage-id', next);
+			// Update history
 			next = next.replace('.', '');
 			// history.pushState({ path: next }, null, next);
 		})
@@ -74,6 +90,6 @@ function submitNickname(nickname) {
 			console.error('Fetch problem:', error.message);
 		});
 
-	switchNextLanguageFromPreviousSelector('.homepage-id', '.sign-in');
+	// If sign in screen
 	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 }
