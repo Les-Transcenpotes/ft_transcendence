@@ -11,13 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build and Start Docker Services
         run: |
             make build
             make up
 
+  test_grafana:
+    name: Test Grafana
+    runs-on: davinci
+    steps:
       - name: Run Tests
         run: |
           if curl -ksSf https://localhost:8000/davinci/ >/dev/null; then
@@ -32,6 +36,3 @@ jobs:
             echo "Prometheus is not running."
             exit 1
           fi
-
-      - name: Stop Docker Services
-        run: make down
