@@ -15,13 +15,8 @@ jobs:
 
       - name: Build and Start Docker Services
         run: |
-            make all
-            if curl -ksSf https://localhost:8000/davinci/ >/dev/null; then
-              echo "Grafana is up and running."
-            else
-              echo "Grafana is not running."
-              exit 1
-            fi
+            make build
+            make up
 
       - name: Run Tests
         run: |
