@@ -76,6 +76,7 @@ function submitNickname(nickname) {
 				next = '.sign-in';
 				g_userId = data.Id;
 				document.querySelector('.sign-in-input').focus();
+				addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 			}
 			document.querySelector(next).classList.remove('visually-hidden');
 			// Update language content
@@ -90,6 +91,4 @@ function submitNickname(nickname) {
 			console.error('Fetch problem:', error.message);
 		});
 
-	// If sign in screen
-	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 }

@@ -142,8 +142,10 @@ function addInfoToElement(info, element) {
 
 // Password eye icons
 
-document.querySelector('.input-box button').addEventListener('click', function() {
-	togglePasswordView(this.parentNode);
+document.querySelectorAll('.input-box button').forEach(function(item) {
+	item.addEventListener('click', function() {
+		togglePasswordView(item.parentNode);
+	})
 });
 
 function togglePasswordView(container) {

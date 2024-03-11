@@ -129,8 +129,11 @@ async function signUpNickname(input) {
 				switchLanguageContent(locale);
 				warning.classList.remove('visually-hidden');
 				document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-email-input-warning').classList.add('visually-hidden');
 				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-warning').classList.add('visually-hidden');
 				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-warning').classList.add('visually-hidden');
 			}
 			else {
 				warning.classList.add('visually-hidden');
@@ -168,7 +171,9 @@ async function signUpEmail(input) {
 				switchLanguageContent(locale);
 				warning.classList.remove('visually-hidden');
 				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-warning').classList.add('visually-hidden');
 				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-warning').classList.add('visually-hidden');
 			}
 			else {
 				warning.classList.add('visually-hidden');
@@ -203,6 +208,7 @@ function signUpPassword(input) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+			document.querySelector('.sign-up-password-confirm-input-warning').classList.add('visually-hidden');
 		}
 		else {
 			warning.classList.add('visually-hidden');
