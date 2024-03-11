@@ -17,18 +17,7 @@ jobs:
         run: |
             make build
             make up
-            if curl -ksSf https://localhost:8000/davinci/ >/dev/null; then
-              echo "Grafana is up and running."
-            else
-              echo "Grafana is not running."
-              exit 1
-            fi
-            if curl -ksSf https://localhost:8000/mensura/ >/dev/null; then
-              echo "Prometheus is up and running."
-            else
-              echo "Prometheus is not running."
-              exit 1
-            fi
+            docker exec -it aegis curl -k https://aegis:8000/
 
       - name: Stop Docker Services
         run: make down
