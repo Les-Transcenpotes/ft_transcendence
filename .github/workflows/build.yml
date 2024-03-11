@@ -15,7 +15,7 @@ jobs:
 
       - name: Build and Start Docker Services
         run: |
-            make
+            make all
 
       - name: Run Tests
         run: |
