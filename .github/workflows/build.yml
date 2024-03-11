@@ -17,22 +17,18 @@ jobs:
         run: |
             make build
             make up
+            if curl -ksSf https://localhost:8000/davinci/ >/dev/null; then
+              echo "Grafana is up and running."
+            else
+              echo "Grafana is not running."
+              exit 1
+            fi
+            if curl -ksSf https://localhost:8000/mensura/ >/dev/null; then
+              echo "Prometheus is up and running."
+            else
+              echo "Prometheus is not running."
+              exit 1
+            fi
 
-  test_grafana:
-    name: Test Grafana
-    runs-on: davinci
-    steps:
-      - name: Run Tests
-        run: |
-          if curl -ksSf https://localhost:8000/davinci/ >/dev/null; then
-            echo "Grafana is up and running."
-          else
-            echo "Grafana is not running."
-            exit 1
-          fi
-          if curl -ksSf https://localhost:8000/mensura/ >/dev/null; then
-            echo "Prometheus is up and running."
-          else
-            echo "Prometheus is not running."
-            exit 1
-          fi
+      - name: Stop Docker Services
+        run: make down

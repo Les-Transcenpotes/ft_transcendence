@@ -2,6 +2,8 @@
 
 FROM    nginx:1-alpine3.18
 
+RUN     apk add curl
+
 #---- ModSecurity -----------------------------------------------------#
 
 #COPY    requirements.txt ./requirements.txt
