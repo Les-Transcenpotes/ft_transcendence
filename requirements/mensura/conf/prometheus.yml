@@ -29,7 +29,7 @@ scrape_configs:
     static_configs:
       - targets: ['mensura:8011']
 
-  - job_name: 'mensura_exporter'
+  - job_name: 'mensura_exporter changed'
     static_configs:
       - targets: ['mensura_exporter:9100']
 

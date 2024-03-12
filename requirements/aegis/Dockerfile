@@ -47,7 +47,7 @@ COPY    conf/modsecurity.conf /etc/nginx/modsec/modsecurity.conf
 COPY    conf/no-http-fingerprint.conf /etc/nginx/modsec/no-http-fingerprint.conf
 #COPY    conf/crs-setup.conf /etc/nginx/modsec/coreruleset-4.0.0/crs-setup.conf
 #COPY    conf/grafana_whitelist.conf /etc/nginx/modsec/grafana_whitelist.conf
-COPY    conf/prometheus_whitelist.conf /etc/nginx/modsec/prometheus_whitelist.conf
+#COPY    conf/prometheus_whitelist.conf /etc/nginx/modsec/prometheus_whitelist.conf
 COPY    conf/proxy.conf /etc/nginx/nginx.conf
 
 #---- config ----------------------------------------------------------#
