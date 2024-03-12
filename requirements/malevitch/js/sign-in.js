@@ -7,20 +7,6 @@ document.querySelector('.sign-in-font-size').addEventListener('input', function 
 	g_prevFontSize = newSize;
 });
 
-// History management.
-
-window.addEventListener('popstate', function(e) {
-    var location = e.state && e.state.path;
-    
-    if (location) {
-        console.log(location);
-    }
-	// else {
-    //     // If there's no state object, navigate back to the previous page
-    //     window.history.back();
-    // }
-});
-
 // Input box password filling.
 
 document.querySelector('.sign-in-input').addEventListener('input', function() {
