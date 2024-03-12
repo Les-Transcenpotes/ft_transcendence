@@ -234,7 +234,7 @@ services:
     volumes:
       - shared_code:/app/shared
     ports:
-      - "9113:9113"
+      - "9913:9913"
     depends_on:
       - aegis
     networks:
