@@ -54,9 +54,12 @@
 	margin-top: 5%;
 }
 
-.sign-up-sign-in a {
+.sign-up-sign-in button {
+	border: 0;
+	background-color: transparent;
 	color:#7300E6;
 	font-size: 14pt;
+	text-decoration: underline;
 }
 
 /* font size */
