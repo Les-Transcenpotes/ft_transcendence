@@ -62,5 +62,5 @@ RUN     mkdir -p /data/nginx/cache &&                                  \
         openssl req -x509 -nodes                                       \
             -out /etc/nginx/ssl/ft_transcendence.crt                   \
             -keyout /etc/nginx/ssl/ft_transcendence.key                \
-            -subj "/C=FR/L=Lyon/CN=batch.42.fr" || \
+            -subj "/C=FR/L=Lyon/CN=batch42.me" || \
             { echo "SSL certification failed"; exit 1; }

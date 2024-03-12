@@ -1,6 +1,31 @@
 // Global variables.
-let userId;
-let	prevFontSize = 0;
+let g_userId;
+let	g_userNick;
+let	g_prevFontSize = 0;
+
+// History routing.
+
+let g_state = {
+	pageToDisplay: ".homepage-id"
+};
+
+function render() {
+	var	pageToDisplay = document.querySelector(g_state.pageToDisplay);
+	pageToDisplay.classList.remove('visually-hidden');
+}
+
+window.history.replaceState(g_state, null, "");
+render(g_state);
+
+window.addEventListener('popstate', function (event) {
+	var	pageToHide = document.querySelector(g_state.pageToDisplay);
+	
+	if (event.state) {
+		pageToHide.classList.add('visually-hidden');
+		g_state = event.state;
+	}
+	render(g_state);
+});
 
 // Translation functions.
 
@@ -62,13 +87,14 @@ function switchNextLanguageFromPreviousSelector(previous, next) {
 			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
 		}
 		else if (nextSelectorButtons[1].getAttribute('alt') === locale) {
-			nextSelectorButtons[0].setAttribute('src', nextSelectorImgSrc);
-			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
+			nextSelectorButtons[1].setAttribute('src', nextSelectorImgSrc);
+			nextSelectorButtons[1].setAttribute('alt', nextSelectorImgAlt);
+		}
+		else {
+			nextSelectorButtons[2].setAttribute('src', nextSelectorImgSrc);
+			nextSelectorButtons[2].setAttribute('alt', nextSelectorImgAlt);
 		}
 	}
-
-	// switchLanguageContent(locale);
-	// switchLanguageAttr(locale, 'placeholder');
 }
 
 // Language selector : updates the page language / updates the selector images.
@@ -135,13 +161,16 @@ function warnInvalidNickname(nickname, element) {
 //
 
 function addInfoToElement(info, element) {
+	element.innerHTML = element.innerHTML.split('<b')[0];
 	element.innerHTML = element.textContent + '<b>&nbsp;' + info + '&nbsp;</b>!';
 }
 
 // Password eye icons
 
-document.querySelector('.input-box button').addEventListener('click', function() {
-	togglePasswordView(this.parentNode);
+document.querySelectorAll('.input-box button').forEach(function(item) {
+	item.addEventListener('click', function() {
+		togglePasswordView(item.parentNode);
+	})
 });
 
 function togglePasswordView(container) {
