@@ -168,6 +168,7 @@ function warnInvalidNickname(nickname, element) {
 function addInfoToElement(info, element) {
 	element.innerHTML = element.innerHTML.split('<b')[0];
 	element.innerHTML = element.textContent + '<b>&nbsp;' + info + '&nbsp;</b>!';
+	updateFontSize(element.querySelector('b'), g_prevFontSize);
 }
 
 // Password eye icons
@@ -193,6 +194,15 @@ function togglePasswordView(container) {
 }
 
 // Font size functions
+
+document.querySelectorAll('.font-size-input').forEach(function(item) {
+	item.addEventListener('input', function () {
+			var	newSize = this.value;
+
+			updateFontSizeOfPage(document.querySelector('body'), newSize - g_prevFontSize);
+			g_prevFontSize = newSize;
+	});
+});
 
 function updateFontSize(element, difference) {
 	var computedStyle = window.getComputedStyle(element);
@@ -223,6 +233,6 @@ function switchNextFontSizeFromPreviousSelector(previous, next) {
 
 		nextFontSizeInput.value = prevFontSizeInput.value;
 		
-		updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
+		// updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
 	}
 }
