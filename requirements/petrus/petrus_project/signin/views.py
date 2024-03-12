@@ -4,6 +4,9 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from shared.jwt import JWT
 import requests
+import json
+import io
+import bcrypt
 
 from signin.models import Client
 
@@ -18,9 +21,6 @@ class signinView(View):
     """ se login """
 
     def get(self, request, string: str):
-
-        request = request
-
         Ava: bool = True
         id: int = -1
         nick: str = "unknown"
@@ -35,24 +35,27 @@ class signinView(View):
             Ava = False
             id = by_nick.unique_id
             nick = by_nick.nick
-        return JsonResponse({"Ava": Ava, "id": id, "nick": nick}, status=200)
+        return JsonResponse({"Ava": Ava, "Id": id, "Nick": nick}, status=200)
 
     def post(self, request, string: str) -> JsonResponse:
-        string = string
-        id = request.POST.get("id")
-        password = request.POST.get("pass")
+        data = json.load(io.BytesIO(request.body))
+        id = data.get('Id', None)
+        password = data.get('Pass', None)
         if id is None:
-            return JsonResponse({"Err", "No id provided"})
+            return JsonResponse({"Err", "no id provided"})
+
+        if password is None:
+            return JsonResponse({"Err", "no password provided"})
         client = Client.objects.filter(unique_id=id).first()
         if client is None:
-            return JsonResponse({"Err", "Invalid id provided"})
+            return JsonResponse({"Err", "invalid id provided"})
 
-        hashedPassword = make_password(password)
-        if client.password != hashedPassword:
-            return JsonResponse({"Err": "Invalid password"})
+        if bcrypt.checkpw(password.encode('utf-8'),
+                          client.password.encode('utf-8')) == False:
+            return JsonResponse({"Err": "invalid password"})
         refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
         jwt = JWT.objectToAccessToken(client)
-        return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
+        return JsonResponse({"Ref": refresh_token, "Auth": jwt}, status=200)
 
 
 class signupView(View):
@@ -63,41 +66,53 @@ class signupView(View):
         return JsonResponse({"Ava": True})
 
     def post(self, request):
-
-        password = request.POST.get("pass")
-        email = request.POST.get("mail")
-        nick = request.POST.get("nick")
-        accessibility = request.POST.get("accessibility")
-
-        if not id or not password or not nick or not accessibility:
+        data = json.load(io.BytesIO(request.body))
+        email = data.get('Email', None)
+        nickname = data.get('Nick', None)
+        password = data.get('Pass', None)
+        accessibility = data.get("Accessibility", "default")
+        if password is None or nickname is None or accessibility is None:
             return JsonResponse(
-                {"Err": "All information must be filled"}, status=200)
-        hashed_password = make_password(accessibility)
-
-        client = Client()
-        client.password = password
-        client.email = email
-        client.nick = nick
-
+                {"Err": "all information must be filled"}, status=200)
+        hashed_password = bcrypt.hashpw(
+            password.encode('utf-8'),
+            bcrypt.gensalt()).decode('utf-8')
+        if Client.objects.filter(email=email).exists():
+            return JsonResponse({"Err": "known email"})
+        if Client.objects.filter(nick=nickname).exists():
+            return JsonResponse({"Err": "nick unavalable"})
         try:
-            client.save()
+            client = Client.objects.create(
+                password=hashed_password, email=email, nick=nickname)
         except IntegrityError as e:
             print("An integrity error occured:", e)
             return JsonResponse({"Err": e}, status=409)
+        request = requests.post(
+            f'http://alfred:8001/user/user-profile/{client.unique_id}',
+            json=client.to_alfred())
+        if request.status_code != 200:
+            return JsonResponse(request)
+
+        # requests.post("http://mnemosine/",  # creation de la ressource dans la table,
+        # json=client.to_mnemosine())
 
         # Alfred -> nickname email accessibility
         # Mnemosine -> id
 
         refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
         jwt = JWT.objectToAccessToken(client)
-
         return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
 
 
 class refreshView(View):
     def get(self, request):
         request = request
-        pass
+        return JsonResponse({"refreshView": "not coded"})
+        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+        jwt = JWT.objectToAccessToken(client)
+        if False:
+            return JsonResponse({"Err": "Invalid refresh token"})
+        return JsonResponse("")
 
 
 """
@@ -137,12 +152,28 @@ class checkInView(View):
         if success == False:
             return JsonResponse({"Error": "Intern database error"})
 
-        response = requests.post("http://alfred:8000/user-managment/new-client/",
-                                 json=newClient.toAlfred())
         return JsonResponse({"status": "success"})
         return JsonResponse({"": ""})
 
 
-def bad(request: HttpRequest):
+def new_view(request, nick: str, mail: str, password: str):
+    client = Client.objects.all().filter(nick=nick).first()
+    # if yo is not None:
+    # yo.delete()
+    # return JsonResponse({"damned": "youpi"})
+
+    print(mail, nick)
+    # client = Client.objects.create(email=mail, password=make_password(password), nick=nick)
+    # client.save()
+    print(client.to_alfred())
+    print(f'http://alfred:8001/user/user-profile/{client.unique_id}')
+    request = requests.post(f'http://alfred:8001/user/user-profile/{client.unique_id}',  # creation de la ressource
+                            json=client.to_alfred())
     print(request)
-    return JsonResponse({"va te faire": "connard"}, status=400)
+    return JsonResponse({"": ""}, safe=False)
+
+
+def test_view(request, password: str) -> JsonResponse:
+    hashed_password = bcrypt.hashpw(
+        password.encode('utf-8'), salt)
+    return JsonResponse({"pass": hashed_password.__str__()})

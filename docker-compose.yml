@@ -17,10 +17,13 @@ services:
       context: ./requirements/aegis
       dockerfile: Dockerfile
     ports:
-      - 7999:80
-      - 8000:443
+      # - "80:80"
+      # - "443:443"
+      - "7999:80"
+      - "8000:443"
     volumes:
       - ./requirements/aegis:/usr/share/nginx/html
+      - /etc/letsencrypt/archive/batch42.me:/etc/letsencrypt/live/batch42.me:r
     networks:
       - aegis guard
       - atlas
@@ -72,6 +75,22 @@ services:
       - shared_code:/app/shared
     ports:
       - "8003:8003"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+
+# Matchmaking container
+  davinci:
+    container_name: davinci
+    image: davinci
+    build:
+      context: ./requirements/davinci
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "8010:8010"
     depends_on:
       - aegis
     networks:
@@ -145,6 +164,22 @@ services:
       - atlas
     restart: on-failure
 
+# Prometheus container
+  mensura:
+    container_name: mensura
+    image: mensura
+    build:
+      context: ./requirements/mensura
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "8011:8011"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+
 # Stats container
   mnemosine:
     container_name: mnemosine
@@ -174,6 +209,35 @@ services:
       - shared_code:/app/shared
     ports:
       - "8009:8009"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+
+  mensura_exporter:
+    container_name: mensura_exporter
+    image: quay.io/prometheus/node-exporter
+    volumes:
+      - "/:/host:ro,rslave"
+    ports:
+      - "9100:9100"
+    command: ["--path.rootfs=/host"]
+    networks:
+      - atlas
+    pid: "host"
+    depends_on:
+      - aegis
+
+  aegis_exporter:
+    container_name: aegis_exporter
+    image: aegis_exporter
+    build:
+      context: ./requirements/mensura/aegis_exporter
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "9913:9913"
     depends_on:
       - aegis
     networks:

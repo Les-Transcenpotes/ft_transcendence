@@ -1,36 +1,122 @@
+from django.contrib.admin.views.autocomplete import JsonResponse
 from django.db import models
 
-# Create your models here.
-# Need to instantiate objects for
 
-
-class User(models.Model):
+class Client(models.Model):
     unique_id = models.BigAutoField(primary_key=True)
-    firstName = models.CharField(max_length=10)
-    lastName = models.CharField(max_length=20)
-    nick = models.CharField(max_length=12, unique=True)
+    nick = models.CharField(max_length=16, unique=True)
     email = models.EmailField()
-    # avatar = models.ImageField('avatars/')
+    avatar = models.ImageField('avatars/', blank=True)
     friends = models.ManyToManyField('self', blank=True)
+
     objects = models.Manager()
 
-    def __init__(self, unique_id, firstName, lastName,
-                 nick, email, *args, **kwargs):
-        super(User, self).__init__(*args, **kwargs)
-        self.unique_id = unique_id
-        self.firstName = firstName
-        self.lastName = lastName
-        self.nick = nick
-        self.email = email
-
     def __str__(self):
-        return self.firstName.__str__()
+        return f"""
+                ${self.nick.__str__()}
+                ${self.email.__str__()}
+                ${self.unique_id.__str__()}
+                """
 
     def to_dict(self):
         return {
-            "unique_id": self.unique_id,
-            "firstName": self.firstName,
-            "lastName": self.lastName,
-            "nick": self.nick,
-            "email": self.email,
+            "Id": self.unique_id,
+            "Nick": self.nick,
+            "Email": self.email,
+            "Friends": self.list_friends(),
         }
+
+    def public_dict(self):
+        return {
+            "Id": self.unique_id,
+            "Nick": self.nick,
+            "Avatar": "avatar"
+        }
+
+    def friends_dict(self):
+        return {
+            "Id": self.unique_id,
+            "Nick": self.nick,
+            "Email": self.email,
+            "Avatar": "avatar"
+        }
+
+    def personal_dict(self):
+        return {
+            "Id": self.unique_id,
+            "Nick": self.nick,
+            "Email": self.email,
+            "Accessibility": "access",
+            "Avatar": "avatar",
+        }
+
+    def list_friends(self):
+        return list([object.friends_dict() for object in self.friends.all()])
+
+
+class FriendshipRequest(models.Model):
+    sender = models.ForeignKey(
+        Client,
+        related_name="request_sended",
+        on_delete=models.CASCADE)
+    receiver = models.ForeignKey(
+        Client,
+        related_name="request_receive",
+        on_delete=models.CASCADE)
+    objects = models.Manager
+
+    def __str__(self):
+        return f"""
+                sender: ${self.sender.__str__()}
+                receiver: ${self.receiver.__str__()}
+                """
+
+    def to_dict(self):
+        return {
+            "sender": [self.sender.nick, self.sender.unique_id],
+            "receiver": [self.receiver.nick, self.receiver.unique_id],
+        }
+
+    @staticmethod
+    def processRequest(sender, receiver) -> JsonResponse:
+        if receiver in sender.friends.all():
+            return JsonResponse({"Err": "redondant request"})
+
+        redondantRequest = FriendshipRequest.objects.filter(
+            sender=sender, receiver=receiver).first()
+        if redondantRequest is not None:
+            return JsonResponse({"Err": "redondant request"})
+
+        pastRequest = FriendshipRequest.objects.filter(
+            sender=receiver, receiver=sender).first()
+        if pastRequest is None:
+            newRequest = FriendshipRequest.objects.create(
+                sender=sender, receiver=receiver)
+            newRequest.save()
+            return JsonResponse({"Friendship": "requested"})
+
+        pastRequest.delete()
+        sender.friends.add(receiver)
+        # Hermes
+        return JsonResponse({"Friendship": "established"})
+
+    @staticmethod
+    def deleteFriendship(emiter, target) -> JsonResponse:
+
+        if target in emiter.friends.all():
+            emiter.friends.remove(target)
+            return JsonResponse({"Friendship": "deleted"})
+
+        oldRequest = FriendshipRequest.objects.filter(
+            sender=emiter, receiver=target)
+        if oldRequest is not None:
+            oldRequest.delete()
+            return JsonResponse({"Friendship": "aborted"})
+
+        oldRequest = FriendshipRequest.objects.filter(
+            sender=target, receiver=emiter)
+        if oldRequest is not None:
+            oldRequest.delete()
+            return JsonResponse({"Friendship": "aborted"})
+
+        return JsonResponse({"Err": "nothing to get deleted"})
