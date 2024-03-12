@@ -1,12 +1,3 @@
-// Font size
-
-document.querySelector('.sign-in-font-size').addEventListener('input', function () {
-	var	newSize = this.value;
-
-	updateFontSizeOfPage(document.querySelector('.sign-in'), newSize - g_prevFontSize);
-	g_prevFontSize = newSize;
-});
-
 // Input box password filling.
 
 document.querySelector('.sign-in-input').addEventListener('input', function() {

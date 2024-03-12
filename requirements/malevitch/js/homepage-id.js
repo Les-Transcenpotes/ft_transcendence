@@ -1,12 +1,3 @@
-// Font size
-
-document.querySelector('.homepage-id-font-size').addEventListener('input', function () {
-	var	newSize = this.value;
-
-	updateFontSizeOfPage(document.querySelector('.homepage-id'), newSize - g_prevFontSize);
-	g_prevFontSize = newSize;
-});
-
 // Input box nickname filling.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
