@@ -30,6 +30,7 @@ services:
     networks:
       - aegis guard
       - atlas
+      - sentinel
     restart: on-failure
 
 # Profil container
@@ -97,7 +98,6 @@ services:
     depends_on:
       - aegis
     networks:
-      - atlas
       - sentinel
 
 # Notification container
