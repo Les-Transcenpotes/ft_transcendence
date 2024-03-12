@@ -161,6 +161,14 @@ def view_db(request):
     clients = [object.to_dict() for object in Client.objects.all()]
     return JsonResponse({"clients": list(clients)})
 
-class avatartView(View):
-    def get(self, request):
-        return
+class avatarView(View):
+    def patch(self, request):
+        sender = Client.objects.get(unique_id=request.user.id)
+        if 'Avatar' in request.FILES:
+            sender.avatar = request.FILES['Avatar']
+            sender.update()
+            return JsonResponse({}, status=201)
+        return JsonResponse({'Err': 'No image provided'})
+
+
+

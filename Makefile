@@ -22,13 +22,13 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | migrate volumes
+debug: | volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
-up: | migrate volumes
+up: | volumes
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
 
 build: | migrate volumes

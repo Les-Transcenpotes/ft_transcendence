@@ -6,7 +6,7 @@ class Client(models.Model):
     unique_id = models.BigAutoField(primary_key=True)
     nick = models.CharField(max_length=16, unique=True)
     email = models.EmailField()
-    avatar = models.ImageField('avatars/', default='avatars/default_avatar.png')
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default_avatar.png')
     friends = models.ManyToManyField('self', blank=True)
 
     objects = models.Manager()
