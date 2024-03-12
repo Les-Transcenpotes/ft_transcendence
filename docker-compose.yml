@@ -7,6 +7,9 @@ networks:
   atlas:
     internal: true
 
+  sentinel:
+    internal: true
+
 services:
 
 # Server proxy
@@ -27,6 +30,7 @@ services:
     networks:
       - aegis guard
       - atlas
+      - sentinel
     restart: on-failure
 
 # Profil container
@@ -94,7 +98,7 @@ services:
     depends_on:
       - aegis
     networks:
-      - atlas
+      - sentinel
 
 # Notification container
   hermes:
@@ -179,6 +183,7 @@ services:
       - aegis
     networks:
       - atlas
+      - sentinel
 
 # Stats container
   mnemosine:
