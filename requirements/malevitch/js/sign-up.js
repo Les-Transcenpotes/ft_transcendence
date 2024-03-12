@@ -1,12 +1,3 @@
-// Font size
-
-document.querySelector('.sign-up-font-size').addEventListener('input', function () {
-	var	newSize = this.value;
-
-	updateFontSizeOfPage(document.querySelector('.sign-up'), newSize - g_prevFontSize);
-	g_prevFontSize = newSize;
-});
-
 // Pre-fill input with nickname.
 
 function getSignUpNickname(nickname) {
@@ -129,8 +120,11 @@ async function signUpNickname(input) {
 				switchLanguageContent(locale);
 				warning.classList.remove('visually-hidden');
 				document.querySelector('.sign-up-email-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-email-input-warning').classList.add('visually-hidden');
 				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-warning').classList.add('visually-hidden');
 				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-warning').classList.add('visually-hidden');
 			}
 			else {
 				warning.classList.add('visually-hidden');
@@ -168,7 +162,9 @@ async function signUpEmail(input) {
 				switchLanguageContent(locale);
 				warning.classList.remove('visually-hidden');
 				document.querySelector('.sign-up-password-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-input-warning').classList.add('visually-hidden');
 				document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+				document.querySelector('.sign-up-password-confirm-input-warning').classList.add('visually-hidden');
 			}
 			else {
 				warning.classList.add('visually-hidden');
@@ -203,6 +199,7 @@ function signUpPassword(input) {
 			switchLanguageContent(locale);
 			warning.classList.remove('visually-hidden');
 			document.querySelector('.sign-up-password-confirm-input-box').classList.add('visually-hidden');
+			document.querySelector('.sign-up-password-confirm-input-warning').classList.add('visually-hidden');
 		}
 		else {
 			warning.classList.add('visually-hidden');

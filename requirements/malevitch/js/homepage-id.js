@@ -1,12 +1,3 @@
-// Font size
-
-document.querySelector('.homepage-id-font-size').addEventListener('input', function () {
-	var	newSize = this.value;
-
-	updateFontSizeOfPage(document.querySelector('.homepage-id'), newSize - g_prevFontSize);
-	g_prevFontSize = newSize;
-});
-
 // Input box nickname filling.
 
 document.querySelector('.homepage-id-input').addEventListener('input', function() {
@@ -54,8 +45,6 @@ document.querySelector('.homepage-id-submit').addEventListener('click', function
 // Submit nickname and redirect to signin or signup.
 
 function submitNickname(nickname) {
-	var	next;
-
 	g_userNick = nickname;
 	document.querySelector('.homepage-id').classList.add('visually-hidden');
 
@@ -68,28 +57,26 @@ function submitNickname(nickname) {
 		})
 		.then (data => {
 			if (data.Ava) {
-				next = '.sign-up';
+				g_state.pageToDisplay = '.sign-up';
 				getSignUpNickname(nickname);
 				document.querySelector('.sign-up-email-input').focus();
 			}
 			else {
-				next = '.sign-in';
+				g_state.pageToDisplay = '.sign-in';
 				g_userId = data.Id;
 				document.querySelector('.sign-in-input').focus();
+				addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 			}
-			document.querySelector(next).classList.remove('visually-hidden');
 			// Update language content
-			switchNextLanguageFromPreviousSelector('.homepage-id', next);
+			switchNextLanguageFromPreviousSelector('.homepage-id', g_state.pageToDisplay);
 			// Update accessibility content
-			switchNextFontSizeFromPreviousSelector('.homepage-id', next);
+			switchNextFontSizeFromPreviousSelector('.homepage-id', g_state.pageToDisplay);
 			// Update history
-			next = next.replace('.', '');
-			// history.pushState({ path: next }, null, next);
+			window.history.pushState(g_state, null, "");
+			render(g_state);
 		})
 		.catch (error => {
 			console.error('Fetch problem:', error.message);
 		});
 
-	// If sign in screen
-	addInfoToElement(nickname, document.querySelector('.sign-in-message'));
 }
