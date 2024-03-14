@@ -4,8 +4,6 @@ from django.views import View
 from django.contrib.auth.hashers import make_password
 from shared.jwt import JWT
 import requests
-import json
-import io
 import bcrypt
 
 from signin.models import Client
@@ -38,7 +36,7 @@ class signinView(View):
         return JsonResponse({"Ava": Ava, "Id": id, "Nick": nick}, status=200)
 
     def post(self, request, string: str) -> JsonResponse:
-        data = json.load(io.BytesIO(request.body))
+        data = request.data
         id = data.get('Id', None)
         password = data.get('Pass', None)
         if id is None:
@@ -66,7 +64,7 @@ class signupView(View):
         return JsonResponse({"Ava": True})
 
     def post(self, request):
-        data = json.load(io.BytesIO(request.body))
+        data = request.data
         email = data.get('Email', None)
         nickname = data.get('Nick', None)
         password = data.get('Pass', None)
