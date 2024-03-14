@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'shared.Middleware.JWTIdentificationMiddleware',
+    'shared.Middleware.RawJsonToDataGetMiddleware',
 ]
 
 ROOT_URLCONF = 'ludo_project.urls'
