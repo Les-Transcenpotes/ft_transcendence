@@ -71,7 +71,7 @@ class RawJsonToDataGetMiddleware:
         if request.method == "GET":
             return None
         try:
-            request.data = json.load(request.body.decode('UTF-8'))
+            request.data = json.loads(request.body.decode('utf-8'))
         except:
             return JsonResponse({"Err": "body is not Json decodable"}, status=400)
         return None
