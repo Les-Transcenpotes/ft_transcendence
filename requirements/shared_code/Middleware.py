@@ -4,6 +4,7 @@ from shared.jwt import JWT
 from .var import public_key
 from .common_classes import User
 import os
+import json
 
 
 
@@ -56,4 +57,21 @@ class ensureIdentificationMiddleware:
     def process_view(self, request, view_func, view_args, view_kwargs):
         if not request.user.is_autenticated:
             return JsonResponse({"Err": request.user.error})
+        return None
+
+class RawJsonToDataGetMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request: HttpRequest):
+        response = self.get_response(request)
+        return response
+
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        if request.method == "GET":
+            return None
+        try:
+            request.data = json.load(request.body.decode('UTF-8'))
+        except:
+            return JsonResponse({"Err": "body is not Json decodable"}, status=400)
         return None
