@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['localhost', 'batch42.me', 'coubertin']
 
 INSTALLED_APPS = [
     'tournament',
-    'create_tournament',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

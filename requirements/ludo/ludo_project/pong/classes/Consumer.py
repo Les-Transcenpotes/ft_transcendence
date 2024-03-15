@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from pong.classes.Match import matches, Match
 from pong.classes.Player import Player
-from pong.classes.gameSettings import gameSettings
+from requirements.ludo.ludo_project.pong.classes.GameSettings import gameSettings
 from pong.classes.Ball import Ball
 import math as m
 import json
@@ -80,6 +80,8 @@ class Consumer(AsyncWebsocketConsumer):
         }))
 
     async def gameEnd(self, event):
+        # requests.post() # Poster direct a la db
+        # Envoyer aussi l'info au tournoi si besoin !
         if (event["winner"] == self.id):
             await self.send (text_data=json.dumps({
                 "type": "youWin",
@@ -92,7 +94,6 @@ class Consumer(AsyncWebsocketConsumer):
                 "myScore": self.myMatch.score[self.id],
                 "opponentScore": self.myMatch.score[(self.id + 1) % 2],
             }))
-        # requests.post() # Poster direct a la db
             
     async def gameLogic(self, frames, id):
         global matches
