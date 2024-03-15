@@ -41,7 +41,6 @@ volumes:
 	mkdir -p $(VOLUMES)
 
 migrate:
-	./tools/shared.sh $(DJANGO_CTT)
 	./tools/migrate.sh $(DJANGO_CTT)
 
 #---- debug ----#

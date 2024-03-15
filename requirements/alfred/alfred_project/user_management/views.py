@@ -23,10 +23,7 @@ class userInfoView(View):
     def patch(self, request, id: int) -> JsonResponse:
         client = Client.objects.get(request.user.id)
         marker: bool = False
-        try:
-            data = json.loads(request.body)
-        except BaseException:
-            return JsonResponse({"Err": "JSON cannot be extracted"})
+        data = request.data
         if "Avatar" in data:
             marker = True
             client.avatar = client["avatar"]
@@ -42,7 +39,7 @@ class userInfoView(View):
 
 class userProfileView(View):
     def post(self, request, id: int) -> JsonResponse:
-        data = json.load(io.BytesIO(request.body))
+        data = request.data
         email = data.get('mail', None)
         nickname = data.get('nick', None)
         unique_id = id
@@ -74,10 +71,7 @@ class userProfileView(View):
         except BaseException:
             return JsonResponse({"Err": "invalid id"})
         marker: bool = False
-        try:
-            data = json.loads(request.body)
-        except BaseException:
-            return JsonResponse({"Err": "JSON cannot be extracted"})
+        data =request.data
         if "Nick" in data:
             marker = True
             client.nick = client["Nick"]

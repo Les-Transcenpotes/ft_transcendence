@@ -1,12 +1,3 @@
-// Font size
-
-document.querySelector('.sign-in-font-size').addEventListener('input', function () {
-	var	newSize = this.value;
-
-	updateFontSizeOfPage(document.querySelector('.sign-in'), newSize - g_prevFontSize);
-	g_prevFontSize = newSize;
-});
-
 // Input box password filling.
 
 document.querySelector('.sign-in-input').addEventListener('input', function() {
@@ -84,7 +75,7 @@ function sendInvalidPassword() {
 
 // "Sign in with another nickname" button.
 
-document.querySelector('.sign-in-other-nickname a').addEventListener('click', function () {
+document.querySelector('.sign-in-other-nickname button').addEventListener('click', function () {
 	// Switch page and go back to homepage-id.
 	document.querySelector('.sign-in').classList.add('visually-hidden');
 	document.querySelector('.homepage-id').classList.remove('visually-hidden');
