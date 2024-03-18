@@ -69,11 +69,8 @@ class RawJsonToDataGetMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        if request.META['CONTENT_LENGTH'] != '0':
-            request.data = {}
-            return None
         try:
             request.data = json.loads(request.body.decode('utf-8'))
-        except:
-            return JsonResponse({"Err": "Body not in raw json"}, status=400)
+        except BaseException as e:
+            request.data = {"Err": e}
         return None
