@@ -1,14 +1,11 @@
 asgiref==3.7.2
 certifi==2024.2.2
-cffi==1.16.0
 charset-normalizer==3.3.2
-cryptography==42.0.5
 Django==5.0.1
 django-filter==23.5
 idna==3.6
 Markdown==3.5.2
 pillow==10.2.0
-pycparser==2.21
 PyJWT==2.8.0
 pytz==2024.1
 requests==2.31.0

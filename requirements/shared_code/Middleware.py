@@ -22,10 +22,11 @@ class JWTIdentificationMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        autorisationJWT = request.META.get('aut')
-        if not autorisationJWT:
+        if not 'Aut' in request.data:
             request.user = User(error="No JWT provided")
             return None
+
+        autorisationJWT = request.data['Aut']
 
         # user = User(nick='me', id=-2)
         # autorisationJWT = JWT.objectToAccessToken(user)
