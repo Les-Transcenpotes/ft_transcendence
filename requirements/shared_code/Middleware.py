@@ -27,10 +27,8 @@ class JWTIdentificationMiddleware:
 
         autorisationJWT = request.data['Aut']
 
-        # user = User(nick='me', id=-2)
-        # autorisationJWT = JWT.objectToAccessToken(user)
-
         decodedJWT = JWT.jwtToPayload(autorisationJWT, self.publicKey)
+
         if isinstance(decodedJWT, str):
             request.user = User(error=decodedJWT)
             return None
