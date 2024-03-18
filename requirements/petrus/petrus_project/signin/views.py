@@ -97,7 +97,7 @@ class signupView(View):
         # Alfred -> nickname email accessibility
         # Mnemosine -> id
 
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+        refresh_token = JWT.objectToRefreshToken(client)
         jwt = JWT.objectToAccessToken(client)
         return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
 
@@ -120,7 +120,9 @@ class refreshView(View):
         if client.exists() == False:
             return JsonResponse({"Err": "invalid refresh_token"})
 
-        jwt = JWT.objectToAccessToken(client)
+        print(decoded_token)
+
+        jwt = JWT.objectToAccessToken(client.first())
         return JsonResponse({"Aut": jwt})
 
 

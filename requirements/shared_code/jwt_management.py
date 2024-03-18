@@ -68,3 +68,7 @@ class JWT:
     @staticmethod
     def objectToAccessToken(object):
         return JWT.payloadToJwt(JWT.toPayload(object), JWT.privateKey)
+
+    @staticmethod
+    def objectToRefreshToken(object):
+        return JWT.payloadToJwt(object.toDict() | {'exp': (datetime.utcnow() + timedelta(days=1))}, JWT.privateKey)
