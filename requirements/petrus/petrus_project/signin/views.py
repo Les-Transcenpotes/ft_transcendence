@@ -104,13 +104,24 @@ class signupView(View):
 
 class refreshView(View):
     def get(self, request):
-        request = request
-        return JsonResponse({"refreshView": "not coded"})
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+        data = request.data
+        if 'Ref' not in data:
+            return JsonResponse({"Err": "no refresh_token provided key: Ref"})
+
+        token = data['Ref']
+        decoded_token = JWT.jwtToPayload(token, JWT.publicKey)
+        if isinstance(decoded_token, str) == True:
+            return JsonResponse({"Err": data})
+
+        if 'id' not in decoded_token:
+            return JsonResponse({"Err": "no id in data"})
+
+        client = Client.objects.filter(unique_id=decoded_token['id'])
+        if client.exists() == False:
+            return JsonResponse({"Err": "invalid refresh_token"})
+
         jwt = JWT.objectToAccessToken(client)
-        if False:
-            return JsonResponse({"Err": "Invalid refresh token"})
-        return JsonResponse("")
+        return JsonResponse({"Aut": jwt})
 
 
 """
