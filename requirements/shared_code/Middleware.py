@@ -7,7 +7,6 @@ import os
 import json
 
 
-
 class JWTIdentificationMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -42,6 +41,7 @@ class JWTIdentificationMiddleware:
 
         return None
 
+
 class ensureIdentificationMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -59,6 +59,7 @@ class ensureIdentificationMiddleware:
         if not request.user.is_autenticated:
             return JsonResponse({"Err": request.user.error})
         return None
+
 
 class RawJsonToDataGetMiddleware:
     def __init__(self, get_response):
