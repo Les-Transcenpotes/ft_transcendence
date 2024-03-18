@@ -167,6 +167,114 @@
 				</div>
 			</div>
 		</div>
+		<!-- HOMEPAGE-GAME -->
+		<div class="homepage-game d-flex justify-content-center align-items-center visually-hidden">
+			<div class="homepage-game-header w-100 d-flex justify-content-between align-items-center">
+				<div class="homepage-game-header-logo d-flex justify-content-center align-items-center">
+					<img src="" alt="BATCH logo small" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+				<div class="homepage-game-header-menus d-flex justify-content-between align-items-center">
+					<div class="homepage-game-header-tournament d-flex justify-content-center align-items-center purple-shadow">
+						<img src="" alt="tournament header button" draggable="false" (dragstart)="false;" class="unselectable">
+					</div>
+					<div class="homepage-game-header-play d-flex justify-content-center align-items-center purple-shadow">
+						<img src="" alt="play header button" draggable="false" (dragstart)="false;" class="unselectable">
+					</div>
+					<div class="homepage-game-header-friends d-flex justify-content-center align-items-center purple-shadow">
+						<img src="" alt="friends header button" draggable="false" (dragstart)="false;" class="unselectable">
+					</div>
+				</div>
+				<div class="homepage-game-header-options d-flex justify-content-between align-items-center">
+					<div class="homepage-game-header-language-selector language-selector purple-shadow">
+						<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
+							<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+						</button>
+						<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
+							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+								<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+							</a></li>
+							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+								<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+							</a></li>
+						</ul>
+					</div>
+					<div class="homepage-game-header-accessibility d-flex justify-content-center align-items-center purple-shadow">
+						<img src="" alt="accessibility header button" draggable="false" (dragstart)="false;" class="unselectable">
+					</div>
+					<div class="homepage-game-header-profile d-flex justify-content-center align-items-center purple-shadow">
+						<img src="" alt="profile picture / profile header button" draggable="false" (dragstart)="false;" class="unselectable">
+					</div>
+				</div>
+			</div>
+			<div class="homepage-game-body w-100 d-flex justify-content-between align-items-center">
+				<div class="homepage-game-body-content w-50 d-flex justify-content-between align-items-center">
+					<div class="homepage-game-body-content-left w-50 d-flex flex-column justify-content-between align-items-center">
+						<div class="homepage-game-body-content-left-top w-100 d-flex flex-column justify-content-between align-items-center">
+							<div class="homepage-game-body-content-search w-100 d-flex justify-content-between align-items-center text-center purple-shadow" data-language="search">
+								<img src="" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable">
+								Search...
+							</div>
+							<div class="homepage-game-body-content-tournaments w-100 d-flex justify-content-between align-items-center text-center purple-shadow" data-language="tournaments">
+								<img src="" alt="tournaments icon" draggable="false" (dragstart)="false;" class="unselectable">
+								My tournaments
+							</div>
+							<div class="homepage-game-body-content-new-tournament w-100 d-flex justify-content-between align-items-center text-center purple-shadow" data-language="new-tournament">
+								<img src="" alt="+" draggable="false" (dragstart)="false;" class="unselectable">
+								New tournament
+							</div>
+						</div>
+						<div class="homepage-game-body-content-history w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
+							<div class="homepage-game-body-content-history-title w-100 d-flex justify-content-between align-items-center" data-language="history">
+								<div class="homepage-game-body-content-history-icon d-flex justify-content-center align-items-center">
+									<img src="" alt="history icon" draggable="false" (dragstart)="false;" class="unselectable">
+								</div>
+								History
+							</div>
+							<div class="homepage-game-body-content-history-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+								<div class="homepage-game-body-content-history-card-color"></div>
+								<div class="homepage-game-body-content-history-card-result">5-4</div>
+								<div class="homepage-game-body-content-history-card-event">vs Ami1</div>
+							</div>
+						</div>
+					</div>
+					<div class="homepage-game-body-content-right w-50 d-flex flex-column justify-content-between align-items-center">
+						<div class="homepage-game-body-content-friends w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
+							<div class="homepage-game-body-content-friends-title w-100 d-flex justify-content-between align-items-center" data-language="friends">
+								<div class="homepage-game-body-content-friends-icon d-flex justify-content-center align-items-center">
+									<img src="" alt="friends icon" draggable="false" (dragstart)="false;" class="unselectable">
+								</div>
+								Friends online
+							</div>
+							<div class="homepage-game-body-content-friends-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+								Ami1
+								<div class="homepage-game-body-content-friends-card-picture">
+									<img src="" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+								</div>
+							</div>
+						</div>
+						<div class="homepage-game-body-content-stats w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
+							<div class="homepage-game-body-content-stats-title w-100 d-flex justify-content-between align-items-center" data-language="stats">
+								<div class="homepage-game-body-content-stats-icon d-flex justify-content-center align-items-center">
+									<img src="" alt="stats icon" draggable="false" (dragstart)="false;" class="unselectable">
+								</div>
+								Statistics
+							</div>
+							<div class="homepage-game-body-content-stats-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+								<div class="homepage-game-body-content-stats-card-stat"></div>
+								<div class="homepage-game-body-content-stats-card-context"></div>
+							</div>
+							<div class="homepage-game-body-content-stats-card-graphic w-100 d-flex flex-column justify-content-center align-items-center purple-shadow" data-language="current-form">
+								Forme actuelle
+								<div class="homepage-game-body-content-stats-graphic"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="homepage-game-body-picture w-50 d-flex justify-content-center align-items-center purple-shadow">
+					<img src="" alt="two hands playing table tennis" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+			</div>
+		</div>
 		<script src="js/general.js"></script>
 		<script src="js/homepage-id.js"></script>
 		<script src="js/sign-in.js"></script>
