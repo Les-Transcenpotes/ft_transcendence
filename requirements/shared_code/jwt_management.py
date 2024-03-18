@@ -44,7 +44,7 @@ class JWT:
         """
         try:
             payload = decode(token, key, algorithms=[JWT.algo])
-        except ExpiredSignatureError as e:
+        except BaseException as e:
             return e.__str__()
         return payload
 
