@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Tuple
-import jwt
+from jwt import encode, decode, ExpiredSignatureError
+
 
 
 from .var import public_key
@@ -26,7 +27,7 @@ class JWT:
         Return True and the token | False and the error
         """
         try:
-            token = jwt.encode(payload, key, algorithm=JWT.algo)
+            token = encode(payload, key, algorithm=JWT.algo)
         except Exception as e:
             return False, str(e)
         return True, token
@@ -42,8 +43,8 @@ class JWT:
         Return True and the payload | False and the error
         """
         try:
-            payload = jwt.decode(token, key, algorithms=[JWT.algo])
-        except jwt.ExpiredSignatureError as e:
+            payload = decode(token, key, algorithms=[JWT.algo])
+        except ExpiredSignatureError as e:
             return e.__str__()
         return payload
 

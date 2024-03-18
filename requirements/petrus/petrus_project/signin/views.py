@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.http import HttpRequest, JsonResponse
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from shared.jwt import JWT
+from shared.jwt_management import JWT
 import requests
 import bcrypt
 

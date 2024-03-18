@@ -1,6 +1,6 @@
 from django.db import Error
 from django.http import HttpRequest, JsonResponse
-from shared.jwt import JWT
+from shared.jwt_management import JWT
 from .var import public_key
 from .common_classes import User
 import os
