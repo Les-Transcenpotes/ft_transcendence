@@ -2,6 +2,8 @@
 let g_userId;
 let	g_userNick;
 let	g_prevFontSize = 0;
+let	g_jwt;
+let	g_refreshToken;
 
 // History routing.
 
@@ -235,4 +237,15 @@ function switchNextFontSizeFromPreviousSelector(previous, next) {
 		
 		// updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
 	}
+}
+
+//
+
+function goToHomepageGame(previous) {
+	var prevPage = document.querySelector(previous);
+	prevPage.classList.add('visually-hidden');
+
+	g_state.pageToDisplay = '.homepage-game';
+	window.history.pushState(g_state, null, "");
+	render(g_state);
 }
