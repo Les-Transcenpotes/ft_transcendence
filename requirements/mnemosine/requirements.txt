@@ -4,3 +4,6 @@ PyJWT==2.8.0
 sqlparse==0.4.4
 typing_extensions==4.9.0
 gunicorn==21.2.0
+cffi==1.16.0
+cryptography==42.0.5
+pycparser==2.21
