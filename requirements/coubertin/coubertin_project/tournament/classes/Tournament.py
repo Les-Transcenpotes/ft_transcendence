@@ -1,5 +1,6 @@
 class Tournament:
-    def __init__(self, name):
+    def __init__(self, name, nbPlayers):
+        self.nbPlayers = nbPlayers
         self.name = name
         self.state = 0 # 0 = inscritpion, 1 = en cours, 2 = termine
         self.onGoingGames = 0
@@ -13,7 +14,7 @@ class Tournament:
         self.state += 1
         while (self.state < 2):
             self.startRound()
-            while (self.onGoingGames):
+            while (self.onGoingGames): # Mieux a faire ?
                 pass
 
     def startRound(self):
@@ -24,9 +25,11 @@ class Tournament:
             i += 2
             self.onGoingGames += 1
 
-    def addGame(self, game): # pas pour la db, ludo va le faire !
+    def addGame(self, game): # pas pour la db, ludo va le faire ! game est un dictionnaire !
         self.gameHistory += game
         for player in game:
             if (game[player] < 5):
                 self.players.remove(player)
         # Enlever le player qui a perdu dans self.players
+                
+tournaments = {}
