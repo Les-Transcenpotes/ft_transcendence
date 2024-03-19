@@ -1,0 +1,28 @@
+# Configuration de monitoring
+xpack.monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["http://localhost:9200"]
+
+monitoring:
+  enabled: false
+  cluster_uuid: PRODUCTION_ES_CLUSTER_UUID
+
+# Configuration des pipelines
+pipeline:
+  id: main
+  # workers: 
+  batch:
+    size: 125
+    delay: 50
+  unsafe_shutdown: false
+
+node:
+  name: "node_${LS_NODE_NAME}"
+path:
+  data: "$(HOME)/data/transcendence_data"
+  queue: "/tmp/${QUEUE_DIR:queue}"
+  # config: "settings"
+
+config:
+  debug: true
