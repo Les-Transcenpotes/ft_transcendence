@@ -45,7 +45,7 @@ body {
 }
 
 .language-selector button {
-	margin-right: 16px;
+	margin-right: 11px;
 }
 
 .language-selector ul li a {
@@ -62,7 +62,7 @@ body {
 .language-selector button:focus,
 .language-selector ul li a:focus {
 	cursor: pointer;
-	box-shadow: 0 0 5px 1px rgba(115, 0, 230, 0.5) inset;
+	box-shadow: inset 0 0 5px 1px rgba(115, 0, 230, 0.5);
 	outline: 0;
 }
 

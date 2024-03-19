@@ -45,7 +45,7 @@ async function submitPassword(password) {
 		});
 
 		const result = await response.json();
-		if ('Err' in result && 'Err' === 'Invalid password') {
+		if ('Err' in result && result.Err == 'invalid password') {
 			sendInvalidPassword();
 		}
 		else if ('Err' in result) {
