@@ -97,20 +97,33 @@ class signupView(View):
         # Alfred -> nickname email accessibility
         # Mnemosine -> id
 
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+        refresh_token = JWT.objectToRefreshToken(client)
         jwt = JWT.objectToAccessToken(client)
         return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
 
 
 class refreshView(View):
     def get(self, request):
-        request = request
-        return JsonResponse({"refreshView": "not coded"})
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
-        jwt = JWT.objectToAccessToken(client)
-        if False:
-            return JsonResponse({"Err": "Invalid refresh token"})
-        return JsonResponse("")
+        data = request.data
+        if 'Ref' not in data:
+            return JsonResponse({"Err": "no refresh_token provided key: Ref"})
+
+        token = data['Ref']
+        decoded_token = JWT.jwtToPayload(token, JWT.publicKey)
+        if isinstance(decoded_token, str) == True:
+            return JsonResponse({"Err": data})
+
+        if 'id' not in decoded_token:
+            return JsonResponse({"Err": "no id in data"})
+
+        client = Client.objects.filter(unique_id=decoded_token['id'])
+        if client.exists() == False:
+            return JsonResponse({"Err": "invalid refresh_token"})
+
+        print(decoded_token)
+
+        jwt = JWT.objectToAccessToken(client.first())
+        return JsonResponse({"Aut": jwt})
 
 
 """
