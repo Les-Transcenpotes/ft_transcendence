@@ -7,6 +7,9 @@ networks:
   atlas:
     internal: true
 
+  sentinel:
+    internal: true
+
 services:
 
 # Server proxy
@@ -27,6 +30,7 @@ services:
     networks:
       - aegis guard
       - atlas
+      - sentinel
     restart: on-failure
 
 # Profil container
@@ -45,6 +49,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Tournament container
   coubertin:
@@ -62,6 +67,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Matchmaking container
   cupidon:
@@ -79,6 +85,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Matchmaking container
   davinci:
@@ -94,7 +101,8 @@ services:
     depends_on:
       - aegis
     networks:
-      - atlas
+      - sentinel
+    restart: on-failure
 
 # Notification container
   hermes:
@@ -112,6 +120,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Auth inter-container container
   lovelace:
@@ -129,6 +138,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Game container
   ludo:
@@ -146,6 +156,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Front container
   malevitch:
@@ -179,6 +190,8 @@ services:
       - aegis
     networks:
       - atlas
+      - sentinel
+    restart: on-failure
 
 # Stats container
   mnemosine:
@@ -196,6 +209,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 # Authentification container
   petrus:
@@ -213,6 +227,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
   mensura_exporter:
     container_name: mensura_exporter
@@ -227,6 +242,7 @@ services:
     pid: "host"
     depends_on:
       - aegis
+    restart: on-failure
 
   aegis_exporter:
     container_name: aegis_exporter
@@ -237,11 +253,12 @@ services:
     volumes:
       - shared_code:/app/shared
     ports:
-      - "9113:9113"
+      - "9913:9913"
     depends_on:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
   redis:
     container_name: redis
@@ -252,6 +269,7 @@ services:
       - aegis
     networks:
       - atlas
+    restart: on-failure
 
 volumes:
   shared_code:

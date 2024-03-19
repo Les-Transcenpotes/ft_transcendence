@@ -29,13 +29,13 @@ scrape_configs:
     static_configs:
       - targets: ['mensura:8011']
 
-  - job_name: 'node_exporter'
+  - job_name: 'mensura_exporter'
     static_configs:
-      - targets: ['node_exporter:9100']
+      - targets: ['mensura_exporter:9100']
 
-  - job_name: 'nginx_exporter'
+  - job_name: 'aegis_exporter'
     static_configs:
-      - targets: ['nginx_exporter:9913']
+      - targets: ['aegis_exporter:9913']
 
   - job_name: 'petrus'
     metrics_path: /metrics/metrics

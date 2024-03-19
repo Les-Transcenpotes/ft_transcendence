@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'shared.Middleware.RawJsonToDataGetMiddleware',
     'shared.Middleware.JWTIdentificationMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]

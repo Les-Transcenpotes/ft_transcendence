@@ -22,6 +22,8 @@ window.addEventListener('popstate', function (event) {
 	
 	if (event.state) {
 		pageToHide.classList.add('visually-hidden');
+		switchNextLanguageFromPreviousSelector(g_state.pageToDisplay, event.state.pageToDisplay);
+		switchNextFontSizeFromPreviousSelector(g_state.pageToDisplay, event.state.pageToDisplay);
 		g_state = event.state;
 	}
 	render(g_state);
@@ -69,30 +71,33 @@ function switchLanguageContent(locale) {
 
 function switchNextLanguageFromPreviousSelector(previous, next) {
 	var	prevSelector = document.querySelector(previous + '-language-selector');
-	var	prevSelectorImg = prevSelector.firstElementChild.firstElementChild;
-	var	locale = prevSelectorImg.getAttribute('alt');
 
-	var	nextSelector = document.querySelector(next + '-language-selector');
-	var	nextSelectorImg = nextSelector.firstElementChild.firstElementChild;
+	if (prevSelector !== null) {
+		var	prevSelectorImg = prevSelector.firstElementChild.firstElementChild;
+		var	locale = prevSelectorImg.getAttribute('alt');
 
-	if (nextSelectorImg.getAttribute('alt') !== locale) {
-		var	nextSelectorImgSrc = nextSelectorImg.getAttribute('src');
-		var	nextSelectorImgAlt = nextSelectorImg.getAttribute('alt');
-		var	nextSelectorButtons = document.querySelectorAll(next + '-language-selector ul li a img');
+		var	nextSelector = document.querySelector(next + '-language-selector');
+		var	nextSelectorImg = nextSelector.firstElementChild.firstElementChild;
 
-		nextSelectorImg.setAttribute('src', prevSelectorImg.getAttribute('src'));
-		nextSelectorImg.setAttribute('alt', locale);
-		if (nextSelectorButtons[0].getAttribute('alt') === locale) {
-			nextSelectorButtons[0].setAttribute('src', nextSelectorImgSrc);
-			nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
-		}
-		else if (nextSelectorButtons[1].getAttribute('alt') === locale) {
-			nextSelectorButtons[1].setAttribute('src', nextSelectorImgSrc);
-			nextSelectorButtons[1].setAttribute('alt', nextSelectorImgAlt);
-		}
-		else {
-			nextSelectorButtons[2].setAttribute('src', nextSelectorImgSrc);
-			nextSelectorButtons[2].setAttribute('alt', nextSelectorImgAlt);
+		if (nextSelectorImg.getAttribute('alt') !== locale) {
+			var	nextSelectorImgSrc = nextSelectorImg.getAttribute('src');
+			var	nextSelectorImgAlt = nextSelectorImg.getAttribute('alt');
+			var	nextSelectorButtons = document.querySelectorAll(next + '-language-selector ul li a img');
+
+			nextSelectorImg.setAttribute('src', prevSelectorImg.getAttribute('src'));
+			nextSelectorImg.setAttribute('alt', locale);
+			if (nextSelectorButtons[0].getAttribute('alt') === locale) {
+				nextSelectorButtons[0].setAttribute('src', nextSelectorImgSrc);
+				nextSelectorButtons[0].setAttribute('alt', nextSelectorImgAlt);
+			}
+			else if (nextSelectorButtons[1].getAttribute('alt') === locale) {
+				nextSelectorButtons[1].setAttribute('src', nextSelectorImgSrc);
+				nextSelectorButtons[1].setAttribute('alt', nextSelectorImgAlt);
+			}
+			else {
+				nextSelectorButtons[2].setAttribute('src', nextSelectorImgSrc);
+				nextSelectorButtons[2].setAttribute('alt', nextSelectorImgAlt);
+			}
 		}
 	}
 }
@@ -163,6 +168,7 @@ function warnInvalidNickname(nickname, element) {
 function addInfoToElement(info, element) {
 	element.innerHTML = element.innerHTML.split('<b')[0];
 	element.innerHTML = element.textContent + '<b>&nbsp;' + info + '&nbsp;</b>!';
+	updateFontSize(element.querySelector('b'), g_prevFontSize);
 }
 
 // Password eye icons
@@ -189,6 +195,15 @@ function togglePasswordView(container) {
 
 // Font size functions
 
+document.querySelectorAll('.font-size-input').forEach(function(item) {
+	item.addEventListener('input', function () {
+			var	newSize = this.value;
+
+			updateFontSizeOfPage(document.querySelector('body'), newSize - g_prevFontSize);
+			g_prevFontSize = newSize;
+	});
+});
+
 function updateFontSize(element, difference) {
 	var computedStyle = window.getComputedStyle(element);
 	var fontSizeInPx = parseFloat(computedStyle.fontSize);
@@ -212,9 +227,12 @@ function updateFontSizeOfPage(element, size) {
 
 function switchNextFontSizeFromPreviousSelector(previous, next) {
 	var	prevFontSizeInput = document.querySelector(previous + '-font-size');
-	var	nextFontSizeInput = document.querySelector(next + '-font-size');
 
-	nextFontSizeInput.value = prevFontSizeInput.value;
-	
-	updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
+	if (prevFontSizeInput !== null) {
+		var	nextFontSizeInput = document.querySelector(next + '-font-size');
+
+		nextFontSizeInput.value = prevFontSizeInput.value;
+		
+		// updateFontSizeOfPage(document.querySelector(next), nextFontSizeInput.value);
+	}
 }
