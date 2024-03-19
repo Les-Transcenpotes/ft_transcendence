@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.http import HttpRequest, JsonResponse
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from shared.jwt import JWT
+from shared.jwt_management import JWT
 import requests
 import bcrypt
 
@@ -40,13 +40,13 @@ class signinView(View):
         id = data.get('Id', None)
         password = data.get('Pass', None)
         if id is None:
-            return JsonResponse({"Err", "no id provided"})
+            return JsonResponse({"Err": "no id provided"})
 
         if password is None:
-            return JsonResponse({"Err", "no password provided"})
+            return JsonResponse({"Err": "no password provided"})
         client = Client.objects.filter(unique_id=id).first()
         if client is None:
-            return JsonResponse({"Err", "invalid id provided"})
+            return JsonResponse({"Err": "invalid id provided"})
 
         if bcrypt.checkpw(password.encode('utf-8'),
                           client.password.encode('utf-8')) == False:
