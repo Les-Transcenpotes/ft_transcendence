@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.http import HttpRequest, JsonResponse
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from shared.jwt import JWT
+from shared.jwt_management import JWT
 import requests
 import bcrypt
 
@@ -40,13 +40,13 @@ class signinView(View):
         id = data.get('Id', None)
         password = data.get('Pass', None)
         if id is None:
-            return JsonResponse({"Err", "no id provided"})
+            return JsonResponse({"Err": "no id provided"})
 
         if password is None:
-            return JsonResponse({"Err", "no password provided"})
+            return JsonResponse({"Err": "no password provided"})
         client = Client.objects.filter(unique_id=id).first()
         if client is None:
-            return JsonResponse({"Err", "invalid id provided"})
+            return JsonResponse({"Err": "invalid id provided"})
 
         if bcrypt.checkpw(password.encode('utf-8'),
                           client.password.encode('utf-8')) == False:
@@ -97,20 +97,33 @@ class signupView(View):
         # Alfred -> nickname email accessibility
         # Mnemosine -> id
 
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+        refresh_token = JWT.objectToRefreshToken(client)
         jwt = JWT.objectToAccessToken(client)
         return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
 
 
 class refreshView(View):
     def get(self, request):
-        request = request
-        return JsonResponse({"refreshView": "not coded"})
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
-        jwt = JWT.objectToAccessToken(client)
-        if False:
-            return JsonResponse({"Err": "Invalid refresh token"})
-        return JsonResponse("")
+        data = request.data
+        if 'Ref' not in data:
+            return JsonResponse({"Err": "no refresh_token provided key: Ref"})
+
+        token = data['Ref']
+        decoded_token = JWT.jwtToPayload(token, JWT.publicKey)
+        if isinstance(decoded_token, str) == True:
+            return JsonResponse({"Err": data})
+
+        if 'id' not in decoded_token:
+            return JsonResponse({"Err": "no id in data"})
+
+        client = Client.objects.filter(unique_id=decoded_token['id'])
+        if client.exists() == False:
+            return JsonResponse({"Err": "invalid refresh_token"})
+
+        print(decoded_token)
+
+        jwt = JWT.objectToAccessToken(client.first())
+        return JsonResponse({"Aut": jwt})
 
 
 """
