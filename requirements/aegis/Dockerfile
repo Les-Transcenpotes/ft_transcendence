@@ -34,21 +34,20 @@ RUN     git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git 
         cp objs/ngx_http_vhost_traffic_status_module.so /etc/nginx/modules/ && \
         cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules/ && \
         mkdir /etc/nginx/modsec/ && \
-        cp /ModSecurity/unicode.mapping /etc/nginx/modsec/
-#        cd /etc/nginx/modsec/ && \
-#        wget https://github.com/coreruleset/coreruleset/archive/refs/tags/v4.0.0.tar.gz && \
-#        tar -xvf v4.0.0.tar.gz && \
-#        rm v4.0.0.tar.gz && \
-#        cp coreruleset-4.0.0/crs-setup.conf.example coreruleset-4.0.0/crs-setup.conf
+        cp /ModSecurity/unicode.mapping /etc/nginx/modsec/ && \
+        cd /etc/nginx/modsec/ && \
+        wget https://github.com/coreruleset/coreruleset/archive/refs/tags/v4.0.0.tar.gz && \
+        tar -xvf v4.0.0.tar.gz && \
+        rm v4.0.0.tar.gz && \
+        cp coreruleset-4.0.0/crs-setup.conf.example coreruleset-4.0.0/crs-setup.conf
 
 
 COPY    conf/modsec-config.conf /etc/nginx/modsec/modsec-config.conf
 COPY    conf/modsecurity.conf /etc/nginx/modsec/modsecurity.conf
-COPY    conf/no-http-fingerprint.conf /etc/nginx/modsec/no-http-fingerprint.conf
 COPY    conf/aegis-whitelist.conf /etc/nginx/modsec/aegis-whitelist.conf
-#COPY    conf/crs-setup.conf /etc/nginx/modsec/coreruleset-4.0.0/crs-setup.conf
-#COPY    conf/grafana_whitelist.conf /etc/nginx/modsec/grafana_whitelist.conf
-#COPY    conf/prometheus_whitelist.conf /etc/nginx/modsec/prometheus_whitelist.conf
+COPY    conf/crs-setup.conf /etc/nginx/modsec/coreruleset-4.0.0/crs-setup.conf
+COPY    conf/davinci_whitelist.conf /etc/nginx/modsec/davinci_whitelist.conf
+COPY    conf/mensura_whitelist.conf /etc/nginx/modsec/mensura_whitelist.conf
 COPY    conf/proxy.conf /etc/nginx/nginx.conf
 
 #---- config ----------------------------------------------------------#
