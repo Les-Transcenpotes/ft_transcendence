@@ -8,6 +8,7 @@ composer.phar
 /vendor/
 **/*_env
 **/env
+**/env_**
 **/*.sqlite3
 **/__pycache__/**
 **/migrations
