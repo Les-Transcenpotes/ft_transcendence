@@ -22,4 +22,5 @@ urlpatterns = [
     path("view-match", userMatchView.as_view()),
     path("player", playerView.as_view()),
     path("view-player", userPlayerView.as_view()),
+
 ]
