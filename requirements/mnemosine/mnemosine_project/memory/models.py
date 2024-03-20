@@ -14,6 +14,8 @@ class Player(models.Model):
     tournaments_played = models.ManyToManyField(
         'Tournament', through='TournamentPlayer')
 
+    objects = models.Manager()
+
     def to_dict(self):
         return {
             "Id": self.unique_id,
