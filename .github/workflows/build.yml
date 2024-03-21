@@ -1,9 +1,9 @@
 name: Build Docker Containers
 
 on:
-  push:
-    branches:
-      - TRA-237-Compile-ModSecurity-Quick-CI-Job-Health-Test  # Adjust the branch as needed
+  #push:
+  #  branches:
+  #    - TRA-237-Compile-ModSecurity-Quick-CI-Job-Health-Test  # Adjust the branch as needed
   pull_request:
     branches:
       - dev  # Adjust the branch as needed
