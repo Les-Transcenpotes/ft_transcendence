@@ -1,6 +1,6 @@
 FROM    alpine:3.18
 
-COPY    requirements.txt /requirements.txt
+COPY    ./modsec/requirements.txt /requirements.txt
 
 RUN     apk update && \
         apk upgrade && \
