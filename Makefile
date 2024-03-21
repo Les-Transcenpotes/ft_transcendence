@@ -15,6 +15,7 @@ DJANGO_CTT		=	alfred coubertin cupidon hermes lovelace ludo mnemosine petrus
 COMPOSE		=	docker compose -f
 STOP		=	docker stop
 RM			=	docker rm
+RM			=	docker rmi
 VOLUME		=	docker volume
 NETWORK		=	docker network
 SYSTEM		=	docker system
@@ -100,6 +101,7 @@ clean: down
 fclean: clean
 	- $(STOP) $$(docker ps -qa)
 	- $(RM) $$(docker ps -qa)
+	- $(RM_IMG) $$(docker images -qa)
 	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
 
 prune:
