@@ -44,18 +44,23 @@ migrate:
 	./tools/migrate.sh $(DJANGO_CTT)
 
 modsec:
-	@echo "ModSecurity:"
-	old_image_id=$$(docker images -q modsec)
-	docker build -t modsec -f ./modsec/Dockerfile .
-	new_image_id=$$(docker images -q modsec)
+	old_image_id=$$(docker images -q modsec); \
+	docker build -t modsec -f ./modsec/Dockerfile .; \
+	new_image_id=$$(docker images -q modsec); \
 	if [ "$$old_image_id" != "$$new_image_id" ]; then \
 		echo "\tBuilding ModSecurity..."; \
 		docker rm -f modsec || true; \
 		docker run -d --name modsec modsec; \
 		docker cp modsec:/ModSecurity ./requirements/aegis/ModSecurity; \
-		echo "\tDone !"; \
+		echo "\n\n\tBuild & Copy done !"; \
 	else \
-		echo "\n\n\tModSecurity image has not changed, skipping copy.\n\n"; \
+		echo "\n\n\tModSecurity image has not changed, skipping building.\n\n"; \
+		if [ ! -d "./requirements/aegis/ModSecurity" ]; then \
+			docker rm -f modsec || true; \
+			docker run -d --name modsec modsec; \
+			docker cp modsec:/ModSecurity ./requirements/aegis/ModSecurity; \
+			echo "Copy done !"; \
+		fi \
 	fi
 
 #---- debug ----#
@@ -92,6 +97,7 @@ petrus:
 
 clean: down
 	$(COMPOSE) $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
+	docker image rm -f modsec || true
 	rm -rf $(VOLUMES_PATH)/*
 	rm -rf ./requirements/aegis/ModSecurity
 
@@ -105,6 +111,7 @@ prune:
 	- $(SYSTEM) prune -af
 	- $(VOLUME) prune -af
 	rm -rf ./requirements/aegis/ModSecurity
+	docker image rm -f modsec || true
 
 #---- re ----#
 
