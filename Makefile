@@ -22,7 +22,7 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | migrate volumes
+debug: | migrate volumes modsec
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes
@@ -43,8 +43,28 @@ volumes:
 migrate:
 	./tools/migrate.sh $(DJANGO_CTT)
 
-#---- debug ----#
+modsec:
+	old_image_id=$$(docker images -q modsec); \
+	docker build -t modsec -f ./modsec/Dockerfile .; \
+	new_image_id=$$(docker images -q modsec); \
+	if [ "$$old_image_id" != "$$new_image_id" ]; then \
+		echo "\tBuilding ModSecurity..."; \
+		docker rm -f modsec || true; \
+		docker run -d --name modsec modsec; \
+		docker cp modsec:/ModSecurity ./requirements/aegis/ModSecurity; \
+		echo "\n\n\tBuild & Copy done !"; \
+	else \
+		echo "\n\n\tModSecurity image has not changed, skipping building.\n\n"; \
+		if [ ! -d "./requirements/aegis/ModSecurity" ]; then \
+			docker rm -f modsec || true; \
+			docker run -d --name modsec modsec; \
+			docker cp modsec:/ModSecurity ./requirements/aegis/ModSecurity; \
+			echo "Copy done !"; \
+		fi \
+	fi
+	docker image rm -f modsec || true; \
 
+#---- debug ----#
 
 aegis:
 	$(COMPOSE) $(DOCKER_FILE) exec aegis /bin/sh
@@ -100,5 +120,4 @@ re: down debug
 .SILENT:
 .DEFAULT: debug
 # pour la prod: remettre all
-.PHONY: all up build down volumes migrate debug clean fclean prune re
-
+.PHONY: all up build down volumes migrate debug clean fclean prune re modsec
