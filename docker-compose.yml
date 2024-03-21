@@ -283,9 +283,10 @@ services:
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      # ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       discovery.type: single-node
     networks:
+      # - aegis guard
       - sentinel
     restart: always
 
@@ -297,12 +298,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5601:5601"
-    environment:
-      - ELASTICSEARCH_URL=http://localhost:9200
-    depends_on:
-      - apollo
-    networks:
-      - sentinel
+    # environment:
+    #   - ELASTICSEARCH_URL=http://localhost:9200
+    # depends_on:
+    #   - apollo
+    # networks:
+    #   - sentinel
     restart: always
 
   thot:
