@@ -1,0 +1,54 @@
+.homepage-header {
+	z-index: 999;
+	padding: 5vh;
+}
+
+.homepage-header-logo img {
+	height: 46px;
+}
+
+.homepage-header-menus > *,
+.homepage-header-accessibility {
+	height: 46px;
+	width: 46px;
+	border-radius: 23px;
+	border-style: solid;
+	border-color: #7300E6;
+	border-width: 3px;
+	background-color: white;
+	margin-right: 16px;
+}
+
+.homepage-header-menus > * img {
+	height: 22px;
+}
+
+.homepage-header-play img {
+	margin-left: 4px;
+}
+
+.homepage-header-friends {
+	margin-right: 0;
+}
+
+.homepage-header-friends img {
+	margin-left: 1px;
+}
+
+.homepage-header-language-selector {
+	margin-right: 4px;
+}
+
+.homepage-header-language-selector button,
+.homepage-header-language-selector ul li a {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+}
+
+.homepage-header-profile img {
+	height: 46px;
+	width: 46px;
+	border-radius: 23px;
+	border-width: 0;
+}

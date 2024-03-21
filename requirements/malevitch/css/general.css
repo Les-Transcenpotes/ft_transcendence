@@ -16,7 +16,7 @@ body {
 }
 
 .purple-shadow {
-	filter: drop-shadow(10px 10px 12px rgba(115, 0, 230, 0.3));
+	filter: drop-shadow(4px 4px 8px rgba(115, 0, 230, 0.2));
 }
 
 .text-shadow {

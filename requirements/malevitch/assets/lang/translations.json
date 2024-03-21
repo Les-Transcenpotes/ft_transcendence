@@ -23,7 +23,13 @@
 		"password-confirm": "Confirm your password...",
 		"different-passwords": "The passwords are different.",
 		"sign-up": "Sign up",
-		"sign-up-sign-in": "I already have an account"
+		"sign-up-sign-in": "I already have an account",
+		"search": "Search...",
+		"tournaments": "My tournaments",
+		"new-tournament": "New tournament",
+		"history": "History",
+		"friends": "Friends online",
+		"stats": "Statistics"
 	},
 	"fr": {
 		"font-size": "Taille de la police",
@@ -49,7 +55,13 @@
 		"password-confirm": "Confirmez votre mot de passe...",
 		"different-passwords": "Les mots de passe sont différents.",
 		"sign-up": "Créer un compte",
-		"sign-up-sign-in": "J'ai déjà un compte"
+		"sign-up-sign-in": "J'ai déjà un compte",
+		"search": "Rechercher...",
+		"tournaments": "Mes tournois",
+		"new-tournament": "Nouveau tournoi",
+		"history": "Historique",
+		"friends": "Amis en ligne",
+		"stats": "Statistiques"
 	},
 	"zh": {
 		"font-size": "字体大小",
@@ -75,7 +87,13 @@
 		"password-confirm": "确认你的密码。。。",
 		"different-passwords": "密码不同。",
 		"sign-up": "报名",
-		"sign-up-sign-in": "我已经有一个帐户"
+		"sign-up-sign-in": "我已经有一个帐户",
+		"search": "搜索。。。",
+		"tournaments": "我的比赛",
+		"new-tournament": "新比赛",
+		"history": "历史记录",
+		"friends": "朋友在线",
+		"stats": "统计数据"
 	}
 }
  

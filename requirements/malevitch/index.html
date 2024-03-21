@@ -8,6 +8,8 @@
 		<link rel="stylesheet" href="css/homepage-id.css" type="text/css" media="all">
 		<link rel="stylesheet" href="css/sign-in.css" type="text/css" media="all">
 		<link rel="stylesheet" href="css/sign-up.css" type="text/css" media="all">
+		<link rel="stylesheet" href="css/homepage-header.css" type="text/css" media="all">
+		<link rel="stylesheet" href="css/homepage-game.css" type="text/css" media="all">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +18,7 @@
 	</head>
 	<body class="dot-pattern">
 		<!-- HOMEPAGE-ID -->
-		<div class="homepage-id d-flex justify-content-center align-items-center">
+		<div class="homepage-id d-flex justify-content-center align-items-center visually-hidden">
 			<div class="position-absolute start-50 translate-middle w-50">
 				<img src="assets/general/batch-purple.svg" alt="BATCH logo" draggable="false" (dragstart)="false;" class="w-100 purple-shadow unselectable">
 			</div>
@@ -24,14 +26,14 @@
 				<div class="homepage-id-input-container input-container d-flex justify-content-center w-100">
 					<div class="homepage-id-language-selector language-selector purple-shadow">
 						<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
-							<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+							<img src="assets/lang/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
 						</button>
 						<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
 							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+								<img src="assets/lang/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
 							</a></li>
 							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+								<img src="assets/lang/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
 							</a></li>
 						</ul>
 					</div>
@@ -47,7 +49,7 @@
 					</button>
 				</div>
 				<div class="homepage-id-font-size-box font-size-box d-flex justify-content-center align-items-center">
-					<img src="assets/general/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
+					<img src="assets/accessibility/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
 					<label for="homepage-id-font-size" data-language="font-size" class="visually-hidden">Font size</label>
 					<input type="range" name="font-size" id="homepage-id-font-size" class="homepage-id-font-size font-size-input range-input" min="0" max="5" value="0">
 				</div>
@@ -63,14 +65,14 @@
 				<div class="sign-in-input-container input-container d-flex justify-content-center w-100">
 					<div class="sign-in-language-selector language-selector purple-shadow">
 						<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
-							<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+							<img src="assets/lang/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
 						</button>
 						<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
 							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+								<img src="assets/lang/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
 							</a></li>
 							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+								<img src="assets/lang/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
 							</a></li>
 						</ul>
 					</div>
@@ -79,7 +81,7 @@
 							<label for="sign-in-input" data-language="password" class="visually-hidden">Enter your password...</label>
 							<input id="sign-in-input" type="password" name="password" label="password" data-language="password" placeholder="Enter your password..." autocomplete="off" class="sign-in-input input w-100 border-0 text-center">
 							<button type="button" value="" class="border-0 bg-transparent position-absolute d-flex align-items-center justify-content-center">
-								<img src="assets/general/view-purple.png" alt="view password">
+								<img src="assets/auth/view-purple.png" alt="view password">
 							</button>
 						</div>
 						<div class="sign-in-input-warning input-warning w-100 visually-hidden text-center" data-language="invalid-password">Invalid password.</div>
@@ -92,7 +94,7 @@
 					Sign in using another nickname
 				</button></div>
 				<div class="sign-in-font-size-box font-size-box d-flex justify-content-center align-items-center">
-					<img src="assets/general/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
+					<img src="assets/accessibility/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
 					<label for="sign-in-font-size" data-language="font-size" class="visually-hidden">Font size</label>
 					<input type="range" name="font-size" id="sign-in-font-size" class="sign-in-font-size font-size-input range-input" min="0" max="5" value="0">
 				</div>
@@ -123,7 +125,7 @@
 						<label for="sign-up-password-input" data-language="sign-up-password" class="visually-hidden">Choose a password...</label>
 						<input id="sign-up-password-input" type="password" name="sign-up-password" label="sign-up-password" data-language="sign-up-password" placeholder="Choose a password..." autocomplete="off" class="sign-up-password-input input w-100 border-0 text-center">
 						<button type="button" value="" class="border-0 bg-transparent position-absolute d-flex align-items-center justify-content-center">
-							<img src="assets/general/view-purple.png" alt="view password">
+							<img src="assets/auth/view-purple.png" alt="view password">
 						</button>
 					</div>
 					<div class="sign-up-password-input-warning input-warning w-100 visually-hidden text-center" data-language="password-letter">Your password must contain at least 1 letter.</div>
@@ -133,7 +135,7 @@
 						<label for="sign-up-password-confirm-input" data-language="password-confirm" class="visually-hidden">Confirm your password...</label>
 						<input id="sign-up-password-confirm-input" type="password" name="sign-up-password-confirm" label="sign-up-password-confirm" data-language="password-confirm" placeholder="Confirm your password..." autocomplete="off" class="sign-up-password-confirm-input input w-100 border-0 text-center">
 						<button type="button" value="" class="border-0 bg-transparent position-absolute d-flex align-items-center justify-content-center">
-							<img src="assets/general/view-purple.png" alt="view password">
+							<img src="assets/auth/view-purple.png" alt="view password">
 						</button>
 					</div>
 					<div class="sign-up-password-confirm-input-warning input-warning w-100 visually-hidden text-center" data-language="different-passwords">Passwords are different.</div>
@@ -141,14 +143,14 @@
 				<div class="w-50 d-flex justify-content-center align-items-center">
 					<div class="sign-up-language-selector language-selector purple-shadow">
 						<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
-							<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+							<img src="assets/lang/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
 						</button>
 						<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
 							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+								<img src="assets/lang/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
 							</a></li>
 							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+								<img src="assets/lang/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
 							</a></li>
 						</ul>
 					</div>
@@ -161,117 +163,121 @@
 					I already have an account
 				</button></div>
 				<div class="sign-up-font-size-box font-size-box d-flex justify-content-center align-items-center">
-					<img src="assets/general/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
+					<img src="assets/accessibility/font-size-purple.svg" alt="font size" draggable="false" (dragstart)="false;" class="font-size-icon purple-shadow unselectable">
 					<label for="sign-up-font-size" data-language="font-size" class="visually-hidden">Font size</label>
 					<input type="range" name="font-size" id="sign-up-font-size" class="sign-up-font-size font-size-input range-input" min="0" max="5" value="0">
 				</div>
 			</div>
 		</div>
+		<!-- HOMEPAGE-HEADER -->
+		<div class="homepage-header w-100 d-flex justify-content-between align-items-center position-absolute">
+			<div class="homepage-header-logo d-flex justify-content-center align-items-center">
+				<img src="assets/general/batch-purple-small.svg" alt="BATCH logo small" draggable="false" (dragstart)="false;" class="unselectable purple-shadow">
+			</div>
+			<div class="homepage-header-menus d-flex justify-content-between align-items-center position-absolute start-50 top-50 translate-middle purple-shadow">
+				<div class="homepage-header-tournament d-flex justify-content-center align-items-center purple-shadow">
+					<img src="assets/general/tournament.svg" alt="tournament header button" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+				<div class="homepage-header-play d-flex justify-content-center align-items-center purple-shadow">
+					<img src="assets/general/play.svg" alt="play header button" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+				<div class="homepage-header-friends d-flex justify-content-center align-items-center purple-shadow">
+					<img src="assets/general/friends.svg" alt="friends header button" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+			</div>
+			<div class="homepage-header-options d-flex justify-content-between align-items-center">
+				<div class="homepage-header-language-selector language-selector purple-shadow">
+					<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
+						<img src="assets/lang/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
+					</button>
+					<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
+						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/lang/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
+						<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
+							<img src="assets/lang/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
+						</a></li>
+					</ul>
+				</div>
+				<div class="homepage-header-accessibility d-flex justify-content-center align-items-center purple-shadow">
+					<img src="assets/accessibility/accessibility.svg" alt="accessibility header button" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+				<div class="homepage-header-profile d-flex justify-content-center align-items-center purple-shadow">
+					<img src="assets/general/pong.png" alt="profile picture / profile header button" draggable="false" (dragstart)="false;" class="unselectable">
+				</div>
+			</div>
+		</div>
 		<!-- HOMEPAGE-GAME -->
-		<div class="homepage-game d-flex justify-content-center align-items-center visually-hidden">
-			<div class="homepage-game-header w-100 d-flex justify-content-between align-items-center">
-				<div class="homepage-game-header-logo d-flex justify-content-center align-items-center">
-					<img src="" alt="BATCH logo small" draggable="false" (dragstart)="false;" class="unselectable">
+		<div class="homepage-game w-100 d-flex justify-content-center align-items-center position-absolute visually-hidden">
+			<div class="homepage-game-content w-50 d-flex justify-content-between align-items-center">
+				<div class="homepage-game-content-left w-50 d-flex flex-column justify-content-between align-items-center">
+					<div class="homepage-game-content-left-top w-100 d-flex flex-column justify-content-between align-items-center">
+						<div class="homepage-game-content-search homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+							<img src="assets/general/search.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+							<p data-language="search">Search...</p>
+						</div>
+						<div class="homepage-game-content-tournaments homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+							<img src="assets/general/tournament.svg" alt="tournaments icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+							<p data-language="tournaments">My tournaments</p>
+						</div>
+						<div class="homepage-game-content-new-tournament homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+							<img src="assets/general/plus.svg" alt="+" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+							<p data-language="new-tournament">New tournament</p>
+						</div>
+					</div>
+					<div class="homepage-game-content-history homepage-game-category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
+						<div class="homepage-game-category-title w-100 d-flex justify-content-center align-items-center">
+							<div class="homepage-game-category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
+								<img src="assets/general/history.svg" alt="history icon" draggable="false" (dragstart)="false;" class="unselectable">
+							</div>
+							<p data-language="history">History</p>
+						</div>
+						<div class="homepage-game-content-history-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+							<div class="homepage-game-content-history-card-color"></div>
+							<div class="homepage-game-content-history-card-result">5-4</div>
+							<div class="homepage-game-content-history-card-event">vs Ami1</div>
+						</div>
+					</div>
 				</div>
-				<div class="homepage-game-header-menus d-flex justify-content-between align-items-center">
-					<div class="homepage-game-header-tournament d-flex justify-content-center align-items-center purple-shadow">
-						<img src="" alt="tournament header button" draggable="false" (dragstart)="false;" class="unselectable">
+				<div class="homepage-game-content-right w-50 d-flex flex-column justify-content-between align-items-center">
+					<div class="homepage-game-content-friends homepage-game-category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
+						<div class="homepage-game-category-title w-100 d-flex justify-content-center align-items-center">
+							<div class="homepage-game-category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
+								<img src="assets/general/friends.svg" alt="friends icon" draggable="false" (dragstart)="false;" class="unselectable">
+							</div>
+							<p data-language="friends">Friends online</p>
+						</div>
+						<div class="homepage-game-content-friends-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+							Ami1
+							<div class="homepage-game-content-friends-card-picture">
+								<img src="" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+							</div>
+						</div>
 					</div>
-					<div class="homepage-game-header-play d-flex justify-content-center align-items-center purple-shadow">
-						<img src="" alt="play header button" draggable="false" (dragstart)="false;" class="unselectable">
-					</div>
-					<div class="homepage-game-header-friends d-flex justify-content-center align-items-center purple-shadow">
-						<img src="" alt="friends header button" draggable="false" (dragstart)="false;" class="unselectable">
-					</div>
-				</div>
-				<div class="homepage-game-header-options d-flex justify-content-between align-items-center">
-					<div class="homepage-game-header-language-selector language-selector purple-shadow">
-						<button class="btn dropdown border-0" type="button" data-bs-toggle="dropdown">
-							<img src="assets/general/flag-en.png" alt="en" draggable="false" (dragstart)="false;" class="unselectable">
-						</button>
-						<ul class="dropdown-menu py-0 bg-transparent border-0" role="menu">
-							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-fr.png" alt="fr" draggable="false" (dragstart)="false;" class="unselectable">
-							</a></li>
-							<li><a class="language-selector-dropdown dropdown-item border-0" role="menuitem" href="#">
-								<img src="assets/general/flag-zh.png" alt="zh" draggable="false" (dragstart)="false;" class="unselectable">
-							</a></li>
-						</ul>
-					</div>
-					<div class="homepage-game-header-accessibility d-flex justify-content-center align-items-center purple-shadow">
-						<img src="" alt="accessibility header button" draggable="false" (dragstart)="false;" class="unselectable">
-					</div>
-					<div class="homepage-game-header-profile d-flex justify-content-center align-items-center purple-shadow">
-						<img src="" alt="profile picture / profile header button" draggable="false" (dragstart)="false;" class="unselectable">
+					<div class="homepage-game-content-stats homepage-game-category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
+						<div class="homepage-game-category-title w-100 d-flex justify-content-center align-items-center">
+							<div class="homepage-game-category-icon d-flex justify-content-center align-items-center text-center position-absolute purple-shadow">
+								<img src="assets/general/stats.svg" alt="stats icon" draggable="false" (dragstart)="false;" class="unselectable">
+							</div>
+							<p data-language="stats">Statistics</p>
+						</div>
+						<div class="homepage-game-content-stats-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+							<div class="homepage-game-content-stats-card-stat"></div>
+							<div class="homepage-game-content-stats-card-context"></div>
+						</div>
+						<div class="homepage-game-content-stats-card-graphic w-100 d-flex flex-column justify-content-center align-items-center purple-shadow" data-language="current-form">
+							Forme actuelle
+							<div class="homepage-game-content-stats-graphic"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="homepage-game-body w-100 d-flex justify-content-between align-items-center">
-				<div class="homepage-game-body-content w-50 d-flex justify-content-between align-items-center">
-					<div class="homepage-game-body-content-left w-50 d-flex flex-column justify-content-between align-items-center">
-						<div class="homepage-game-body-content-left-top w-100 d-flex flex-column justify-content-between align-items-center">
-							<div class="homepage-game-body-content-search w-100 d-flex justify-content-between align-items-center text-center purple-shadow" data-language="search">
-								<img src="" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable">
-								Search...
-							</div>
-							<div class="homepage-game-body-content-tournaments w-100 d-flex justify-content-between align-items-center text-center purple-shadow" data-language="tournaments">
-								<img src="" alt="tournaments icon" draggable="false" (dragstart)="false;" class="unselectable">
-								My tournaments
-							</div>
-							<div class="homepage-game-body-content-new-tournament w-100 d-flex justify-content-between align-items-center text-center purple-shadow" data-language="new-tournament">
-								<img src="" alt="+" draggable="false" (dragstart)="false;" class="unselectable">
-								New tournament
-							</div>
-						</div>
-						<div class="homepage-game-body-content-history w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
-							<div class="homepage-game-body-content-history-title w-100 d-flex justify-content-between align-items-center" data-language="history">
-								<div class="homepage-game-body-content-history-icon d-flex justify-content-center align-items-center">
-									<img src="" alt="history icon" draggable="false" (dragstart)="false;" class="unselectable">
-								</div>
-								History
-							</div>
-							<div class="homepage-game-body-content-history-card w-100 d-flex justify-content-between align-items-center purple-shadow">
-								<div class="homepage-game-body-content-history-card-color"></div>
-								<div class="homepage-game-body-content-history-card-result">5-4</div>
-								<div class="homepage-game-body-content-history-card-event">vs Ami1</div>
-							</div>
-						</div>
-					</div>
-					<div class="homepage-game-body-content-right w-50 d-flex flex-column justify-content-between align-items-center">
-						<div class="homepage-game-body-content-friends w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
-							<div class="homepage-game-body-content-friends-title w-100 d-flex justify-content-between align-items-center" data-language="friends">
-								<div class="homepage-game-body-content-friends-icon d-flex justify-content-center align-items-center">
-									<img src="" alt="friends icon" draggable="false" (dragstart)="false;" class="unselectable">
-								</div>
-								Friends online
-							</div>
-							<div class="homepage-game-body-content-friends-card w-100 d-flex justify-content-between align-items-center purple-shadow">
-								Ami1
-								<div class="homepage-game-body-content-friends-card-picture">
-									<img src="" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
-								</div>
-							</div>
-						</div>
-						<div class="homepage-game-body-content-stats w-100 d-flex flex-column justify-content-between align-items-center purple-shadow">
-							<div class="homepage-game-body-content-stats-title w-100 d-flex justify-content-between align-items-center" data-language="stats">
-								<div class="homepage-game-body-content-stats-icon d-flex justify-content-center align-items-center">
-									<img src="" alt="stats icon" draggable="false" (dragstart)="false;" class="unselectable">
-								</div>
-								Statistics
-							</div>
-							<div class="homepage-game-body-content-stats-card w-100 d-flex justify-content-between align-items-center purple-shadow">
-								<div class="homepage-game-body-content-stats-card-stat"></div>
-								<div class="homepage-game-body-content-stats-card-context"></div>
-							</div>
-							<div class="homepage-game-body-content-stats-card-graphic w-100 d-flex flex-column justify-content-center align-items-center purple-shadow" data-language="current-form">
-								Forme actuelle
-								<div class="homepage-game-body-content-stats-graphic"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="homepage-game-body-picture w-50 d-flex justify-content-center align-items-center purple-shadow">
-					<img src="" alt="two hands playing table tennis" draggable="false" (dragstart)="false;" class="unselectable">
+			<div class="homepage-game-picture w-50 d-flex flex-column justify-content-center align-items-center">
+				<div class="homepage-game-video-container homepage-game-category w-100 d-flex justify-content-center align-items-center purple-shadow">
+					<video autoplay muted loop>
+						<source src="assets/homepage/pong.webm" type="video/webm">
+						A short loop of hands playing table tennis.
+					</video>
 				</div>
 			</div>
 		</div>
@@ -279,6 +285,8 @@
 		<script src="js/homepage-id.js"></script>
 		<script src="js/sign-in.js"></script>
 		<script src="js/sign-up.js"></script>
+		<script src="js/homepage-header.js"></script>
+		<script src="js/homepage-game.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	</body>
 </html>

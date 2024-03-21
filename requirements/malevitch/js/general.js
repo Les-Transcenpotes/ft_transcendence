@@ -8,7 +8,7 @@ let	g_refreshToken;
 // History routing.
 
 let g_state = {
-	pageToDisplay: ".homepage-id"
+	pageToDisplay: ".homepage-game"
 };
 
 function render() {
@@ -187,11 +187,11 @@ function togglePasswordView(container) {
 
 	if (input.getAttribute('type') == 'password') {
 		input.setAttribute('type', 'text');
-		icon.setAttribute('src', 'assets/general/hidden-purple.png');
+		icon.setAttribute('src', 'assets/auth/hidden-purple.png');
 	}
 	else {
 		input.setAttribute('type', 'password');
-		icon.setAttribute('src', 'assets/general/view-purple.png');
+		icon.setAttribute('src', 'assets/auth/view-purple.png');
 	}
 }
 
@@ -244,6 +244,9 @@ function switchNextFontSizeFromPreviousSelector(previous, next) {
 function goToHomepageGame(previous) {
 	var prevPage = document.querySelector(previous);
 	prevPage.classList.add('visually-hidden');
+
+	var	homepageHeader = document.querySelector('.homepage-game');
+	homepageHeader.classList.remove('visually-hidden');
 
 	g_state.pageToDisplay = '.homepage-game';
 	window.history.pushState(g_state, null, "");
