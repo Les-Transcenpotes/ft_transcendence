@@ -103,6 +103,7 @@ fclean: clean
 	- $(STOP) $$(docker ps -qa)
 	- $(RM) $$(docker ps -qa)
 	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
+	- docker rmi $$(docker images -qa)
 
 prune:
 	- $(STOP) $$(docker ps -qa)
