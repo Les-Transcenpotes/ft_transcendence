@@ -62,6 +62,7 @@ modsec:
 			echo "Copy done !"; \
 		fi \
 	fi
+	docker image rm -f modsec || true; \
 
 #---- debug ----#
 
@@ -97,7 +98,6 @@ petrus:
 
 clean: down
 	$(COMPOSE) $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
-	docker image rm -f modsec || true
 	rm -rf $(VOLUMES_PATH)/*
 	rm -rf ./requirements/aegis/ModSecurity
 
@@ -111,7 +111,6 @@ prune:
 	- $(SYSTEM) prune -af
 	- $(VOLUME) prune -af
 	rm -rf ./requirements/aegis/ModSecurity
-	docker image rm -f modsec || true
 
 #---- re ----#
 
