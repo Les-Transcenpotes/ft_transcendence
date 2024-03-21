@@ -17,3 +17,4 @@ youpi
 **/__init__.py
 sources.txt
 *.log
+requirements/aegis/ModSecurity

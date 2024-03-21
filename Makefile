@@ -22,7 +22,7 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | migrate volumes
+debug: | migrate volumes modsec
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes
@@ -135,9 +135,7 @@ re: down debug
 #---- settings --------------------------------------------------------#
 
 .SILENT:
-.DEFAULT: debug
-# pour la prod: remettre all
+.DEFAULT: debug # pour la prod: remettre all
 .PHONY: all up build down volumes migrate debug clean fclean prune re \
 aegis alfred apollo coubertin cupidon davinci hermes iris lovelace \
-ludo malevitch mensura mnemosine petrus thot
-
+ludo malevitch mensura mnemosine petrus thot modsec
