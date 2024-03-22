@@ -19,7 +19,8 @@ jobs:
     - name: Build containers
       run: make all
 
-    - name: Health Check
-      run: |
-            curl -k https://localhost:8000/mensura/
-            curl -k https://localhost:8000/davinci/
+    - name: Health Check Mensura
+      run: curl -k https://localhost:8000/mensura/
+
+    - name: Health Check Davinci
+      run: curl -k https://localhost:8000/davinci/
