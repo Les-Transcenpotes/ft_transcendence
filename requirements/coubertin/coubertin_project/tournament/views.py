@@ -32,7 +32,7 @@ class gameResult(View):
 
         data = json.load(io.BytesIO(request.body))
         tournament = tournaments[data.get('tournamentName', None)]
-        tournament.addGame(data.get('game', None))
+        tournament.addGame(data.get('game', None)) # Game should be a dictionnary
 
 def tournamentHome(request, tournamentName):
     return render(request, 'tournament/home.html', {'tournamentName': tournamentName})

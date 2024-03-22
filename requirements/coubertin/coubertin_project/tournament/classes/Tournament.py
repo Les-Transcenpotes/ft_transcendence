@@ -5,9 +5,15 @@ class Tournament:
         self.state = 0 # 0 = inscritpion, 1 = en cours, 2 = termine
         self.onGoingGames = 0
         self.players = []
-        self.gameHistory = []
+        self.gameHistory = [] # Liste des dictionnaires de games
 
     def addPlayer(self, player):
         self.players += player
+
+    def addGame(self, game):
+        for player in game:
+            if game[player] < 5:
+                self.players.remove(player)
+        self.gameHistory += game
                 
 tournaments = {}
