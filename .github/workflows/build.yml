@@ -20,7 +20,7 @@ jobs:
       run: make all
 
     - name: Health Check Mensura
-      run: curl -k https://localhost:8000/mensura/
+      run: curl -Lk https://localhost:8000/mensura/
 
     - name: Health Check Davinci
-      run: curl -k https://localhost:8000/davinci/
+      run: curl -Lk https://localhost:8000/davinci/
