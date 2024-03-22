@@ -3,10 +3,10 @@ name: Build Docker Containers
 on:
   push:
     branches:
-      - TRA-237-Compile-ModSecurity-Quick-CI-Job-Health-Test  # Adjust the branch as needed
+      - TRA-237-Compile-ModSecurity-Quick-CI-Job-Health-Test
   pull_request:
     branches:
-      - dev  # Adjust the branch as needed
+      - dev
 
 jobs:
   build:
@@ -14,7 +14,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Build containers
       run: make all
+
+    - name: Health Check
+      run: curl -k https://localhost:8000/mensura/
