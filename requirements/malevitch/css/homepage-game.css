@@ -34,9 +34,32 @@
 }
 
 .homepage-game-category-title {
+	z-index: 998;
+	background-color: rgba(115, 0, 230, 0.1);
+	backdrop-filter: blur(3px);
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-radius: 16px;
 	color: #7300E6;
 	font-size: 16pt;
 	font-weight: 550;
+}
+
+.homepage-game-content-card-container {
+	width: 100%;
+	margin-top: 64px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-bottom: 16px;
+}
+
+.homepage-game-content-card {
+	margin-top: 16px;
+	width: 100%;
+	background-color: white;
+	border-radius: 12px;
+	border-width: 0;
+	padding: 12px;
 }
 
 /* left content */
@@ -60,14 +83,40 @@
 
 .homepage-game-content-history {
 	flex-grow: 1;
-	padding: 16px;
-	padding-top: 20px;
 	margin-top: 16px;
 }
 
 .homepage-game-content-history div div img {
 	height: 20px;
 	margin-right: 1px;
+}
+
+.homepage-game-content-history-card-color {
+	left: 12px;
+	height: 60%;
+	width: 3px;
+	background-color: #46DB00;
+	border-radius: 1.5px;
+	border-width: 0;
+}
+
+.homepage-game-content-history-card-result {
+	font-size: 18pt;
+	font-weight: 700;
+	color: #7300E6;
+	margin-right: 16px;
+}
+
+.homepage-game-content-history-card-event {
+	font-size: 14pt;
+	font-weight: 500;
+	color: #7300E6;
+}
+
+.homepage-game-content-history-card-event b {
+	font-size: 14pt;
+	font-weight: 700;
+	color: #7300E6;
 }
 
 /* right content */
@@ -79,22 +128,45 @@
 }
 
 .homepage-game-content-friends {
-	padding: 16px;
-	padding-top: 20px;
 	margin-bottom: 16px;
 	height: 45%;
 }
 
-.homepage-game-content-friends div div img {
+.homepage-game-content-friends 
+.homepage-game-category-title
+.homepage-game-category-icon img {
 	height: 20px;
 	margin-left: 1px;
 }
 
+.homepage-game-content-friends-card-name {
+	font-size: 16pt;
+	font-weight: 700;
+	color: #7300E6;
+}
+
+.homepage-game-content-friends-card-picture img {
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	border-width: 0;
+}
+
 .homepage-game-content-stats {
 	flex-grow: 1;
-	padding: 16px;
-	padding-top: 20px;
 	margin-top: 16px;
+}
+
+.homepage-game-content-stats-card-stat {
+	font-size: 16pt;
+	font-weight: 700;
+	color: #7300E6;
+}
+
+.homepage-game-content-stats-card-context {
+	font-size: 16pt;
+	font-weight: 400;
+	color: #7300E6;
 }
 
 /* animation */
