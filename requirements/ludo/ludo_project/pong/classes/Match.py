@@ -7,5 +7,7 @@ class Match:
         self.players = []
         self.score = [0, 0]
         self.ball = Ball(gameSettings=gameSettings())
+        self.gameStarted = False
+        self.startTime = 0
 
 matches = {}

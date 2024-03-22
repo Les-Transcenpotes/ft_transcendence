@@ -3,7 +3,8 @@ from pong.classes.Match import matches, Match
 from pong.classes.Player import Player
 from requirements.ludo.ludo_project.pong.classes.GameSettings import gameSettings
 from pong.classes.Ball import Ball
-import math as m
+import time
+import math
 import json
 
 # match[self.id] = moi
@@ -64,6 +65,8 @@ class Consumer(AsyncWebsocketConsumer):
 
         self.myMatch.players.append(Player(self.id, self.gameSettings))
         self.myMatch.ball = Ball(self.gameSettings)
+        self.lastRefreshTime = time.time()
+
         await self.send (text_data=json.dumps({
             "type": "gameParameters",
             "playerHeight": self.gameSettings.playerHeight,
@@ -105,6 +108,9 @@ class Consumer(AsyncWebsocketConsumer):
 
             # Ball and score management
             if (len(self.myMatch.players) > 1):
+                if (self.myMatch.gameStarted == False):
+                    self.myMatch.gameStarted == True
+                    self.myMatch.startTime = time.time()
                 pointWinner = self.myMatch.ball.move(self.myMatch.players[0], self.myMatch.players[1], self.gameSettings)
                 if (pointWinner != -1):
                     self.myMatch.score[pointWinner] += 1
@@ -144,7 +150,7 @@ class Consumer(AsyncWebsocketConsumer):
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
                     "ballSpeed": self.myMatch.ball.speed,
-                    "ballAngle": m.pi - self.myMatch.ball.angle,
+                    "ballAngle": math.pi - self.myMatch.ball.angle,
             }))
 
         # Received from opponent 
@@ -166,5 +172,5 @@ class Consumer(AsyncWebsocketConsumer):
                     "ballPosX": self.gameSettings.screenWidth - self.myMatch.ball.pos[0],
                     "ballPosY": self.myMatch.ball.pos[1],
                     "ballSpeed": self.myMatch.ball.speed,
-                    "ballAngle": m.pi - self.myMatch.ball.angle,
+                    "ballAngle": math.pi - self.myMatch.ball.angle,
                 }))

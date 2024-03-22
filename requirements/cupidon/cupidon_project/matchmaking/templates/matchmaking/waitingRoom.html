@@ -23,7 +23,6 @@
 
 /***************************************** Websockets *****************************************/
 
-console.log("ws://" + window.location.host + '/pong/ws/me/')
 const exampleSocket = new WebSocket('wss://localhost:8000/cupidon/matchmaking/ws/'); // Probably add room name
 
 exampleSocket.onopen = function(event) {

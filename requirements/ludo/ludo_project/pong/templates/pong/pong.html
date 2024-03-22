@@ -303,8 +303,8 @@ function gameLoop() {
     document.getElementById("score2").innerHTML = opponent.points.toString();
 
     // Update positions
-    ball.move();
-    me.move(meStyle);
+    // ball.move();
+    // me.move(meStyle);
     frames[i] = {"meUp": me.up, "meDown": me.down};
 
     // Send info to back
@@ -335,7 +335,6 @@ function gameLoop() {
     if (ball.pos['y'] <= parseInt(ballStyle.height, 10) / 2 || ball.pos['y'] >= screenHeight - parseInt(ballStyle.height, 10) / 2) {
         ball.angle = - ball.angle;
     }
-
     i++;
 }
 

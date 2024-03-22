@@ -34,10 +34,5 @@ class gameResult(View):
         tournament = tournaments[data.get('tournamentName', None)]
         tournament.addGame(data.get('game', None))
 
-def startTournament(request, tournamentName):
-    if (tournamentName not in tournaments):
-        return JsonResponse({'Err': 'tournament does not exists'})
-    tournaments[tournamentName].startTournament()
-
 def tournamentHome(request, tournamentName):
     return render(request, 'tournament/home.html', {'tournamentName': tournamentName})
