@@ -23,4 +23,6 @@ jobs:
       run: curl -Lk https://localhost:8000/mensura/
 
     - name: Health Check Davinci
-      run: curl -Lk https://localhost:8000/davinci/
+      run: |
+            curl -k -X GET https://localhost:8000/davinci/api/health
+            grep '"database": "ok"'
