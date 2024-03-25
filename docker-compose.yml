@@ -19,8 +19,6 @@ services:
     build:
       context: ./requirements/aegis
       dockerfile: Dockerfile
-      args:
-        - BUILD_NO_CACHE=1
     ports:
       # - "80:80"
       # - "443:443"
