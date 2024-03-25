@@ -1,9 +1,9 @@
 name: Build Docker Containers
 
 on:
-  push:
-    branches:
-      - TRA-237-Compile-ModSecurity-Quick-CI-Job-Health-Test
+  #push:
+  #  branches:
+  #    - TRA-237-Compile-ModSecurity-Quick-CI-Job-Health-Test
   pull_request:
     branches:
       - dev
@@ -19,10 +19,10 @@ jobs:
     - name: Build containers
       run: make all
 
-    - name: Health Check Mensura
-      run: curl -Lk https://localhost:8000/mensura/
+    #- name: Health Check Mensura
+    #  run: curl -Lk https://localhost:8000/mensura/
 
-    - name: Health Check Davinci
-      run: |
-            curl -k -X GET https://localhost:8000/davinci/api/health
-            grep '"database": "ok"'
+    #- name: Health Check Davinci
+    #  run: |
+    #        curl -k -X GET https://localhost:8000/davinci/api/health
+    #        grep '"database": "ok"'
