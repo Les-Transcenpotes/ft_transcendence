@@ -91,6 +91,7 @@ prune:
 	- $(STOP) $$(docker ps -qa)
 	- $(SYSTEM) prune -af
 	- $(VOLUME) prune -af
+	rm -rf ./requirements/aegis/ModSecurity/
 
 #---- re ----#
 
