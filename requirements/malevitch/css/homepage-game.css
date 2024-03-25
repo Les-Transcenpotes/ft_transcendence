@@ -200,11 +200,11 @@
 
 .homepage-game-picture {
 	height: 100%;
+	padding-left: 2.5vh;
 }
 
 .homepage-game-video-container {
 	height: 100%;
-	padding-left: 2.5vh;
 }
 
 .homepage-game-video-container video {
