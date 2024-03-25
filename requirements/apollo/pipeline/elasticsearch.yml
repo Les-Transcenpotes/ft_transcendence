@@ -1,9 +1,0 @@
-elasticsearch:
-  cluster:
-    name: ludo
-  node:
-    name: ludo-node
-  path:
-    data: ~/home/elasticsearch/data
-  network:
-    host: "localhost"
