@@ -233,10 +233,14 @@
 							<p data-language="history">History</p>
 						</div>
 						<div class="homepage-game-content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
-							<div class="homepage-game-content-card w-100 d-flex justify-content-center align-items-end purple-shadow">
+							<!-- <div class="homepage-game-content-card w-100 d-flex justify-content-center align-items-end purple-shadow">
 								<div class="homepage-game-content-history-card-color position-absolute"></div>
 								<div class="homepage-game-content-history-card-result">5-4</div>
 								<div class="homepage-game-content-history-card-event">vs<b> Ami1</b></div>
+							</div> -->
+							<div class="homepage-game-content-empty-history w-100 d-flex flex-column justify-content-center align-items-center">
+								<img src="assets/general/no-history.svg" alt="empty history icon" draggable="false" (dragstart)="false;" class="unselectable">
+								<p data-language="empty-history">You haven't played any game yet...</p>
 							</div>
 						</div>
 					</div>
@@ -250,11 +254,15 @@
 							<p data-language="friends">Friends online</p>
 						</div>
 						<div class="homepage-game-content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
-							<div class="homepage-game-content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+							<!-- <div class="homepage-game-content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
 								<div class="homepage-game-content-friends-card-name">Ami1</div>
 								<div class="homepage-game-content-friends-card-picture">
 									<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
 								</div>
+							</div> -->
+							<div class="homepage-game-content-no-friends w-100 d-flex flex-column justify-content-center align-items-center">
+								<img src="assets/general/no-friends.svg" alt="no friends icon" draggable="false" (dragstart)="false;" class="unselectable">
+								<p data-language="no-friends">No friends are online...</p>
 							</div>
 						</div>
 					</div>
@@ -266,9 +274,13 @@
 							<p data-language="stats">Statistics</p>
 						</div>
 						<div class="homepage-game-content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
-							<div class="homepage-game-content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+							<!-- <div class="homepage-game-content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
 								<div class="homepage-game-content-stats-card-stat">100%</div>
 								<div class="homepage-game-content-stats-card-context">Winrate</div>
+							</div> -->
+							<div class="homepage-game-content-empty-history w-100 d-flex flex-column justify-content-center align-items-center">
+								<img src="assets/general/no-history.svg" alt="empty history icon" draggable="false" (dragstart)="false;" class="unselectable">
+								<p data-language="empty-history">You haven't played any game yet...</p>
 							</div>
 						</div>
 						<div class="homepage-game-content-stats-card-graphic w-100 d-flex flex-column justify-content-center align-items-center purple-shadow" data-language="current-form">

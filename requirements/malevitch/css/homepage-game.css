@@ -86,9 +86,11 @@
 	margin-top: 16px;
 }
 
-.homepage-game-content-history div div img {
+.homepage-game-content-history
+.homepage-game-category-title
+.homepage-game-category-icon img {
 	height: 20px;
-	margin-right: 1px;
+	margin-right: 1.5px;
 }
 
 .homepage-game-content-history-card-color {
@@ -117,6 +119,19 @@
 	font-size: 14pt;
 	font-weight: 700;
 	color: #7300E6;
+}
+
+.homepage-game-content-empty-history img {
+	width: 40%;
+	opacity: 50%;
+	margin-top: 32px;
+	margin-bottom: 32px;
+	margin-right: 16px;
+}
+
+.homepage-game-content-empty-history p {
+	font-size: 14pt;
+	font-weight: 400;
 }
 
 /* right content */
@@ -150,6 +165,18 @@
 	height: 40px;
 	border-radius: 20px;
 	border-width: 0;
+}
+
+.homepage-game-content-no-friends img {
+	width: 40%;
+	opacity: 50%;
+	margin-top: 24px;
+	margin-bottom: 32px;
+}
+
+.homepage-game-content-no-friends p {
+	font-size: 14pt;
+	font-weight: 400;
 }
 
 .homepage-game-content-stats {

@@ -28,7 +28,9 @@
 		"tournaments": "My tournaments",
 		"new-tournament": "New tournament",
 		"history": "History",
+		"empty-history": "You haven't played any game yet...",
 		"friends": "Friends online",
+		"no-friends": "No friends are online...",
 		"stats": "Statistics"
 	},
 	"fr": {
@@ -60,7 +62,9 @@
 		"tournaments": "Mes tournois",
 		"new-tournament": "Nouveau tournoi",
 		"history": "Historique",
+		"empty-history": "Vous n'avez encore joué aucune partie...",
 		"friends": "Amis en ligne",
+		"no-friends": "Aucun ami n'est en ligne...",
 		"stats": "Statistiques"
 	},
 	"zh": {
@@ -92,7 +96,9 @@
 		"tournaments": "我的比赛",
 		"new-tournament": "新比赛",
 		"history": "历史记录",
+		"empty-history": "你还没有玩过任何游戏。。。",
 		"friends": "朋友在线",
+		"no-friends": "没有好友在线。。。",
 		"stats": "统计数据"
 	}
 }
