@@ -229,6 +229,22 @@ services:
       - atlas
     restart: on-failure
 
+  tutum:
+    container_name: tutum
+    image: tutum
+    build:
+      context: ./requirements/tutum
+      dockerfile: Dockerfile
+    volumes:
+      - shared_code:/app/shared
+    ports:
+      - "8012:8012"
+    depends_on:
+      - aegis
+    networks:
+      - atlas
+    restart: on-failure
+
   mensura_exporter:
     container_name: mensura_exporter
     image: quay.io/prometheus/node-exporter
