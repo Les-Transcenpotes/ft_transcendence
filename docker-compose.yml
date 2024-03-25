@@ -15,191 +15,36 @@ volumes:
       type: none
       device: ./requirements/shared_code
       o: bind
-  certifications_data:
-    driver: local
   elasticsearch_data:
-    driver: local
-  logstash_data:
-    driver: local
-  kibana_data:
     driver: local
 
 services:
 
-  setup:
-    image: elasticsearch:8.12.2
-    volumes:
-      - certifications_data:/usr/share/elasticsearch/config/certificates
-    user: "0"
-    environment:
-      - xpack.security.http.ssl.enabled=true
-      - xpack.security.transport.ssl.enabled=true
-    command: >
-        bash -c '
-          if [ x${ELASTIC_PASSWORD} == x ]; then
-            echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
-            exit 1;
-          elif [ x${KIBANA_PASSWORD} == x ]; then
-            echo "Set the KIBANA_PASSWORD environment variable in the .env file";
-            exit 1;
-          fi;
-          if [ ! -f config/certificates/ca.zip ]; then
-            echo "Creating CA";
-            bin/elasticsearch-certutil ca --silent --pem -out config/certificates/ca.zip;
-            unzip config/certificates/ca.zip -d config/certificates;
-          fi;
-          if [ ! -f config/certificates/certificates.zip ]; then
-            echo "Creating certificates";
-            echo -ne \
-            "instances:\n"\
-            "  - name: elasticsearch\n"\
-            "    dns:\n"\
-            "      - elasticsearch\n"\
-            "      - localhost\n"\
-            "    ip:\n"\
-            "      - 127.0.0.1\n"\
-            "  - name: kibana\n"\
-            "    dns:\n"\
-            "      - kibana\n"\
-            "      - localhost\n"\
-            "    ip:\n"\
-            "      - 127.0.0.1\n"\
-            > config/certificates/instances.yml;
-            bin/elasticsearch-certutil cert --silent --pem -out config/certificates/certificates.zip --in config/certificates/instances.yml --ca-cert config/certificates/ca/ca.crt --ca-key config/certificates/ca/ca.key;
-            unzip config/certificates/certificates.zip -d config/certificates;
-          fi;
-          echo "Setting file permissions"
-          chown -R root:root config/certificates;
-          find . -type d -exec chmod 750 \{\} \;;
-          find . -type f -exec chmod 640 \{\} \;;
-          echo "Waiting for Elasticsearch availability";
-          until curl -s --cacert config/certificates/ca/ca.crt https://elasticsearch:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
-          echo "Setting kibana_system password";
-          until curl -s -X POST --cacert config/certificates/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://elasticsearch:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
-          echo "All done!";'
-    healthcheck:
-      test: ["CMD", "curl", "-f", "--cacert", "config/certificates/ca/ca.crt", "https://elasticsearch:9200"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    # networks:
-    #   - aegis guard
-
-  elasticsearch:
-    depends_on:
-      setup:
-        condition: service_healthy
+  apollo:
     container_name: apollo
-    image: apollo
-    build:
-      context: ./requirements/apollo
-      dockerfile: Dockerfile
-    labels:
-      co.elastic.logs/module: elasticsearch
-    volumes:
-      - certifications_data:/usr/share/elasticsearch/config/certificates
-      - elasticsearch_data:/usr/share/elasticsearch/data
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
-      - cluster.name=${CLUSTER_NAME}
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=true
-      - xpack.security.http.ssl.key=certificates/elasticsearch.key
-      - xpack.security.http.ssl.certificate=certificates/elasticsearch.crt
-      - xpack.security.http.ssl.certificate_authorities=certificates/ca/ca.crt
-      - xpack.security.transport.ssl.enabled=true
-      - xpack.security.transport.ssl.key=certificates/elasticsearch.key
-      - xpack.security.transport.ssl.certificate=certificates/elasticsearch.crt
-      - xpack.security.transport.ssl.certificate_authorities=certificates/ca/ca.crt
-      - xpack.security.transport.ssl.verification_mode=certificate
-      - xpack.license.self_generated.type=${LICENSE}
-    mem_limit: ${MEM_LIMIT}
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -s --cacert config/certificates/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
-        ]
-      interval: 10s
-      timeout: 10s
-      retries: 120
+      - "discovery.type=single-node"
+      - "network.host=0.0.0.0"
+      - "xpack.security.http.ssl.enabled=false"
 
-  kibana:
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
+  iris:
     container_name: iris
-    image: iris
-    build:
-      context: ./requirements/iris
-      dockerfile: Dockerfile
-    labels:
-      co.elastic.logs/module: kibana
-    volumes:
-      - certifications_data:/usr/share/elasticsearch/config/certificates
-      - kibana_data:/usr/share/kibana/data
+    image: docker.elastic.co/kibana/kibana:8.12.2
     ports:
       - "5601:5601"
     environment:
-     - SERVERNAME=kibana
-     - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
-     - ELASTICSEARCH_USERNAME=kibana_system
-     - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
-     - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
-     - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-     - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-     - XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-    mem_limit: ${MEM_LIMIT}
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
-        ]
-      interval: 10s
-      timeout: 10s
-      retries: 120
+      SERVER_NAME: kibana.example.org
+      ELASTICSEARCH_HOSTS: '["http://apollo:9200"]'
 
-  logstash:
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
+  thot:
     container_name: thot
-    image: thot
-    build:
-      context: ./requirements/thot
-      dockerfile: Dockerfile
-    labels:
-      co.elastic.logs/module: logstash
-    user: root
-    volumes:
-      - certifications_data:/usr/share/elasticsearch/config/certificates
-      - logstash_data:/usr/share/logstash
-      - ./requirements/thot/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
-    environment:
-      - NODE_NAME="logstash"
-      - xpack.monitoring.enabled=false
-      - ELASTIC_USER=elastic
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-      - ELASTIC_HOSTS=https://elasticsearch:9200
-    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+    image: docker.elastic.co/logstash/logstash:8.12.2
     ports:
-      - "9600:9600"
-      - "5044:5044/udp"
-    mem_limit: ${MEM_LIMIT}
+    - "9600:9600"
 
 # Server proxy
   aegis:
