@@ -52,3 +52,12 @@
 	border-radius: 23px;
 	border-width: 0;
 }
+
+/* hover */
+
+.homepage-header-logo:hover,
+.homepage-header-menus > *:hover,
+.homepage-header-options > *:not(:first-child):hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
+}

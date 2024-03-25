@@ -33,6 +33,11 @@
 	background-color: white;
 }
 
+.homepage-game-category-icon:hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
+}
+
 .homepage-game-category-title {
 	z-index: 998;
 	background-color: rgba(115, 0, 230, 0.1);
@@ -79,6 +84,13 @@
 .homepage-game-content-left-top > * img {
 	height: 24px;
 	left: 16px;
+}
+
+.homepage-game-content-search:hover,
+.homepage-game-content-tournaments:hover,
+.homepage-game-content-new-tournament:hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
 }
 
 .homepage-game-content-history {
