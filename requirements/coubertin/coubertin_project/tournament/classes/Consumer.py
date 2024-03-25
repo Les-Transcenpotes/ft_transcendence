@@ -33,7 +33,7 @@ class Consumer(AsyncWebsocketConsumer):
             }
         )
 
-    async def Start(self, event):
+    async def Start(self, event): # Only for admin
         global tournaments
         
         self.myTournament.state += 1
@@ -41,7 +41,7 @@ class Consumer(AsyncWebsocketConsumer):
                 "action": "redirect",
                 }))
         
-    async def StartRound(self, event):
+    async def StartRound(self, event): # Only for admin
         global tournaments
 
         await self.send(json.dumps({
@@ -50,6 +50,10 @@ class Consumer(AsyncWebsocketConsumer):
                 "player2": self.myTournament.players[self.id + (1 - self.id % 2)],
                 }))
         
-    
+    async def EndTournament(self, event): # Only for admin
+        tournamentDict = {
+            "name": self.myTournament.name, # string
+            "players": self.myTournament.players, # list of strings
+            "games": self.myTournament.gameHistory, # list of games dictionnaries (keys: player1, player2, score1, score2)
+        }
         
-
