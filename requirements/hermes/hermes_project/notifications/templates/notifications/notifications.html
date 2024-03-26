@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+
+    <body id="test-target">
+        <div>Notifications</div>
+        <script>
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************** Websockets *****************************************/
+
+const exampleSocket = new WebSocket('wss://localhost:8000/hermes/ws/test'); // Ajouter le nom du user a la fin de l'URL
+
+exampleSocket.onopen = function(event) {
+    console.log("Socket opened in the front");
+};
+
+exampleSocket.onclose = function() {
+    console.log("Socket closed in the front");
+}
+
+exampleSocket.onerror = function(event) {
+    console.log("Socket error");
+}
+
+exampleSocket.onmessage = (event) => {
+    // Pop the notification here
+};
+
+function sendData(type, source, target) {
+    // Construct a msg object containing the data the server needs to process the message from the chat client.
+    const data = {
+        type: type,
+        source: source,
+        target: target,
+    };
+  
+    // Send the msg object as a JSON-formatted string.
+    exampleSocket.send(JSON.stringify(data));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
