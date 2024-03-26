@@ -68,7 +68,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         print("This is from the gameStart function")
 
-        self.myMatch.players.append(Player(self.id, self.gameSettings))
+        self.myMatch.players.append(Player(self.id, self.gameSettings)) # A check avec le viewer !!
         self.myMatch.ball = Ball(self.gameSettings)
         await self.send (text_data=json.dumps({
             "type": "gameParameters",
