@@ -126,7 +126,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 ASGI_APPLICATION = "hermes_project.asgi.application"
 
 CHANNEL_LAYERS = {
