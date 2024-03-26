@@ -23,7 +23,7 @@
 
 /***************************************** Websockets *****************************************/
 
-const exampleSocket = new WebSocket('wss://localhost:8000/hermes/ws/');
+const exampleSocket = new WebSocket('wss://localhost:8000/hermes/ws/test'); // Ajouter le nom du user a la fin de l'URL
 
 exampleSocket.onopen = function(event) {
     console.log("Socket opened in the front");
