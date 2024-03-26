@@ -16,7 +16,7 @@ class Consumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        type = text_data_json['state']
+        type = text_data_json['type']
         source = text_data_json['source']
         target = text_data_json['target']
         
