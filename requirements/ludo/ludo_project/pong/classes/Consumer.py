@@ -10,6 +10,8 @@ import json
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
 
+# tester si c'est un viewer ou un joueur
+
 class Consumer(AsyncWebsocketConsumer):
 
     async def connect(self):
@@ -25,6 +27,10 @@ class Consumer(AsyncWebsocketConsumer):
 
         self.myMatch = matches[self.roomName]
         self.id = len(self.myMatch.players)
+        self.isPlayer = True
+        if (self.id > 1):
+            self.isPlayer = False # a tester !
+            self.id = 0
         self.gameSettings = gameSettings() # Voir si on peut faire autrement
         await self.accept()
 
@@ -63,7 +69,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         print("This is from the gameStart function")
 
-        self.myMatch.players.append(Player(self.id, self.gameSettings))
+        self.myMatch.players.append(Player(self.id, self.gameSettings)) # A check avec le viewer !!
         self.myMatch.ball = Ball(self.gameSettings)
         self.lastRefreshTime = time.time()
 
@@ -73,6 +79,7 @@ class Consumer(AsyncWebsocketConsumer):
             "playerWidth": self.gameSettings.playerWidth,
             "ballSize": self.gameSettings.ballSize,
             "ballSpeed": self.myMatch.ball.speed,
+            "isPlayer": self.isPlayer,
         }))
 
     async def updateScore(self, event):
@@ -83,8 +90,16 @@ class Consumer(AsyncWebsocketConsumer):
         }))
 
     async def gameEnd(self, event):
+        # Si game de tournoi, envoyer au tournoi, sinon envoyer a la db.
+        if (self.roomName.count('-') == 2):
+            pass # Envoyer un json au tournoi
+        else:
+            pass # Envoyer un json a la db
         # requests.post() # Poster direct a la db
-        # Envoyer aussi l'info au tournoi si besoin !
+
+        if (self.isPlayer):
+            return
+
         if (event["winner"] == self.id):
             await self.send (text_data=json.dumps({
                 "type": "youWin",
