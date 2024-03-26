@@ -22,10 +22,10 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | migrate volumes
+debug: | migrate volumes modsec
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
-all: | migrate volumes
+all: | migrate volumes modsec
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
 up: | migrate volumes
@@ -43,8 +43,10 @@ volumes:
 migrate:
 	./tools/migrate.sh $(DJANGO_CTT)
 
-#---- debug ----#
+modsec:
+	./tools/modsec.sh
 
+#---- debug ----#
 
 aegis:
 	$(COMPOSE) $(DOCKER_FILE) exec aegis /bin/sh
@@ -83,11 +85,13 @@ fclean: clean
 	- $(STOP) $$(docker ps -qa)
 	- $(RM) $$(docker ps -qa)
 	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
+	- docker rmi $$(docker images -qa)
 
 prune:
 	- $(STOP) $$(docker ps -qa)
 	- $(SYSTEM) prune -af
 	- $(VOLUME) prune -af
+	rm -rf ./requirements/aegis/ModSecurity/
 
 #---- re ----#
 
@@ -99,5 +103,4 @@ re: down debug
 .SILENT:
 .DEFAULT: debug
 # pour la prod: remettre all
-.PHONY: all up build down volumes migrate debug clean fclean prune re
-
+.PHONY: all up build down volumes migrate debug clean fclean prune re modsec
