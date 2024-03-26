@@ -175,13 +175,13 @@
 				<img src="assets/general/batch-purple-small.svg" alt="BATCH logo small" draggable="false" (dragstart)="false;" class="unselectable purple-shadow">
 			</div>
 			<div class="homepage-header-menus d-flex justify-content-between align-items-center position-absolute start-50 top-50 translate-middle purple-shadow">
-				<div class="homepage-header-tournament d-flex justify-content-center align-items-center purple-shadow">
+				<div class="homepage-header-tournaments homepage-header-menu-button d-flex justify-content-center align-items-center purple-shadow">
 					<img src="assets/general/tournament.svg" alt="tournament header button" draggable="false" (dragstart)="false;" class="unselectable">
 				</div>
-				<div class="homepage-header-play d-flex justify-content-center align-items-center purple-shadow">
+				<div class="homepage-header-play homepage-header-menu-button d-flex justify-content-center align-items-center purple-shadow">
 					<img src="assets/general/play.svg" alt="play header button" draggable="false" (dragstart)="false;" class="unselectable">
 				</div>
-				<div class="homepage-header-friends d-flex justify-content-center align-items-center purple-shadow">
+				<div class="homepage-header-friends homepage-header-menu-button d-flex justify-content-center align-items-center purple-shadow">
 					<img src="assets/general/friends.svg" alt="friends header button" draggable="false" (dragstart)="false;" class="unselectable">
 				</div>
 			</div>
@@ -207,6 +207,41 @@
 				</div>
 			</div>
 		</div>
+		<!-- HOMEPAGE-HEADER MENUS -->
+		<div class="homepage-header-open-tournaments homepage-header-open-menu w-25 d-flex flex-column justify-content-between align-items-center position-absolute start-50 translate-middle-x purple-shadow visually-hidden">
+			<div class="homepage-header-open-available-tournaments homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/tournament.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="tournaments" class="unselectable">Available tournaments</p>
+			</div>
+			<div class="homepage-header-my-tournaments homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/trophy.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="my-tournaments" class="unselectable">My tournaments</p>
+			</div>
+			<div class="homepage-header-new-tournament homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/plus.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="new-tournament" class="unselectable">New tournament</p>
+			</div>
+		</div>
+		<div class="homepage-header-open-play homepage-header-open-menu w-25 d-flex flex-column justify-content-between align-items-center position-absolute start-50 translate-middle-x purple-shadow visually-hidden">
+			<div class="homepage-header-open-quick-play homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/play.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="play" class="unselectable">Quick play</p>
+			</div>
+			<div class="homepage-header-open-play-friend homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/invite-friend.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="play-friend" class="unselectable">Invite a friend to play</p>
+			</div>
+		</div>
+		<div class="homepage-header-open-friends homepage-header-open-menu w-25 d-flex flex-column justify-content-between align-items-center position-absolute start-50 translate-middle-x purple-shadow visually-hidden">
+			<div class="homepage-header-open-friend-list homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/friends.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="friends-list" class="unselectable">Friends list</p>
+			</div>
+			<div class="homepage-header-open-add-friend homepage-header-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+				<img src="assets/general/invite-friend.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+				<p data-language="add-friend" class="unselectable">Add a friend...</p>
+			</div>
+		</div>
 		<!-- HOMEPAGE-GAME -->
 		<div class="homepage-game w-50 d-flex justify-content-center align-items-center position-absolute visually-hidden">
 			<div class="homepage-game-content w-100 d-flex justify-content-between align-items-center">
@@ -217,8 +252,8 @@
 							<p data-language="search" class="unselectable">Search...</p>
 						</div>
 						<div class="homepage-game-content-tournaments homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
-							<img src="assets/general/tournament.svg" alt="tournaments icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
-							<p data-language="tournaments" class="unselectable">My tournaments</p>
+							<img src="assets/general/trophy.svg" alt="tournaments icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
+							<p data-language="my-tournaments" class="unselectable">My tournaments</p>
 						</div>
 						<div class="homepage-game-content-new-tournament homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
 							<img src="assets/general/plus.svg" alt="+" draggable="false" (dragstart)="false;" class="unselectable position-absolute">

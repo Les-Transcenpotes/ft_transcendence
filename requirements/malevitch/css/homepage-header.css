@@ -7,6 +7,8 @@
 	height: 46px;
 }
 
+/* Menus */
+
 .homepage-header-menus > *,
 .homepage-header-accessibility {
 	height: 46px;
@@ -23,6 +25,45 @@
 	height: 22px;
 }
 
+.homepage-header-open-menu {
+	top: calc(5vh + 66px);
+	z-index: 997;
+	background-color: rgba(255, 255, 255, 0.6);
+	backdrop-filter: blur(50px);
+	border-radius: 16px;
+	padding-top: 16px;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+.homepage-header-category {
+	background-color: rgba(115, 0, 230, 0.1);
+	backdrop-filter: blur(100px);
+	border-radius: 12px;
+	padding: 12px;
+	margin-bottom: 16px;
+}
+
+.homepage-header-category:hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
+}
+
+.homepage-header-category img {
+	left: 16px;
+	width: 24px;
+}
+
+.homepage-header-category p {
+	font-size: 16pt;
+	font-weight: 600;
+	color: #7300E6;
+}
+
+.homepage-header-tournament img {
+	margin-left: 3px;
+}
+
 .homepage-header-play img {
 	margin-left: 4px;
 }
@@ -34,6 +75,8 @@
 .homepage-header-friends img {
 	margin-left: 1px;
 }
+
+/* Options */
 
 .homepage-header-language-selector {
 	margin-right: 4px;
