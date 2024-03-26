@@ -211,8 +211,11 @@
 /* animation */
 
 .homepage-game-picture {
-	height: 100%;
+	top: 20vh;
+	right: 5vh;
+	height: 80vh;
 	padding-left: 2.5vh;
+	padding-bottom: 5vh;
 }
 
 .homepage-game-video-container {
