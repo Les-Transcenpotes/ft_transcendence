@@ -116,6 +116,7 @@ class Player {
         this.pos = screenHeight / 2;
         this.up = false;
         this.down = false;
+        this.isPlayer = true;
     }
     move(playerStyle) {
         let mvt = this.down - this.up;
@@ -152,7 +153,7 @@ let opponent = new Player("opponent");
 
 // Events for keyboard inputs
 gameArea.addEventListener("keydown", (e) => { // Booleans with on press and on release (anyway will be a websocket) !!
-    if (e.repeat) {
+    if (e.repeat || me.isPlayer === false) {
         return;
     }
     if (`${e.key}` === 'w') {
@@ -163,6 +164,9 @@ gameArea.addEventListener("keydown", (e) => { // Booleans with on press and on r
 });
 
 gameArea.addEventListener("keyup", (e) => { // Booleans with on press and on release (anyway will be a websocket) !!    
+    if (me.isPlayer === false) {
+        return;
+    }
     if (`${e.key}` === 'w') {
         me.up = false;
     } else if (`${e.key}` === 's') {
@@ -194,7 +198,7 @@ socket.onmessage = (event) => {
     
     if (data.type == "youWin" || data.type == "youLose") {
         console.log(data.type); // Sleep pour faire pop une fenetre ?
-        window.location.href =  "https://localhost:8000/";
+        window.location.href = "https://localhost:8000/";
     }
 
     else if (data.type == "gameParameters") {
@@ -210,6 +214,7 @@ socket.onmessage = (event) => {
         ball.size = data.ballSize * ratio;
         ball.speedStart = data.ballSpeed * ratio;
         ball.speed = ball.speedStart;
+        me.isPlayer = data.isPlayer;
 
         console.log("gameStart response");
     }
@@ -308,11 +313,11 @@ function gameLoop() {
     frames[i] = {"meUp": me.up, "meDown": me.down};
 
     // Send info to back
+    // sendData("gameState", me.up, me.down);
     if (i % nbframes == 0) {
         sendData("gameState", frames);
         frames = {};
     }
-    // sendData("gameState", me.up, me.down);
     console.log("Data sent to back");
     
     // Update front
@@ -340,9 +345,11 @@ function gameLoop() {
 }
 
 // Execute gameLoop every x ms
-socket.addEventListener('open', (event) => {
-    const intervalID = setInterval(gameLoop, 10);
-});
+if (me.isPlayer) {
+        socket.addEventListener('open', (event) => {
+            const intervalID = setInterval(gameLoop, 10);
+        });
+}
 
 // requestAnimationFrame()
 
