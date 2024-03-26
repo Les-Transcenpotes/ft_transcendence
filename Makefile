@@ -29,12 +29,11 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
+debug: | migrate volumes modsec
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
-debug: | migrate volumes
-	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
-
-all: | migrate volumes
-	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+all: | migrate volumes modsec
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
 up: | migrate volumes
 	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
@@ -52,6 +51,9 @@ volumes:
 
 migrate:
 	./tools/migrate.sh $(DJANGO_CTT)
+
+modsec:
+	./tools/modsec.sh
 
 #---- debug ----#
 
@@ -113,24 +115,21 @@ petrus:
 
 thot:
 	$(COMPOSE) up -d thot
-	$(COMPOSE_F) $(DOCKER_FILE) exec thot /bin/bash
+	$(COMPOSE_F) $(DOCKER_FILE) exec thot /bin/bash# pour la prod: remettre all
 
-#---- clean ----#
-
-clean: down
-	$(COMPOSE_F) $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
-	rm -rf $(VOLUMES_PATH)/*
 
 fclean: clean
 	- $(STOP) $$(docker ps -qa)
 	- $(RM) $$(docker ps -qa)
 	- $(RM_IMG) $$(docker images -qa)
 	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
+	- docker rmi $$(docker images -qa)
 
 prune:
 	- $(STOP) $$(docker ps -qa)
 	- $(SYSTEM) prune -af
 	- $(VOLUME) prune -af
+	rm -rf ./requirements/aegis/ModSecurity/
 
 #---- re ----#
 
@@ -144,4 +143,4 @@ re: down debug
 .DEFAULT: debug # pour la prod: remettre all
 .PHONY: all up build down volumes migrate debug clean fclean prune re \
 aegis alfred apollo coubertin cupidon davinci hermes iris lovelace \
-ludo malevitch mensura mnemosine petrus thot
+ludo malevitch mensura mnemosine petrus thot modsec

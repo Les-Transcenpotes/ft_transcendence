@@ -30,15 +30,26 @@ services:
       - "discovery.type=single-node"
       - "network.host=0.0.0.0"
       - "xpack.security.http.ssl.enabled=false"
+      - "xpack.security.enrollment.enabled=false"
 
   iris:
+    depends_on:
+      - apollo
     container_name: iris
     image: docker.elastic.co/kibana/kibana:8.12.2
     ports:
       - "5601:5601"
     environment:
-      SERVER_NAME: kibana.example.org
-      ELASTICSEARCH_HOSTS: '["http://apollo:9200"]'
+      - "server.name=kibana.test.org"
+      # - "elasticsearch.hosts=http://apollo:9200"
+      - "xpack.security.http.ssl.enabled=false"
+      - "xpack.security.enrollment.enabled=false"
+      - "server.rewriteBasePath=true"
+      # - "server.publicBaseUrl="
+      # - "server.basePath="
+      # SERVER_NAME: kibana.example.org
+      - "ELASTICSEARCH_HOSTS=http://apollo:9200"
+      - "INTERACTIVESETUP_ENABLED=false"
 
   thot:
     container_name: thot
@@ -65,6 +76,22 @@ services:
       - aegis guard
       - atlas
       - sentinel
+    depends_on:
+      - alfred
+      - apollo
+      - coubertin
+      - cupidon
+      - davinci
+      - hermes
+      - iris
+      - lovelace
+      - ludo
+      - malevitch
+      - mensura
+      - mnemosine
+      - petrus
+      - thot
+
     restart: on-failure
 
 # Profil container
@@ -79,8 +106,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8001:8001"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -97,8 +122,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8002:8002"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -115,8 +138,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8003:8003"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -132,8 +153,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8010:8010"
-    depends_on:
-      - aegis
     networks:
       - sentinel
     restart: on-failure
@@ -150,8 +169,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8004:8004"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -168,8 +185,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8005:8005"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -186,8 +201,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8006:8006"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -203,8 +216,6 @@ services:
       - ./requirements/malevitch:/usr/share/nginx/html
     ports:
       - "8007:80"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -220,8 +231,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8011:8011"
-    depends_on:
-      - aegis
     networks:
       - atlas
       - sentinel
@@ -239,8 +248,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8008:8008"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -257,8 +264,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8009:8009"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -275,8 +280,6 @@ services:
     networks:
       - atlas
     pid: "host"
-    depends_on:
-      - aegis
     restart: on-failure
 
 # Data exporter container
@@ -290,8 +293,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "9913:9913"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -302,8 +303,6 @@ services:
     image: 'bitnami/redis:latest'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
