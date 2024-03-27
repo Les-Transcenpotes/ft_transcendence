@@ -180,8 +180,6 @@ services:
     build:
       context: ./requirements/mensura
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "8011:8011"
     depends_on:
@@ -234,7 +232,6 @@ services:
       context: ./requirements/tutum
       dockerfile: Dockerfile
     volumes:
-      - shared_code:/app/shared
       - ./requirements/tutum/vault:/opt/vault
     ports:
       - "8200:8200"
@@ -244,6 +241,7 @@ services:
       - atlas
     restart: on-failure
 
+# Node Exporter Containers (Mensura, Aegis)
   mensura_exporter:
     container_name: mensura_exporter
     image: quay.io/prometheus/node-exporter
@@ -265,8 +263,6 @@ services:
     build:
       context: ./requirements/mensura/aegis_exporter
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "9913:9913"
     depends_on:

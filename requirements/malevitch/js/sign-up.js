@@ -280,8 +280,7 @@ async function submitCreateAccount() {
 			console.error('Error: ' + result.Err);
 		}
 		else {
-			console.log('sign up successful');
-			// switch to homepage.
+			goToHomepageGame('.sign-up');
 		}
 	}
 	catch (error) {
