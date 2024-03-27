@@ -3,7 +3,7 @@
     <head></head>
 
     <body id="test-target">
-        <div>Waiting room...</div>
+        <div>Notifications</div>
         <script>
 
 
@@ -23,16 +23,14 @@
 
 /***************************************** Websockets *****************************************/
 
-const exampleSocket = new WebSocket('wss://localhost:8000/cupidon/matchmaking/ws/'); // Probably add room name
+const exampleSocket = new WebSocket('wss://localhost:8000/hermes/ws/test'); // Ajouter le nom du user a la fin de l'URL
 
 exampleSocket.onopen = function(event) {
     console.log("Socket opened in the front");
-    sendData("Ready");
 };
 
 exampleSocket.onclose = function() {
     console.log("Socket closed in the front");
-    sendData("Leaving")
 }
 
 exampleSocket.onerror = function(event) {
@@ -40,16 +38,15 @@ exampleSocket.onerror = function(event) {
 }
 
 exampleSocket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    if (data.action === "redirect") {
-        window.location.href = data.url;
-    }
+    // Pop the notification here
 };
 
-function sendData(state) {
+function sendData(type, source, target) {
     // Construct a msg object containing the data the server needs to process the message from the chat client.
     const data = {
-        state: state
+        type: type,
+        source: source,
+        target: target,
     };
   
     // Send the msg object as a JSON-formatted string.
