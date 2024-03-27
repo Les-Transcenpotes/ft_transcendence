@@ -94,8 +94,6 @@ services:
     build:
       context: ./requirements/davinci
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "8010:8010"
     depends_on:
