@@ -8,7 +8,7 @@ echo -e "\n\n\t\t\t\t\t\t${COLOR_GREEN}Building ModSecurity...${COLOR_RESET}\n\n
 old_image_id=$(docker images -q modsec)
 docker build -t modsec -f ./modsec/Dockerfile .
 new_image_id=$(docker images -q modsec); \
-if [ $old_image_id != $new_image_id ]; then \
+if [ "$old_image_id" != "$new_image_id" ]; then \
     echo -e "\t${COLOR_GREEN}Cleaning ModSecurity folder in local...${COLOR_RESET}"; \
     rm -rf ./requirements/aegis/ModSecurity/; \
     docker rm -f modsec || true; \
