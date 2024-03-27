@@ -237,8 +237,9 @@ services:
       dockerfile: Dockerfile
     volumes:
       - shared_code:/app/shared
+      - ./requirements/tutum/vault:/opt/vault
     ports:
-      - "8012:8012"
+      - "8200:8200"
     depends_on:
       - aegis
     networks:

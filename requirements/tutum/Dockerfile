@@ -1,16 +1,20 @@
 FROM        debian:bookworm
 
-COPY        ./tools/entrypoint.sh /entrypoint.sh
+ENV VAULT_ADDR=http://127.0.1.1:8200/
+
+COPY        conf/config.hcl /config.hcl
 
 RUN         apt update -y && \
             apt upgrade -y && \
-            apt install -y gpg wget lsb-release && \
+            apt install -y gpg wget lsb-release curl && \
             wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
             gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint && \
             echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list && \
             apt update -y && \
-            apt install -y vault && \
-            chmod +x /entrypoint.sh && \
-            vault server -dev
+            apt install -y vault
+
+COPY        ./tools/entrypoint.sh /entrypoint.sh
+
+RUN         chmod +x /entrypoint.sh
 
 ENTRYPOINT  ["./entrypoint.sh"]
