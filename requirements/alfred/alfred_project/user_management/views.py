@@ -3,8 +3,6 @@ from user_management.models import Client, FriendshipRequest
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
-import json
-import io
 
 
 class userInfoView(View):
