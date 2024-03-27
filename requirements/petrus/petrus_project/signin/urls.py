@@ -1,6 +1,7 @@
 from django.urls import path
 from signin.views import signinView, signupView, refreshView, view_db, new_view
 
+
 urlpatterns = [
     path("view-db", view_db),
     path("signin/<str:string>", signinView.as_view()),

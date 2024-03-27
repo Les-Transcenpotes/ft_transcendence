@@ -2,10 +2,13 @@ from django.db import models
 from memory import define
 
 class baseModel(models.Model):
+    id = models.BigAutoField(primary_key=True)
     objects = models.Manager()
 
+    class Meta:
+        abstract = True
+
 class Player(baseModel):
-    id = models.BigAutoField(primary_key=True)
     elo = models.IntegerField(default=define.dictionaire['default_player_elo'])
     win_count = models.IntegerField(
         default=define.dictionaire['default_player_win_count'])
@@ -31,7 +34,6 @@ class Player(baseModel):
 
 
 class Game(baseModel):
-    id = models.BigAutoField(primary_key=True)
     player1 = models.ForeignKey(
         Player,
         on_delete=models.CASCADE,
@@ -42,8 +44,7 @@ class Game(baseModel):
         on_delete=models.CASCADE,
         related_name='games_as_player2')
     score2 = models.IntegerField()
-    date = models.DateField(auto_now=False, auto_now_add=True)
-    duration = models.DurationField()
+    # duration = models.DurationField()
 
     def to_dict(self):
         return {
@@ -52,13 +53,12 @@ class Game(baseModel):
             "S1": self.score1,
             "P2": self.player2,
             "S2": self.score2,
-            "Date": self.date,
-            "Duration" : self.duration,
+      #       "Date": self.date,
+            # "Duration" : self.duration,
         }
 
 
 class EloGame(baseModel):
-    id = models.BigAutoField(primary_key=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     eloWin = models.PositiveSmallIntegerField(default=5)
 
@@ -67,7 +67,6 @@ class EloGame(baseModel):
 
 
 class Tournament(baseModel):
-    id = models.BigAutoField(primary_key=True)
     name = models.SlugField()
     games = models.ManyToManyField(Game, through='TournamentGame')
 

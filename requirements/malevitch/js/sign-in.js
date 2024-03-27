@@ -45,15 +45,16 @@ async function submitPassword(password) {
 		});
 
 		const result = await response.json();
-		if ('Err' in result && 'Err' === 'Invalid password') {
+		if ('Err' in result && result.Err == 'invalid password') {
 			sendInvalidPassword();
 		}
 		else if ('Err' in result) {
 			console.error(result.Err);
 		}
 		else {
-			console.log('sign in successful');
-			// switch to homepage.
+			g_jwt = result.Auth;
+			g_refreshToken = result.Ref;
+			goToHomepageGame('.sign-in');
 		}
 	}
 	catch (error) {

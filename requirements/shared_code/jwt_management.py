@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from jwt import encode, decode, ExpiredSignatureError
+from jwt import encode, decode
 
 
 

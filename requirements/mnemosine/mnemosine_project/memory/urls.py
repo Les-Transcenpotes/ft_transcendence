@@ -13,7 +13,7 @@ def view_db(request):
 
 urlpatterns = [
     path("view-db", view_db),
-    path("pong/tournaments/<int:id>/<str:ressource>", tournamentView.as_view()),
-    path("pong/matchs/<int:id>/<str:ressource>", gameView.as_view()),
-    path("players/<int:id>/<str:ressource>", playerView.as_view()),
+    path("pong/tournaments/<int:id>", tournamentView.as_view()),
+    path("pong/matchs/<int:id>", gameView.as_view()),
+    path("players/<int:id>", playerView.as_view()),
 ]
