@@ -29,6 +29,12 @@
 	margin-top: 5%;
 }
 
+/* submit button */
+
+.sign-in-submit {
+	margin-left: 16px;
+}
+
 /* sign in with another nickname */
 
 .sign-in-other-nickname {
