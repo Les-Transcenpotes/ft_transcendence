@@ -1,7 +1,6 @@
 from django.db import IntegrityError
 from django.http import HttpRequest, JsonResponse
 from django.views import View
-from django.contrib.auth.hashers import make_password
 from shared.jwt_management import JWT
 import requests
 import bcrypt
@@ -48,12 +47,18 @@ class signinView(View):
         if client is None:
             return JsonResponse({"Err": "invalid id provided"})
 
-        if bcrypt.checkpw(password.encode('utf-8'),
-                          client.password.encode('utf-8')) == False:
+        if not bcrypt.checkpw(password.encode('utf-8'),
+                          client.password.encode('utf-8')):
             return JsonResponse({"Err": "invalid password"})
-        refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
-        jwt = JWT.objectToAccessToken(client)
-        return JsonResponse({"Ref": refresh_token, "Auth": jwt}, status=200)
+        response = JsonResponse({})
+        try:
+            refresh_token = JWT.payloadToJwt(client.toDict(), JWT.privateKey)
+            jwt = JWT.objectToAccessToken(client)
+        except BaseException as e:
+            return JsonResponse({"Err": e.__str__()})
+        response.set_cookie("Ref", refresh_token)
+        response.set_cookie("Auth", jwt)
+        return response
 
 
 class signupView(View):
@@ -109,15 +114,16 @@ class refreshView(View):
             return JsonResponse({"Err": "no refresh_token provided key: Ref"})
 
         token = data['Ref']
-        decoded_token = JWT.jwtToPayload(token, JWT.publicKey)
-        if isinstance(decoded_token, str) == True:
-            return JsonResponse({"Err": data})
+        try:
+            decoded_token = JWT.jwtToPayload(token, JWT.publicKey)
+        except BaseException as e:
+            return JsonResponse({"Err": e.__str__()})
 
         if 'id' not in decoded_token:
             return JsonResponse({"Err": "no id in data"})
 
         client = Client.objects.filter(unique_id=decoded_token['id'])
-        if client.exists() == False:
+        if not client.exists():
             return JsonResponse({"Err": "invalid refresh_token"})
 
         print(decoded_token)

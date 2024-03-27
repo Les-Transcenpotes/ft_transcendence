@@ -2,11 +2,8 @@ from django.http import JsonResponse
 from django.urls import path
 from memory.views import (
         tournamentView,
-        userTournamentView,
-        matchView,
-        userMatchView,
+        gameView,
         playerView,
-        userPlayerView
 )
 
 
@@ -16,11 +13,7 @@ def view_db(request):
 
 urlpatterns = [
     path("view-db", view_db),
-    path("tournament", tournamentView.as_view()),
-    path("view-tournament", userTournamentView.as_view()),
-    path("match", matchView.as_view()),
-    path("view-match", userMatchView.as_view()),
-    path("player", playerView.as_view()),
-    path("view-player", userPlayerView.as_view()),
-
+    path("pong/tournaments/<int:id>/<str:ressource>", tournamentView.as_view()),
+    path("pong/matchs/<int:id>/<str:ressource>", gameView.as_view()),
+    path("players/<int:id>/<str:ressource>", playerView.as_view()),
 ]

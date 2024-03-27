@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from typing import Tuple
 from jwt import encode, decode, ExpiredSignatureError
 
 
@@ -7,7 +6,6 @@ from jwt import encode, decode, ExpiredSignatureError
 from .var import public_key
 from .var import private_key
 from .var import algo
-import os
 
 
 class JWT:
@@ -18,7 +16,7 @@ class JWT:
     expiration_refresh_token = timedelta(days=1)
 
     @staticmethod
-    def payloadToJwt(payload: dict, key: str) -> Tuple[bool, str]:
+    def payloadToJwt(payload: dict, key: str):
         """
         TODO : mettre les key dans l'env
         key is the str :
@@ -26,14 +24,10 @@ class JWT:
             -- refresh -> JWT.refreshPublicKey
         Return True and the token | False and the error
         """
-        try:
-            token = encode(payload, key, algorithm=JWT.algo)
-        except Exception as e:
-            return False, str(e)
-        return True, token
+        return encode(payload, key, algorithm=JWT.algo)
 
     @staticmethod
-    def jwtToPayload(token: str, key: str) -> str | dict:
+    def jwtToPayload(token: str, key: str):
         """
         token is the jwt
         TODO : mettre les key dans l'env
@@ -42,11 +36,7 @@ class JWT:
             -- refresh -> JWT.refreshPublicKey
         Return True and the payload | False and the error
         """
-        try:
-            payload = decode(token, key, algorithms=[JWT.algo])
-        except BaseException as e:
-            return e.__str__()
-        return payload
+        return decode(token, key, algorithms=[JWT.algo])
 
     @staticmethod
     def peremptionDict() -> dict:
