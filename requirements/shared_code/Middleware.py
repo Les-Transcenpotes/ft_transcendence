@@ -21,11 +21,11 @@ class JWTIdentificationMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        if not 'Aut' in request.data:
+        if 'auth' not in request.COOKIES:
             request.user = User(error="No JWT provided")
             return None
 
-        autorisationJWT = request.data['Aut']
+        autorisationJWT = request.COOKIES['auth']
 
         decodedJWT = JWT.jwtToPayload(autorisationJWT, self.publicKey)
 

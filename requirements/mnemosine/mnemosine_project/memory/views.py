@@ -32,14 +32,14 @@ class tournamentView(View):
 
 
 class gameView(View):
-    def get(self, request):
+    def get(self, request, id: int=0):
         return_json = {}
 
         data = request.GET.getlist('games')
         return_json |= request_get_all(data, "Games", Game)
         return JsonResponse(return_json)
 
-    def post(self, request):
+    def post(self, request, id: int=0):
         data = request.data
         info_array = []
         for key in ('P1', 'Score-p1', 'P2', 'Score-p2'):
@@ -68,7 +68,7 @@ class gameView(View):
 
 
 class playerView(View):
-    def get(self, request, id: int = 0, ressource: str = "all"):
+    def get(self, request, id: int = 0):
         return_json = {}
 
         queries = request.GET.getlist('query')
@@ -91,7 +91,7 @@ class playerView(View):
         return_json |= request_get_all(data, 'Players', Player)
         return JsonResponse(return_json)
 
-    def post(self, request, id: int = 0, ressource: str = "all"):
+    def post(self, request, id: int = 0):
         data = request.data
         if not 'Id' in data:
             return JsonResponse({"Err": "no id provided"})
@@ -103,7 +103,7 @@ class playerView(View):
         player.save()
         return JsonResponse({"Player": player.to_dict()})
 
-    def delete(self, request, id: int = 0, ressource: str = "all"):
+    def delete(self, request, id: int = 0):
         data = request.data
         if not 'Id' in data:
             return JsonResponse({"Err": "no id provided"})
@@ -113,7 +113,7 @@ class playerView(View):
             return JsonResponse({"Err": "no player for the id"})
         return JsonResponse({"Player suppressed": True})
 
-    def patch(self, request, id: int = 0, ressource: str = "all"):
+    def patch(self, request, id: int = 0):
         data = request.data
         if not 'Id' in data:
             return JsonResponse({"Err": "no id provided"})

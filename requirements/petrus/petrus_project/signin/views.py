@@ -102,9 +102,15 @@ class signupView(View):
         # Alfred -> nickname email accessibility
         # Mnemosine -> id
 
-        refresh_token = JWT.objectToRefreshToken(client)
-        jwt = JWT.objectToAccessToken(client)
-        return JsonResponse({"ref": refresh_token, "Auth": jwt}, status=200)
+        try:
+            refresh_token = JWT.objectToRefreshToken(client)
+            jwt = JWT.objectToAccessToken(client)
+        except BaseException as e:
+            return JsonResponse({"Err", e.__str__()})
+        response = JsonResponse({})
+        response.set_cookie("ref", refresh_token)
+        response.set_cookie("auth", jwt)
+        return response
 
 
 class refreshView(View):
@@ -128,12 +134,15 @@ class refreshView(View):
 
         print(decoded_token)
 
-        jwt = JWT.objectToAccessToken(client.first())
-        return JsonResponse({"Aut": jwt})
+        try:
+            jwt = JWT.objectToAccessToken(client.first())
+        except BaseException as e:
+            return JsonResponse({"Err": e.__str__()})
+        return JsonResponse({"Aut": jwt}).set_cookie("auth", jwt)
 
 
 """
-old views  
+old views
 """
 
 
@@ -194,3 +203,4 @@ def test_view(request, password: str) -> JsonResponse:
     hashed_password = bcrypt.hashpw(
         password.encode('utf-8'), salt)
     return JsonResponse({"pass": hashed_password.__str__()})
+
