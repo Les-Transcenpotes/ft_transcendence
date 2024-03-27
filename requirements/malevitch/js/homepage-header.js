@@ -46,7 +46,8 @@ document.querySelector('.homepage-header-friends').addEventListener('click', fun
 
 function isHeaderOpenMenu(target) {
 	var	temp = target;
-	if (target.ClassList && target.ClassList.contains('homepage-header-open-menu')) {
+	if (target.classList && target.classList.contains('homepage-header-open-menu')) {
+		console.log('allez');
 		return true;
 	}
 	while(target.parentNode && target.parentNode.nodeName.toLowerCase() != 'body') {
