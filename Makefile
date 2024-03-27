@@ -13,7 +13,7 @@ DJANGO_CTT		=	alfred coubertin cupidon hermes lovelace ludo \
 					mnemosine petrus
 CONTAINERS		=	aegis alfred apollo coubertin cupidon davinci \
 					hermes iris lovelace ludo malevitch mensura \
-					mnemosine petrus thot
+					mnemosine petrus aether
 
 #---- docker commands -------------------------------------------------#
 
@@ -30,10 +30,10 @@ SYSTEM		=	docker system
 
 #---- base ----#
 debug: | migrate volumes modsec
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes modsec
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
 up: | migrate volumes
 	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
@@ -113,9 +113,9 @@ petrus:
 	$(COMPOSE) up -d petrus
 	$(COMPOSE_F) $(DOCKER_FILE) exec petrus bash
 
-thot:
-	$(COMPOSE) up -d thot
-	$(COMPOSE_F) $(DOCKER_FILE) exec thot /bin/bash# pour la prod: remettre all
+aether:
+	$(COMPOSE) up -d aether
+	$(COMPOSE_F) $(DOCKER_FILE) exec aether /bin/bash# pour la prod: remettre all
 
 
 fclean: clean
@@ -143,4 +143,4 @@ re: down debug
 .DEFAULT: debug # pour la prod: remettre all
 .PHONY: all up build down volumes migrate debug clean fclean prune re \
 aegis alfred apollo coubertin cupidon davinci hermes iris lovelace \
-ludo malevitch mensura mnemosine petrus thot modsec
+ludo malevitch mensura mnemosine petrus aether modsec

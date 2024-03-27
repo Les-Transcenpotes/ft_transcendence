@@ -29,30 +29,25 @@ services:
     environment:
       - "discovery.type=single-node"
       - "network.host=0.0.0.0"
-      - "xpack.security.http.ssl.enabled=false"
-      - "xpack.security.enrollment.enabled=false"
+      - "xpack.security.enrollment.enabled=true"
+    command: /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana > .env
 
   iris:
     depends_on:
       - apollo
+        # condition: service-healthy
     container_name: iris
     image: docker.elastic.co/kibana/kibana:8.12.2
     ports:
       - "5601:5601"
     environment:
-      - "server.name=kibana.test.org"
-      # - "elasticsearch.hosts=http://apollo:9200"
-      - "xpack.security.http.ssl.enabled=false"
-      - "xpack.security.enrollment.enabled=false"
-      - "server.rewriteBasePath=true"
+      - "elasticsearch.hosts=http://apollo:9200"
+      # - "server.rewriteBasePath=true"
       # - "server.publicBaseUrl="
       # - "server.basePath="
-      # SERVER_NAME: kibana.example.org
-      - "ELASTICSEARCH_HOSTS=http://apollo:9200"
-      - "INTERACTIVESETUP_ENABLED=false"
 
-  thot:
-    container_name: thot
+  aether:
+    container_name: aether
     image: docker.elastic.co/logstash/logstash:8.12.2
     ports:
     - "9600:9600"
@@ -90,7 +85,7 @@ services:
       - mensura
       - mnemosine
       - petrus
-      - thot
+      - aether
 
     restart: on-failure
 
