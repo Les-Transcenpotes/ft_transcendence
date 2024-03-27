@@ -3,8 +3,6 @@ from user_management.models import Client, FriendshipRequest
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
-import json
-import io
 
 
 class userInfoView(View):
@@ -28,12 +26,18 @@ class userInfoView(View):
             marker = True
             client.avatar = client["avatar"]
             # suppression de l'ancien avatar
-        if "Accessibility" in data:
+        if "Lang" in data:
             marker = True
-            # client accessibility update
+            client.lang = data["Lang"]
+        if "Font" in data:
+            marker = True
+            client.font = data["Font"]
         if marker is False:
             return JsonResponse({"Err": "no changes"})
-        client.update()
+        try:
+            client.update()
+        except BaseException as e:
+            return JsonResponse({"Err", e.__str__()})
         return JsonResponse({"Client": "updated"})
 
 
@@ -52,17 +56,13 @@ class userProfileView(View):
 
 
         try:
-            newUser = Client.objects.create(
+            Client.objects.create(
                 unique_id=unique_id,
                 email=email,
                 nick=nickname
             )
-        except:
-            return JsonResponse({"Err": "no good db"})
-        try:
-            newUser.save()
-        except BaseException:
-            return JsonResponse({"Err": "internal server error"})
+        except BaseException as e:
+            return JsonResponse({"Err": e.__str__()})
         return JsonResponse({"Client": "created"})
 
     def patch(self, request, id: int) -> JsonResponse:
@@ -80,7 +80,10 @@ class userProfileView(View):
             client.email = client["Email"]
         if marker is False:
             return JsonResponse({"Err": "no changes"})
-        client.update()
+        try:
+            client.update()
+        except BaseException as e:
+            return JsonResponse({"Err": e.__str__()})
         return JsonResponse({"Client": "updated"})
 
     def delete(self, request, id: int) -> JsonResponse:

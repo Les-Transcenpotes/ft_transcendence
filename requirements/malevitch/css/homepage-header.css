@@ -1,5 +1,5 @@
 .homepage-header {
-	z-index: 999;
+	z-index: 997;
 	padding: 5vh;
 }
 
@@ -27,7 +27,7 @@
 
 .homepage-header-open-menu {
 	top: calc(5vh + 66px);
-	z-index: 997;
+	z-index: 999;
 	background-color: rgba(255, 255, 255, 0.6);
 	backdrop-filter: blur(50px);
 	border-radius: 16px;
