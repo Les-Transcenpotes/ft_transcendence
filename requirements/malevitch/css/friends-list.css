@@ -1,0 +1,76 @@
+.friends-list {
+	top: 20vh;
+	padding-left: 5vh;
+	padding-right: 2.5vh;
+	padding-bottom: 5vh;
+	height: 80vh;
+}
+
+.friends-list-container {
+	height: 100%;
+	padding: 16px;
+}
+
+.friends-list-container
+.category-title {
+	padding-top: 4px;
+}
+
+.friends-list-container
+.category-title
+.category-icon {
+	left: 0;
+}
+
+.friends-list-container
+.category-title p {
+	font-weight: 700;
+}
+
+.friends-list-online {
+	padding-top: 16px;
+	padding-bottom: 32px;
+}
+
+.friends-list-title {
+	padding-bottom: 4px;
+	border-bottom-color: rgba(115, 0, 230, 0.6);
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+
+.friends-list-title p {
+	font-weight: 400;
+}
+
+.friends-list-card-container
+.content-card {
+	width: calc(50% - 8px);
+}
+
+.friends-list-card-container
+.content-card:nth-child(even) {
+	margin-right: 8px;
+}
+
+.friends-list-card-container
+.content-card:nth-child(odd) {
+	margin-left: 8px;
+}
+
+.friends-list-offline
+.content-card {
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+.friends-list-offline
+.content-card
+.friends-card-name {
+	color: rgba(115, 0, 230, 0.6);
+}
+
+.friends-list-offline
+.content-card
+.friends-card-picture {
+	filter: grayscale(100%);
+}

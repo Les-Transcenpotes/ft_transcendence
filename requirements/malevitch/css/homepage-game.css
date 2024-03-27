@@ -11,61 +11,6 @@
 	height: 100%;
 }
 
-.homepage-game-category {
-	background-color: rgba(115, 0, 230, 0.1);
-	backdrop-filter: blur(3px);
-	border-radius: 16px;
-}
-
-.homepage-game-category p {
-	color: #7300E6;
-	font-size: 16pt;
-	font-weight: 550;
-}
-
-.homepage-game-category-icon {
-	left: 16px;
-	height: 40px;
-	width: 40px;
-	border-radius: 20px;
-	border-width: 0;
-	background-color: white;
-}
-
-.homepage-game-category-icon:hover {
-	cursor: pointer;
-	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
-}
-
-.homepage-game-category-title {
-	z-index: 998;
-	background-color: rgba(115, 0, 230, 0.1);
-	backdrop-filter: blur(3px);
-	padding-top: 20px;
-	padding-bottom: 20px;
-	border-radius: 16px;
-	color: #7300E6;
-	font-size: 16pt;
-	font-weight: 550;
-}
-
-.homepage-game-content-card-container {
-	width: 100%;
-	margin-top: 64px;
-	padding-left: 16px;
-	padding-right: 16px;
-	padding-bottom: 16px;
-}
-
-.homepage-game-content-card {
-	margin-top: 16px;
-	width: 100%;
-	background-color: white;
-	border-radius: 12px;
-	border-width: 0;
-	padding: 12px;
-}
-
 /* left content */
 
 .homepage-game-content-left {
@@ -98,8 +43,8 @@
 }
 
 .homepage-game-content-history
-.homepage-game-category-title
-.homepage-game-category-icon img {
+.category-title
+.category-icon img {
 	height: 20px;
 	margin-right: 1.5px;
 }
@@ -159,19 +104,19 @@
 }
 
 .homepage-game-content-friends 
-.homepage-game-category-title
-.homepage-game-category-icon img {
+.category-title
+.category-icon img {
 	height: 20px;
 	margin-left: 1px;
 }
 
-.homepage-game-content-friends-card-name {
+.friends-card-name {
 	font-size: 16pt;
 	font-weight: 700;
 	color: #7300E6;
 }
 
-.homepage-game-content-friends-card-picture img {
+.friends-card-picture img {
 	width: 40px;
 	height: 40px;
 	border-radius: 20px;

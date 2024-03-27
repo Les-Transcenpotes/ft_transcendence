@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="css/sign-up.css" type="text/css" media="all">
 		<link rel="stylesheet" href="css/homepage-header.css" type="text/css" media="all">
 		<link rel="stylesheet" href="css/homepage-game.css" type="text/css" media="all">
+		<link rel="stylesheet" href="css/friends-list.css" type="text/css" media="all">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -247,28 +248,28 @@
 			<div class="homepage-game-content w-100 d-flex justify-content-between align-items-center">
 				<div class="homepage-game-content-left w-50 d-flex flex-column justify-content-between align-items-center">
 					<div class="homepage-game-content-left-top w-100 d-flex flex-column justify-content-between align-items-center">
-						<div class="homepage-game-content-search homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+						<div class="homepage-game-content-search category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
 							<img src="assets/general/search.svg" alt="search icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
 							<p data-language="search" class="unselectable">Search...</p>
 						</div>
-						<div class="homepage-game-content-tournaments homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+						<div class="homepage-game-content-tournaments category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
 							<img src="assets/general/trophy.svg" alt="tournaments icon" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
 							<p data-language="my-tournaments" class="unselectable">My tournaments</p>
 						</div>
-						<div class="homepage-game-content-new-tournament homepage-game-category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
+						<div class="homepage-game-content-new-tournament category w-100 d-flex justify-content-center align-items-center text-center purple-shadow">
 							<img src="assets/general/plus.svg" alt="+" draggable="false" (dragstart)="false;" class="unselectable position-absolute">
 							<p data-language="new-tournament" class="unselectable">New tournament</p>
 						</div>
 					</div>
-					<div class="homepage-game-content-history homepage-game-category w-100 d-flex flex-column align-items-center purple-shadow overflow-x-hidden overflow-y-auto">
-						<div class="homepage-game-category-title w-100 d-flex justify-content-center align-items-center position-absolute">
-							<div class="homepage-game-category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
+					<div class="homepage-game-content-history category w-100 d-flex flex-column align-items-center purple-shadow overflow-x-hidden overflow-y-auto">
+						<div class="category-title w-100 d-flex justify-content-center align-items-center position-absolute">
+							<div class="homepage-game-content-history-icon category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
 								<img src="assets/general/history.svg" alt="history icon" draggable="false" (dragstart)="false;" class="unselectable">
 							</div>
 							<p data-language="history" class="unselectable">History</p>
 						</div>
-						<div class="homepage-game-content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
-							<!-- <div class="homepage-game-content-card w-100 d-flex justify-content-center align-items-end purple-shadow">
+						<div class="content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
+							<!-- <div class="content-card w-100 d-flex justify-content-center align-items-end purple-shadow">
 								<div class="homepage-game-content-history-card-color position-absolute"></div>
 								<div class="homepage-game-content-history-card-result">5-4</div>
 								<div class="homepage-game-content-history-card-event">vs<b> Ami1</b></div>
@@ -281,17 +282,17 @@
 					</div>
 				</div>
 				<div class="homepage-game-content-right w-50 d-flex flex-column justify-content-between align-items-center">
-					<div class="homepage-game-content-friends homepage-game-category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow overflow-x-hidden overflow-y-auto">
-						<div class="homepage-game-category-title w-100 d-flex justify-content-center align-items-center position-absolute">
-							<div class="homepage-game-category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
+					<div class="homepage-game-content-friends category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow overflow-x-hidden overflow-y-auto">
+						<div class="category-title w-100 d-flex justify-content-center align-items-center position-absolute">
+							<div class="homepage-game-content-friends-icon category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
 								<img src="assets/general/friends.svg" alt="friends icon" draggable="false" (dragstart)="false;" class="unselectable">
 							</div>
-							<p data-language="friends" class="unselectable">Friends online</p>
+							<p data-language="online-friends" class="unselectable">Friends online</p>
 						</div>
-						<div class="homepage-game-content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
-							<!-- <div class="homepage-game-content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
-								<div class="homepage-game-content-friends-card-name">Ami1</div>
-								<div class="homepage-game-content-friends-card-picture">
+						<div class="content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
+							<!-- <div class="content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+								<div class="friends-card-name">Ami1</div>
+								<div class="friends-card-picture">
 									<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
 								</div>
 							</div> -->
@@ -301,15 +302,15 @@
 							</div>
 						</div>
 					</div>
-					<div class="homepage-game-content-stats homepage-game-category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow overflow-x-hidden overflow-y-auto">
-						<div class="homepage-game-category-title w-100 d-flex justify-content-center align-items-center position-absolute">
-							<div class="homepage-game-category-icon d-flex justify-content-center align-items-center text-center position-absolute purple-shadow">
+					<div class="homepage-game-content-stats category w-100 d-flex flex-column justify-content-between align-items-center purple-shadow overflow-x-hidden overflow-y-auto">
+						<div class="category-title w-100 d-flex justify-content-center align-items-center position-absolute">
+							<div class="homepage-game-content-stats-icon category-icon d-flex justify-content-center align-items-center text-center position-absolute purple-shadow">
 								<img src="assets/general/stats.svg" alt="stats icon" draggable="false" (dragstart)="false;" class="unselectable">
 							</div>
 							<p data-language="stats" class="unselectable">Statistics</p>
 						</div>
-						<div class="homepage-game-content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
-							<!-- <div class="homepage-game-content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
+						<div class="content-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
+							<!-- <div class="content-card w-100 d-flex justify-content-between align-items-center purple-shadow">
 								<div class="homepage-game-content-stats-card-stat">100%</div>
 								<div class="homepage-game-content-stats-card-context">Winrate</div>
 							</div> -->
@@ -328,11 +329,80 @@
 		</div>
 		<!-- HOMEPAGE-GAME-PICTURE -->
 		<div class="homepage-game-picture w-50 d-flex flex-column justify-content-center align-items-center position-absolute">
-			<div class="homepage-game-video-container homepage-game-category w-100 d-flex justify-content-center align-items-center purple-shadow">
+			<div class="homepage-game-video-container category w-100 d-flex justify-content-center align-items-center purple-shadow">
 				<video autoplay muted loop>
 					<source src="assets/homepage/pong.webm" type="video/webm">
 					A short looped video of hands playing table tennis.
 				</video>
+			</div>
+		</div>
+		<!-- FRIENDS LIST -->
+		<div class="friends-list w-50 d-flex justify-content-center align-items-center position-absolute visually-hidden">
+			<div class="friends-list-container category w-100 d-flex flex-column align-items-center purple-shadow">
+				<div class="category-title w-100 d-flex justify-content-center align-items-center">
+					<div class="friends-list-icon category-icon d-flex justify-content-center align-items-center position-absolute purple-shadow">
+						<img src="assets/general/friends.svg" alt="friends icon" draggable="false" (dragstart)="false;" class="unselectable">
+					</div>
+					<p data-language="friends-list" class="unselectable">Friends list</p>
+				</div>
+				<div class="friends-list-online friends-list-card-container w-100 d-flex flex-wrap justify-content-center align-items-center">
+					<div class="friends-list-online-title friends-list-title w-100">
+						<p data-language="online-friends">Friends online</p>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+				</div>
+				<div class="friends-list-offline friends-list-card-container w-100 d-flex flex-wrap justify-content-center align-items-center">
+					<div class="friends-list-offline-title friends-list-title w-100">
+						<p data-language="offline-friends">Friends offline</p>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+						<div class="friends-card-name">Ami1</div>
+						<div class="friends-card-picture">
+							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="js/general.js"></script>
@@ -341,6 +411,7 @@
 		<script src="js/sign-up.js"></script>
 		<script src="js/homepage-header.js"></script>
 		<script src="js/homepage-game.js"></script>
+		<script src="js/friends-list.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	</body>
 </html>
