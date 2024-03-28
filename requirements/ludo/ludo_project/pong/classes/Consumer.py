@@ -6,6 +6,7 @@ from pong.classes.Ball import Ball
 # import time
 import math
 import json
+import requests
 
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
@@ -92,7 +93,10 @@ class Consumer(AsyncWebsocketConsumer):
     async def gameEnd(self, event):
         # Si game de tournoi, envoyer au tournoi, sinon envoyer a la db.
         if (self.roomName.count('-') == 2):
-            pass # Envoyer un json au tournoi
+            requests.post(
+                f'http://coubertin:8002/tournament/gameResult/',
+                json={'tournamentName': 'test',
+                      'game': self.myMatch.toDict}) # A tester (print dans la view de coubertin)
         else:
             pass # Envoyer un json a la db
         # requests.post() # Poster direct a la db
