@@ -55,12 +55,12 @@ class gameView(View):
         try:
             new_game.player1 = Player.objects.get(unique_id=info_array[0])
         except BaseException:
-            return JsonResponse({"Err": "Player 1 does not exist"})
+            return JsonResponse({"Err": f"Player 1 may not exist {e.__str__()}"})
         new_game.score1 = info_array[1]
         try:
             new_game.player2 = Player.objects.get(unique_id=info_array[2])
         except BaseException:
-            return JsonResponse({"Err": "Player 2 does not exist"})
+            return JsonResponse({"Err": f"Player 2 may not exist {e.__str__()}"})
         new_game.score2 = info_array[3]
         try:
             new_game.save()
@@ -102,7 +102,10 @@ class playerView(View):
         player = Player()
         player.unique_id = data['Id']
         player.elo = data['Elo']
-        player.save()
+        try: 
+            player.save()
+        except BaseError as e:
+            return JsonResponse({"Err": e.__str__()}
         return JsonResponse({"Player": player.to_dict()})
 
     def delete(self, request, id: int = 0):
@@ -110,7 +113,7 @@ class playerView(View):
         if not 'Id' in data:
             return JsonResponse({"Err": "no id provided"})
         try:
-            player = Player.objects.get(unique_id=data['id'])
+            player = Player.objects.get(unique_id=data['Id'])
         except BaseException:
             return JsonResponse({"Err": "no player for the id"})
         return JsonResponse({"Player suppressed": True})
@@ -120,11 +123,14 @@ class playerView(View):
         if not 'Id' in data:
             return JsonResponse({"Err": "no id provided"})
         try:
-            player = Player.objects.get(unique_id=data['id'])
+            player = Player.objects.get(unique_id=data['Id'])
         except BaseException:
             return JsonResponse({"Err": "no player for the id"})
         if not 'Elo' in data:
             return JsonResponse({"Err": "no elo provided"})
         player.elo = data['Elo']
-        player.update()
+        try:
+            player.update()
+        except:
+            return JsonResponse({"Err": e.__str__()})
         return JsonResponse({"Player updated": player.to_dict()})
