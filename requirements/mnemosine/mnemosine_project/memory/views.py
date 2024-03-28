@@ -9,8 +9,10 @@ def request_get_all(ids_str, key_name, model):
         ids = [int(id) for id in ids_str]
     except TypeError:
         return {"Err": "wrong query params provided"}
-    querylist = model.objects.filter(id__in=ids)
-
+    try:
+        querylist = model.objects.filter(id__in=ids)
+    except BaseError as e:
+        return {"Err": e.__str__()}
     if len(ids) != len(querylist):
         return_json |= {"Warn": "invalid ids provided"}
     return_json |= {key_name: [queryobject.to_dict() for queryobject in querylist]}
