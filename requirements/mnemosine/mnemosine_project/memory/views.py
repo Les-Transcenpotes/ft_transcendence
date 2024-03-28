@@ -55,12 +55,12 @@ class gameView(View):
         try:
             new_game.player1 = Player.objects.get(unique_id=info_array[0])
         except BaseException:
-            return JsonResponse({"Err": "Player does not exist"})
+            return JsonResponse({"Err": "Player 1 does not exist"})
         new_game.score1 = info_array[1]
         try:
             new_game.player2 = Player.objects.get(unique_id=info_array[2])
         except BaseException:
-            return JsonResponse({"Err": "Player does not exist"})
+            return JsonResponse({"Err": "Player 2 does not exist"})
         new_game.score2 = info_array[3]
         try:
             new_game.save()
