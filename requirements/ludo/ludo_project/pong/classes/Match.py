@@ -16,10 +16,10 @@ class Match:
         score1 = self.score[0]
         score2 = self.score[1]
         return ({
-            'player1': player1,
-            'player2': player2,
-            'score1': score1,
-            'score2': score2,
+            'Player1': player1,
+            'Player2': player2,
+            'Score1': score1,
+            'Score2': score2,
         })
 
 matches = {}
