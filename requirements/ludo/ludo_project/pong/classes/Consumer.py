@@ -92,17 +92,16 @@ class Consumer(AsyncWebsocketConsumer):
 
     async def gameEnd(self, event):
         # Si game de tournoi, envoyer au tournoi, sinon envoyer a la db.
-        if (self.roomName.count('-') == 2):
+        print("This is gameEnd function")
+        if (self.roomName.count('-') == 2 and self.id == 0): # N'envoyer qu'avec l'hote
+            matchDict = self.myMatch.toDict()
             requests.post(
                 f'http://coubertin:8002/tournament/gameResult/',
                 json={'tournamentName': 'test',
-                      'game': self.myMatch.toDict}) # A tester (print dans la view de coubertin)
+                      'game': matchDict}) # A tester (print dans la view de coubertin)
         else:
             pass # Envoyer un json a la db
         # requests.post() # Poster direct a la db
-
-        if (self.isPlayer):
-            return
 
         if (event["winner"] == self.id):
             await self.send (text_data=json.dumps({
