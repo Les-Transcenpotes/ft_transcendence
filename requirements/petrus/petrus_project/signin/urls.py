@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import signinView, signupView, refreshView, view_db, new_view
+from signin.views import signinView, signupView, refreshView, view_db, new_view
+
 
 urlpatterns = [
     path("view-db", view_db),

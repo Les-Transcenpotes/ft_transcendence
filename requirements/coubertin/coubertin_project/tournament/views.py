@@ -26,13 +26,21 @@ class joinTournament(View):
             return JsonResponse({'Err': 'tournament is already full'})
         tournaments[tournamentName].players += data.get('playerName', None)
 
+def printData(data):
+    print('Tournament name: ', data.get('tournamentName', None))
+    game = data.get('game', None)
+    print('Player ', game['Player1'], ' had a score of ', game['Score1'])
+    print('Player ', game['Player2'], ' had a score of ', game['Score2'])
+
 class gameResult(View):
     def post(self, request):
         global tournaments
 
         data = json.load(io.BytesIO(request.body))
+        printData(data)
         tournament = tournaments[data.get('tournamentName', None)]
-        tournament.addGame(data.get('game', None)) # Game should be a dictionnary
+        tournament.addGame(data.get('game', None)) # Game is a dictionnary
+        return JsonResponse({})
 
 def tournamentHome(request, tournamentName):
     return render(request, 'tournament/home.html', {'tournamentName': tournamentName})

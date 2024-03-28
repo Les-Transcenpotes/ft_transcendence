@@ -23,7 +23,22 @@
 		"password-confirm": "Confirm your password...",
 		"different-passwords": "The passwords are different.",
 		"sign-up": "Sign up",
-		"sign-up-sign-in": "I already have an account"
+		"sign-up-sign-in": "I already have an account",
+		"search": "Search...",
+		"tournaments": "Available tournaments",
+		"my-tournaments": "My tournaments",
+		"new-tournament": "New tournament",
+		"play": "Quick play",
+		"play-friend": "Invite a friend to play",
+		"history": "History",
+		"empty-history": "You haven't played any game yet...",
+		"online-friends": "Friends online",
+		"offline-friends": "Friends offline",
+		"no-friends-online": "No friends are online...",
+		"no-friends": "You don't have any friend yet...",
+		"friends-list": "Friends list",
+		"add-friend": "Add a friend...",
+		"stats": "Statistics"
 	},
 	"fr": {
 		"font-size": "Taille de la police",
@@ -49,7 +64,22 @@
 		"password-confirm": "Confirmez votre mot de passe...",
 		"different-passwords": "Les mots de passe sont différents.",
 		"sign-up": "Créer un compte",
-		"sign-up-sign-in": "J'ai déjà un compte"
+		"sign-up-sign-in": "J'ai déjà un compte",
+		"search": "Rechercher...",
+		"tournaments": "Tournois disponibles",
+		"my-tournaments": "Mes tournois",
+		"new-tournament": "Nouveau tournoi",
+		"play": "Partie rapide",
+		"play-friend": "Inviter un ami à jouer",
+		"history": "Historique",
+		"empty-history": "Vous n'avez encore joué aucune partie...",
+		"online-friends": "Amis en ligne",
+		"offline-friends": "Amis hors-ligne",
+		"no-friends-online": "Aucun ami n'est en ligne...",
+		"no-friends": "Vous n'avez pas encore d'ami...",
+		"friends-list": "Liste d'amis",
+		"add-friend": "Ajouter un ami...",
+		"stats": "Statistiques"
 	},
 	"zh": {
 		"font-size": "字体大小",
@@ -75,7 +105,22 @@
 		"password-confirm": "确认你的密码。。。",
 		"different-passwords": "密码不同。",
 		"sign-up": "报名",
-		"sign-up-sign-in": "我已经有一个帐户"
+		"sign-up-sign-in": "我已经有一个帐户",
+		"search": "搜索。。。",
+		"tournaments": "可用的锦标赛",
+		"my-tournaments": "我的比赛",
+		"new-tournament": "新比赛",
+		"play": "快玩",
+		"play-friend": "邀请朋友来玩",
+		"history": "历史记录",
+		"empty-history": "你还没有玩过任何游戏。。。",
+		"online-friends": "朋友在线",
+		"offline-friends": "好友离线",
+		"no-friends-online": "没有好友在线。。。",
+		"no-friends": "你还没有任何朋友。。。",
+		"friends-list": "好友列表",
+		"add-friend": "添加好友。。。",
+		"stats": "统计数据"
 	}
 }
  

@@ -274,8 +274,6 @@ services:
     build:
       context: ./requirements/davinci
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "8010:8010"
     networks:
@@ -352,8 +350,6 @@ services:
     build:
       context: ./requirements/mensura
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "8011:8011"
     networks:
@@ -414,8 +410,6 @@ services:
     build:
       context: ./requirements/mensura/aegis_exporter
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "9913:9913"
     networks:
