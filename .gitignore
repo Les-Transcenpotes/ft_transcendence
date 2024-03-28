@@ -8,6 +8,7 @@ composer.phar
 /vendor/
 **/*_env
 **/env
+**/env_**
 **/*.sqlite3
 **/__pycache__/**
 **/migrations
@@ -17,4 +18,4 @@ youpi
 **/__init__.py
 sources.txt
 requirements/aegis/ModSecurity
-requirements/tutum/vault
+requirements/tutum/vault/

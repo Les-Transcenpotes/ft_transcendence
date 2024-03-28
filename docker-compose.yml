@@ -221,6 +221,7 @@ services:
       - "8009:8009"
     depends_on:
       - aegis
+      - tutum
     networks:
       - atlas
     restart: on-failure

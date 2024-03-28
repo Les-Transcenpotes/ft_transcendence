@@ -3,10 +3,9 @@ from django.db import models
 
 
 class Client(models.Model):
+    font_size_choices = [(1,"1"), (2, "2"),  (3, "3"), (4, "4"), (5,"5")]
 
-    font_size_choices = [1, 2, 3, 4, 5,]
-
-    languages_choices = ["fr", "eng", "zh",]
+    languages_choices = [(1, "fr"),  (2, "eng"), (3, "zh")]
 
     unique_id = models.BigAutoField(primary_key=True)
     nick = models.CharField(max_length=16, unique=True)
