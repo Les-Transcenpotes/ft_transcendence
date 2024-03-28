@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from pong.classes.Match import matches, Match
 from pong.classes.Player import Player
-from requirements.ludo.ludo_project.pong.classes.GameSettings import gameSettings
+from pong.classes.GameSettings import gameSettings
 from pong.classes.Ball import Ball
 # import time
 import math

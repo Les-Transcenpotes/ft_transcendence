@@ -1,4 +1,4 @@
-from requirements.ludo.ludo_project.pong.classes.GameSettings import gameSettings
+from pong.classes.GameSettings import gameSettings
 from pong.classes.Ball import Ball
 
 # A init autrement
