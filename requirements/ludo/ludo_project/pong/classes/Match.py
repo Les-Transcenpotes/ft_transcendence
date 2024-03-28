@@ -11,8 +11,8 @@ class Match:
         self.startTime = 0
     
     def toDict(self):
-        player1 = self.players[0]
-        player2 = self.players[1]
+        player1 = self.players[0].id
+        player2 = self.players[1].id
         score1 = self.score[0]
         score2 = self.score[1]
         return ({
