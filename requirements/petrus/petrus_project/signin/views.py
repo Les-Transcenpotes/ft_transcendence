@@ -115,11 +115,11 @@ class signupView(View):
 
 class refreshView(View):
     def get(self, request):
-        data = request.data
-        if 'Ref' not in data:
+        data = request.COOKIES
+        if 'ref' not in data:
             return JsonResponse({"Err": "no refresh_token provided key: Ref"})
 
-        token = data['Ref']
+        token = data['ref']
         try:
             decoded_token = JWT.jwtToPayload(token, JWT.publicKey)
         except BaseException as e:
@@ -132,13 +132,11 @@ class refreshView(View):
         if not client.exists():
             return JsonResponse({"Err": "invalid refresh_token"})
 
-        print(decoded_token)
-
         try:
             jwt = JWT.objectToAccessToken(client.first())
         except BaseException as e:
             return JsonResponse({"Err": e.__str__()})
-        return JsonResponse({"Aut": jwt}).set_cookie("auth", jwt)
+        return JsonResponse({}).set_cookie("auth", jwt)
 
 
 """
