@@ -8,6 +8,7 @@ document.querySelector('.homepage-header-logo').addEventListener('click', functi
 	g_state.pageToDisplay = '.homepage-game';
 	
 	if (currentPage != '.homepage-game') {
+		document.querySelector(currentPage).classList.add('visually-hidden');
 		window.history.pushState(g_state, null, "");
 	}
 	render(g_state);
@@ -78,4 +79,17 @@ window.addEventListener('click', function ({target}){
 			}
 		});
 	}
+});
+
+// 
+
+document.querySelector('.homepage-header-open-friend-list').addEventListener('click', function() {
+	document.querySelector('.homepage-game').classList.add('visually-hidden');
+	document.querySelectorAll('.homepage-header-open-menu').forEach(function(item) {
+		item.classList.add('visually-hidden');
+	});
+
+	g_state.pageToDisplay = '.friends-list';
+	window.history.pushState(g_state, null, "");
+	render(g_state);
 });
