@@ -11,7 +11,7 @@ def request_get_all(ids_str, key_name, model):
         return {"Err": "wrong query params provided"}
     try:
         querylist = model.objects.filter(id__in=ids)
-    except BaseError as e:
+    except BaseException as e:
         return {"Err": e.__str__()}
     if len(ids) != len(querylist):
         return_json |= {"Warn": "invalid ids provided"}
@@ -104,8 +104,8 @@ class playerView(View):
         player.elo = data['Elo']
         try: 
             player.save()
-        except BaseError as e:
-            return JsonResponse({"Err": e.__str__()}
+        except BaseException as e:
+            return JsonResponse({"Err": e.__str__()})
         return JsonResponse({"Player": player.to_dict()})
 
     def delete(self, request, id: int = 0):

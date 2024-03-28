@@ -1,16 +1,186 @@
 version: '3.8'
 
 networks:
-
   aegis guard: {}
-
   atlas:
     internal: true
-
   sentinel:
     internal: true
+  elk:
+    internal: true
+
+volumes:
+  shared_code:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./requirements/shared_code
+      o: bind
+  certificates:
+    driver: local
+  elastic_data:
+    driver: local
+  kibana_data:
+    driver: local
+  logstash_data:
+    driver: local
 
 services:
+
+  setup:
+    container_name: setup
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    volumes:
+      - certificates:/usr/share/elasticsearch/config/certs
+    user: "0"
+    command: >
+      bash -c '
+        if [ x${ELASTIC_PASSWORD} == x ]; then
+          echo "Set the ELASTIC_PASSWORD environment variable in the .env file";
+          exit 1;
+        elif [ x${KIBANA_PASSWORD} == x ]; then
+          echo "Set the KIBANA_PASSWORD environment variable in the .env file";
+          exit 1;
+        fi;
+        if [ ! -f config/certs/ca.zip ]; then
+          echo "Creating CA";
+          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
+          unzip config/certs/ca.zip -d config/certs;
+        fi;
+        if [ ! -f config/certs/certs.zip ]; then
+          echo "Creating certs";
+          echo -ne \
+          "instances:\n"\
+          "  - name: apollo\n"\
+          "    dns:\n"\
+          "      - apollo\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: iris\n"\
+          "    dns:\n"\
+          "      - iris\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          > config/certs/instances.yml;
+          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
+          unzip config/certs/certs.zip -d config/certs;
+        fi;
+        echo "Setting file permissions"
+        chown -R root:root config/certs;
+        find . -type d -exec chmod 750 \{\} \;;
+        find . -type f -exec chmod 640 \{\} \;;
+        echo "Waiting for Elasticsearch availability";
+        until curl --cacert config/certs/ca/ca.crt https://apollo:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
+        echo "Setting kibana_system password";
+        until curl -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://apollo:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "All done!";
+      '
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/apollo/apollo.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+
+  apollo:
+    depends_on:
+      setup:
+        condition: service_healthy
+    container_name: apollo
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    labels:
+      co.elastic.logs/module: elasticsearch
+    volumes:
+      - certificates:/usr/share/elasticsearch/config/certs
+      - elastic_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+      - "cluster.name=${CLUSTER_NAME}"
+      - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
+      - "network.host=0.0.0.0"
+      - "xpack.security.enabled=true"
+      - "xpack.security.http.ssl.enabled=true"
+      - "xpack.security.http.ssl.key=certs/apollo/apollo.key"
+      - "xpack.security.http.ssl.certificate=certs/apollo/apollo.crt"
+      - "xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt"
+      - "xpack.security.transport.ssl.enabled=true"
+      - "xpack.security.transport.ssl.key=certs/apollo/apollo.key"
+      - "xpack.security.transport.ssl.certificate=certs/apollo/apollo.crt"
+      - "xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt"
+      - "xpack.security.transport.ssl.verification_mode=certificate"
+      - "xpack.license.self_generated.type=${LICENSE}"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  iris:
+    depends_on:
+      apollo:
+        condition: service_healthy
+    container_name: iris
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    labels:
+      co.elastic.logs/module: kibana
+    volumes:
+      - certificates:/usr/share/kibana/config/certs
+      - kibana_data:/usr/share/kibana/data
+    ports:
+      - "5601:5601"
+    environment:
+      - "SERVERNAME=kibana"
+      - "ELASTICSEARCH_HOSTS=https://apollo:9200"
+      - "ELASTICSEARCH_USERNAME=kibana_system"
+      - "ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}"
+      - "ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt"
+      # - "XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}"
+      # - "XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}"
+      # - "XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}"
+      # - "server.rewriteBasePath=true"
+      # - "server.publicBaseUrl="
+      # - "server.basePath="
+    healthcheck:
+     test:
+       [
+         "CMD-SHELL",
+         "curl -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+       ]
+     interval: 10s
+     timeout: 10s
+     retries: 120
+
+  aether:
+    depends_on:
+      apollo:
+        condition: service_healthy
+      iris:
+        condition: service_healthy
+    container_name: aether
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    labels:
+      co.elastic.logs/module: logstash
+    user: root
+    volumes:
+      - certificates:/usr/share/logstash/certs
+      - logstash_data:/usr/share/logstash/data
+      - ./requirements/aether/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    environment:
+      - "NODE_NAME=logstash"
+      - "xpack.monitoring.enabled=false"
+      - "ELASTIC_USER=elastic"
+      - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"
+      - "ELASTIC_HOSTS=https://apollo:9200"
+    command: logstash -f /usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "9600:9600"
 
 # Server proxy
   aegis:
@@ -31,6 +201,22 @@ services:
       - aegis guard
       - atlas
       - sentinel
+    depends_on:
+      - alfred
+      - apollo
+      - coubertin
+      - cupidon
+      - davinci
+      - hermes
+      - iris
+      - lovelace
+      - ludo
+      - malevitch
+      - mensura
+      - mnemosine
+      - petrus
+      - aether
+
     restart: on-failure
 
 # Profil container
@@ -45,8 +231,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8001:8001"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -63,8 +247,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8002:8002"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -81,8 +263,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8003:8003"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -96,8 +276,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8010:8010"
-    depends_on:
-      - aegis
     networks:
       - sentinel
     restart: on-failure
@@ -114,8 +292,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8004:8004"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -132,8 +308,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8005:8005"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -150,8 +324,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8006:8006"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -167,8 +339,6 @@ services:
       - ./requirements/malevitch:/usr/share/nginx/html
     ports:
       - "8007:80"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -182,8 +352,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8011:8011"
-    depends_on:
-      - aegis
     networks:
       - atlas
       - sentinel
@@ -201,8 +369,6 @@ services:
       - shared_code:/app/shared
     ports:
       - "8008:8008"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
@@ -219,13 +385,11 @@ services:
       - shared_code:/app/shared
     ports:
       - "8009:8009"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
 
-# Node Exporter Containers (Mensura, Aegis)
+# Data exporter container
   mensura_exporter:
     container_name: mensura_exporter
     image: quay.io/prometheus/node-exporter
@@ -237,10 +401,9 @@ services:
     networks:
       - atlas
     pid: "host"
-    depends_on:
-      - aegis
     restart: on-failure
 
+# Data exporter container
   aegis_exporter:
     container_name: aegis_exporter
     image: aegis_exporter
@@ -249,27 +412,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9913:9913"
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
 
+# Websocket container
   redis:
     container_name: redis
     image: 'bitnami/redis:latest'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    depends_on:
-      - aegis
     networks:
       - atlas
     restart: on-failure
-
-volumes:
-  shared_code:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./requirements/shared_code
-      o: bind

@@ -68,13 +68,13 @@ class signupView(View):
         request = request
         return JsonResponse({"Ava": True})
 
+
     def post(self, request):
         data = request.data
         email = data.get('Email', None)
         nickname = data.get('Nick', None)
         password = data.get('Pass', None)
-        accessibility = data.get("Accessibility", "default")
-        if password is None or nickname is None or accessibility is None:
+        if password is None or nickname is None or email is None :
             return JsonResponse(
                 {"Err": "all information must be filled"}, status=200)
         hashed_password = bcrypt.hashpw(
@@ -90,17 +90,15 @@ class signupView(View):
         except IntegrityError as e:
             print("An integrity error occured:", e)
             return JsonResponse({"Err": e}, status=409)
+
+# checker si les requests sont successfull
         request = requests.post(
             f'http://alfred:8001/user/user-profile/{client.unique_id}',
             json=client.to_alfred())
-        if request.status_code != 200:
-            return JsonResponse(request)
-
-        # requests.post("http://mnemosine/",  # creation de la ressource dans la table,
-        # json=client.to_mnemosine())
-
-        # Alfred -> nickname email accessibility
-        # Mnemosine -> id
+# checker si les requests sont successfull
+        request = requests.post(
+            "http://mnemosine:8008/memory/players/0",
+            json=client.to_mnemosine())
 
         try:
             refresh_token = JWT.objectToRefreshToken(client)
@@ -136,7 +134,9 @@ class refreshView(View):
             jwt = JWT.objectToAccessToken(client.first())
         except BaseException as e:
             return JsonResponse({"Err": e.__str__()})
-        return JsonResponse({}).set_cookie("auth", jwt)
+        response = JsonResponse({})
+        response.set_cookie("auth", jwt)
+        return response
 
 
 """

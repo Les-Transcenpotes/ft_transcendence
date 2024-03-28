@@ -21,7 +21,7 @@ class Client(models.Model):
 
     def to_mnemosine(self):
         return {
-                "id": self.unique_id
+                "Id": self.unique_id
         }
 
     def toDict(self):

@@ -4,17 +4,21 @@
 
 ENV_FILE		=	.env
 DOCKER_FILE		=	docker-compose.yml
-VOLUMES_DIR		=	front_db auth_db game_db
+VOLUMES_DIR		=	front_db auth_db game_db \
+					certification_data elasticsearch_data logstash_data \
+					kibana_data
 VOLUMES_PATH	=	$(HOME)/data/transcendence_data
 VOLUMES			=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
-DJANGO_CTT			=	alfred coubertin cupidon hermes lovelace ludo mnemosine petrus
-
+DJANGO_CTT		=	alfred coubertin cupidon hermes lovelace ludo \
+					mnemosine petrus
 
 #---- docker commands -------------------------------------------------#
 
-COMPOSE		=	docker compose -f
+COMPOSE		=	docker compose
+COMPOSE_F	=	docker compose -f
 STOP		=	docker stop
 RM			=	docker rm
+RM_IMG		=	docker rmi
 VOLUME		=	docker volume
 NETWORK		=	docker network
 SYSTEM		=	docker system
@@ -23,19 +27,21 @@ SYSTEM		=	docker system
 
 #---- base ----#
 debug: | migrate volumes modsec
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
-all: | migrate volumes modsec
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
+all: | volumes modsec
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
 
 up: | migrate volumes
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d
 
 build: | migrate volumes
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) build
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) build
 
 down:
-	$(COMPOSE) $(DOCKER_FILE) down
+	$(COMPOSE_F) $(DOCKER_FILE) down
+
+#---- setups ----#
 
 volumes:
 	mkdir -p $(VOLUMES)
@@ -49,41 +55,70 @@ modsec:
 #---- debug ----#
 
 aegis:
-	$(COMPOSE) $(DOCKER_FILE) exec aegis /bin/sh
+	$(COMPOSE) up -d aegis
+	$(COMPOSE_F) $(DOCKER_FILE) exec aegis /bin/bash
 
 alfred:
-	$(COMPOSE) $(DOCKER_FILE) exec alfred bash
+	$(COMPOSE) up -d alfred
+	$(COMPOSE_F) $(DOCKER_FILE) exec alfred bash
+
+apollo:
+	$(COMPOSE) up -d apollo
+	$(COMPOSE_F) $(DOCKER_FILE) exec apollo /bin/bash
 
 coubertin:
-	$(COMPOSE) $(DOCKER_FILE) exec coubertin bash
+	$(COMPOSE) up -d coubertin
+	$(COMPOSE_F) $(DOCKER_FILE) exec coubertin bash
 
 cupidon:
-	$(COMPOSE) $(DOCKER_FILE) exec cupidon bash
+	$(COMPOSE) up -d cupidon
+	$(COMPOSE_F) $(DOCKER_FILE) exec cupidon bash
+
+davinci:
+	$(COMPOSE) up -d davinci
+	$(COMPOSE_F) $(DOCKER_FILE) exec davinci /bin/bash
+
+hermes:
+	$(COMPOSE) up -d hermes
+	$(COMPOSE_F) $(DOCKER_FILE) exec hermes bash
+
+iris:
+	$(COMPOSE) up -d iris
+	$(COMPOSE_F) $(DOCKER_FILE) exec iris /bin/bash
 
 lovelace:
-	$(COMPOSE) $(DOCKER_FILE) exec lovelace bash
+	$(COMPOSE) up -d lovelace
+	$(COMPOSE_F) $(DOCKER_FILE) exec lovelace bash
 
 ludo:
-	$(COMPOSE) $(DOCKER_FILE) exec ludo bash
+	$(COMPOSE) up -d ludo
+	$(COMPOSE_F) $(DOCKER_FILE) exec ludo bash
 
 malevitch:
-	$(COMPOSE) $(DOCKER_FILE) exec malevitch /bin/sh
+	$(COMPOSE) up -d malevitch
+	$(COMPOSE_F) $(DOCKER_FILE) exec malevitch /bin/bash
+
+mensura:
+	$(COMPOSE) up -d mensura
+	$(COMPOSE_F) $(DOCKER_FILE) exec mensura /bin/bash
 
 mnemosine:
-	$(COMPOSE) $(DOCKER_FILE) exec mnemosine bash
+	$(COMPOSE) up -d mnemosine
+	$(COMPOSE_F) $(DOCKER_FILE) exec mnemosine bash
 
 petrus:
-	$(COMPOSE) $(DOCKER_FILE) exec petrus bash
+	$(COMPOSE) up -d petrus
+	$(COMPOSE_F) $(DOCKER_FILE) exec petrus bash
 
-#---- clean ----#
+aether:
+	$(COMPOSE) up -d aether
+	$(COMPOSE_F) $(DOCKER_FILE) exec aether /bin/bash# pour la prod: remettre all
 
-clean: down
-	$(COMPOSE) $(DOCKER_FILE) down --rmi all --volumes --remove-orphans
-	rm -rf $(VOLUMES_PATH)/*
 
 fclean: clean
 	- $(STOP) $$(docker ps -qa)
 	- $(RM) $$(docker ps -qa)
+	- $(RM_IMG) $$(docker images -qa)
 	- $(NETWORK) rm $$(docker network ls -q) 2>/dev/null
 	- docker rmi $$(docker images -qa)
 
@@ -93,14 +128,22 @@ prune:
 	- $(VOLUME) prune -af
 	rm -rf ./requirements/aegis/ModSecurity/
 
+db_suppr:
+	rm -rf `find . | grep db.sqlite3`
+	rm -rf `find . | grep migrations | grep -v env`
+
+db_reset: db_suppr migrate
+
 #---- re ----#
 
 re: down debug
+
 # pour la prod: remettre up
 
 #---- settings --------------------------------------------------------#
 
 .SILENT:
-.DEFAULT: debug
-# pour la prod: remettre all
-.PHONY: all up build down volumes migrate debug clean fclean prune re modsec
+.DEFAULT: debug # pour la prod: remettre all
+.PHONY: all up build down volumes migrate debug clean fclean prune re \
+aegis alfred apollo coubertin cupidon davinci hermes iris lovelace \
+ludo malevitch mensura mnemosine petrus aether modsec db_suppr db_reset
