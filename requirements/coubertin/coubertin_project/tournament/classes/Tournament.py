@@ -11,9 +11,6 @@ class Tournament:
         self.players += player
 
     def addGame(self, game):
-        for player in game:
-            if game[player] < 5:
-                self.players.remove(player)
-        self.gameHistory += game
+        pass
                 
 tournaments = {}
