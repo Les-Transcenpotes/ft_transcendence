@@ -29,7 +29,7 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | volumes modsec
+debug: | migrate volumes modsec
 	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes modsec
