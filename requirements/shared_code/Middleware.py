@@ -27,10 +27,10 @@ class JWTIdentificationMiddleware:
 
         autorisationJWT = request.COOKIES['auth']
 
-        decodedJWT = JWT.jwtToPayload(autorisationJWT, self.publicKey)
-
-        if isinstance(decodedJWT, str):
-            request.user = User(error=decodedJWT)
+        try:
+            decodedJWT = JWT.jwtToPayload(autorisationJWT, self.publicKey)
+        except BaseException as e:
+            request.user = User(error=e.__str__())
             return None
 
         request.user = User(nick=decodedJWT.get('nick'),

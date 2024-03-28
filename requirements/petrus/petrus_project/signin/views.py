@@ -136,7 +136,9 @@ class refreshView(View):
             jwt = JWT.objectToAccessToken(client.first())
         except BaseException as e:
             return JsonResponse({"Err": e.__str__()})
-        return JsonResponse({}).set_cookie("auth", jwt)
+        response = JsonResponse({})
+        response.set_cookie("auth", jwt)
+        return response
 
 
 """
