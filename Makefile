@@ -22,7 +22,7 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | migrate volumes modsec
+debug: | volumes modsec
 	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes modsec
@@ -92,6 +92,12 @@ prune:
 	- $(SYSTEM) prune -af
 	- $(VOLUME) prune -af
 	rm -rf ./requirements/aegis/ModSecurity/
+
+db_suppr:
+	rm -rf `find . | grep db.sqlite3`
+	rm -rf `find . | grep migrations | grep -v env`
+
+db_reset: db_suppr migrate
 
 #---- re ----#
 

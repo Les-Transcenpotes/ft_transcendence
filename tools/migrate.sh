@@ -21,3 +21,9 @@ do
      echo -e -n "\n"
 done
 
+ python3 ./requirements/mnemosine/*/manage.py makemigrations memory
+ python3 ./requirements/petrus/*/manage.py makemigrations signin
+ python3 ./requirements/alfred/*/manage.py makemigrations user_management
+ python3 ./requirements/mnemosine/*/manage.py migrate
+ python3 ./requirements/petrus/*/manage.py migrate
+ python3 ./requirements/alfred/*/manage.py migrate
