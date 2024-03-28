@@ -29,8 +29,8 @@ SYSTEM		=	docker system
 #---- rules -----------------------------------------------------------#
 
 #---- base ----#
-debug: | migrate volumes modsec
-	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+debug: | volumes modsec
+	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes modsec
 	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
@@ -131,6 +131,12 @@ prune:
 	- $(VOLUME) prune -af
 	rm -rf ./requirements/aegis/ModSecurity/
 
+db_suppr:
+	rm -rf `find . | grep db.sqlite3`
+	rm -rf `find . | grep migrations | grep -v env`
+
+db_reset: db_suppr migrate
+
 #---- re ----#
 
 re: down debug
@@ -143,4 +149,4 @@ re: down debug
 .DEFAULT: debug # pour la prod: remettre all
 .PHONY: all up build down volumes migrate debug clean fclean prune re \
 aegis alfred apollo coubertin cupidon davinci hermes iris lovelace \
-ludo malevitch mensura mnemosine petrus aether modsec
+ludo malevitch mensura mnemosine petrus aether modsec db_suppr db_reset
