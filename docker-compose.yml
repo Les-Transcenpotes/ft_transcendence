@@ -94,8 +94,6 @@ services:
     build:
       context: ./requirements/davinci
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "8010:8010"
     depends_on:
@@ -182,8 +180,6 @@ services:
     build:
       context: ./requirements/mensura
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "8011:8011"
     depends_on:
@@ -229,6 +225,7 @@ services:
       - atlas
     restart: on-failure
 
+# Node Exporter Containers (Mensura, Aegis)
   mensura_exporter:
     container_name: mensura_exporter
     image: quay.io/prometheus/node-exporter
@@ -250,8 +247,6 @@ services:
     build:
       context: ./requirements/mensura/aegis_exporter
       dockerfile: Dockerfile
-    volumes:
-      - shared_code:/app/shared
     ports:
       - "9913:9913"
     depends_on:

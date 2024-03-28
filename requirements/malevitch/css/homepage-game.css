@@ -1,0 +1,226 @@
+.homepage-game {
+	top: 20vh;
+	padding-left: 5vh;
+	padding-bottom: 5vh;
+	height: 80vh;
+}
+
+/* content */
+
+.homepage-game-content {
+	height: 100%;
+}
+
+.homepage-game-category {
+	background-color: rgba(115, 0, 230, 0.1);
+	backdrop-filter: blur(3px);
+	border-radius: 16px;
+}
+
+.homepage-game-category p {
+	color: #7300E6;
+	font-size: 16pt;
+	font-weight: 550;
+}
+
+.homepage-game-category-icon {
+	left: 16px;
+	height: 40px;
+	width: 40px;
+	border-radius: 20px;
+	border-width: 0;
+	background-color: white;
+}
+
+.homepage-game-category-icon:hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
+}
+
+.homepage-game-category-title {
+	z-index: 998;
+	background-color: rgba(115, 0, 230, 0.1);
+	backdrop-filter: blur(3px);
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-radius: 16px;
+	color: #7300E6;
+	font-size: 16pt;
+	font-weight: 550;
+}
+
+.homepage-game-content-card-container {
+	width: 100%;
+	margin-top: 64px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-bottom: 16px;
+}
+
+.homepage-game-content-card {
+	margin-top: 16px;
+	width: 100%;
+	background-color: white;
+	border-radius: 12px;
+	border-width: 0;
+	padding: 12px;
+}
+
+/* left content */
+
+.homepage-game-content-left {
+	padding-right: 2.5vh;
+	height: 100%;
+}
+
+.homepage-game-content-left-top > * {
+	padding-left: 16px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	margin-bottom: 16px;
+}
+
+.homepage-game-content-left-top > * img {
+	height: 24px;
+	left: 16px;
+}
+
+.homepage-game-content-search:hover,
+.homepage-game-content-tournaments:hover,
+.homepage-game-content-new-tournament:hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
+}
+
+.homepage-game-content-history {
+	flex-grow: 1;
+	margin-top: 16px;
+}
+
+.homepage-game-content-history
+.homepage-game-category-title
+.homepage-game-category-icon img {
+	height: 20px;
+	margin-right: 1.5px;
+}
+
+.homepage-game-content-history-card-color {
+	left: 12px;
+	height: 60%;
+	width: 3px;
+	background-color: #46DB00;
+	border-radius: 1.5px;
+	border-width: 0;
+}
+
+.homepage-game-content-history-card-result {
+	font-size: 18pt;
+	font-weight: 700;
+	color: #7300E6;
+	margin-right: 16px;
+}
+
+.homepage-game-content-history-card-event {
+	font-size: 14pt;
+	font-weight: 500;
+	color: #7300E6;
+}
+
+.homepage-game-content-history-card-event b {
+	font-size: 14pt;
+	font-weight: 700;
+	color: #7300E6;
+}
+
+.homepage-game-content-empty-history img {
+	width: 40%;
+	opacity: 50%;
+	margin-top: 32px;
+	margin-bottom: 32px;
+	margin-right: 16px;
+}
+
+.homepage-game-content-empty-history p {
+	font-size: 14pt;
+	font-weight: 400;
+}
+
+/* right content */
+
+.homepage-game-content-right {
+	padding-left: 2.5vh;
+	padding-right: 2.5vh;
+	height: 100%;
+}
+
+.homepage-game-content-friends {
+	margin-bottom: 16px;
+	height: 45%;
+}
+
+.homepage-game-content-friends 
+.homepage-game-category-title
+.homepage-game-category-icon img {
+	height: 20px;
+	margin-left: 1px;
+}
+
+.homepage-game-content-friends-card-name {
+	font-size: 16pt;
+	font-weight: 700;
+	color: #7300E6;
+}
+
+.homepage-game-content-friends-card-picture img {
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	border-width: 0;
+}
+
+.homepage-game-content-no-friends img {
+	width: 40%;
+	opacity: 50%;
+	margin-top: 24px;
+	margin-bottom: 32px;
+}
+
+.homepage-game-content-no-friends p {
+	font-size: 14pt;
+	font-weight: 400;
+}
+
+.homepage-game-content-stats {
+	flex-grow: 1;
+	margin-top: 16px;
+}
+
+.homepage-game-content-stats-card-stat {
+	font-size: 16pt;
+	font-weight: 700;
+	color: #7300E6;
+}
+
+.homepage-game-content-stats-card-context {
+	font-size: 16pt;
+	font-weight: 400;
+	color: #7300E6;
+}
+
+/* animation */
+
+.homepage-game-picture {
+	top: 20vh;
+	right: 5vh;
+	height: 80vh;
+	padding-left: 7.5vh;
+	padding-bottom: 5vh;
+}
+
+.homepage-game-video-container {
+	height: 100%;
+}
+
+.homepage-game-video-container video {
+	width: 100%;
+}
