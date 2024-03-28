@@ -30,7 +30,7 @@ SYSTEM		=	docker system
 
 #---- base ----#
 debug: | volumes modsec
-	$(COMPOSE) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
+	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up --build
 
 all: | migrate volumes modsec
 	$(COMPOSE_F) $(DOCKER_FILE) --env-file $(ENV_FILE) up -d --build
