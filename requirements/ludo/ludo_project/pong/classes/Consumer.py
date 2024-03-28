@@ -1,11 +1,12 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from pong.classes.Match import matches, Match
 from pong.classes.Player import Player
-from requirements.ludo.ludo_project.pong.classes.GameSettings import gameSettings
+from pong.classes.GameSettings import gameSettings
 from pong.classes.Ball import Ball
-import time
+# import time
 import math
 import json
+import requests
 
 # match[self.id] = moi
 # match[(self.id + 1) % 2] = adversaire
@@ -71,7 +72,7 @@ class Consumer(AsyncWebsocketConsumer):
 
         self.myMatch.players.append(Player(self.id, self.gameSettings)) # A check avec le viewer !!
         self.myMatch.ball = Ball(self.gameSettings)
-        self.lastRefreshTime = time.time()
+        # self.lastRefreshTime = time.time()
 
         await self.send (text_data=json.dumps({
             "type": "gameParameters",
@@ -92,7 +93,10 @@ class Consumer(AsyncWebsocketConsumer):
     async def gameEnd(self, event):
         # Si game de tournoi, envoyer au tournoi, sinon envoyer a la db.
         if (self.roomName.count('-') == 2):
-            pass # Envoyer un json au tournoi
+            requests.post(
+                f'http://coubertin:8002/tournament/gameResult/',
+                json={'tournamentName': 'test',
+                      'game': self.myMatch.toDict}) # A tester (print dans la view de coubertin)
         else:
             pass # Envoyer un json a la db
         # requests.post() # Poster direct a la db
@@ -125,7 +129,7 @@ class Consumer(AsyncWebsocketConsumer):
             if (len(self.myMatch.players) > 1):
                 if (self.myMatch.gameStarted == False):
                     self.myMatch.gameStarted == True
-                    self.myMatch.startTime = time.time()
+                    # self.myMatch.startTime = time.time()
                 pointWinner = self.myMatch.ball.move(self.myMatch.players[0], self.myMatch.players[1], self.gameSettings)
                 if (pointWinner != -1):
                     self.myMatch.score[pointWinner] += 1

@@ -1,5 +1,5 @@
 import math as m
-import time
+# import time
 
 # La balle est dans le repere de l'hote
 class Ball:
@@ -32,7 +32,7 @@ class Ball:
         if (self.pos[0] >= gameSettings.screenWidth - (self.size + client.width) and self.isPlayerCollision(client)):
             impactToMid = ((self.pos[1] - client.pos) / (client.height * 0.5))
             self.angle = - (m.pi + (m.pi / 4) * impactToMid)
-            self.speed *= 1.1
+            self.speed *= 1.1 # Mettre une limite de speed pour eviter les tp.
     
     def wallCollision(self, gameSettings):
         if (self.pos[1] <= self.size / 2 or self.pos[1] >= gameSettings.screenHeight - self.size / 2):
