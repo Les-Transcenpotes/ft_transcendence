@@ -350,32 +350,34 @@
 					<p data-language="friends-list" class="unselectable">Friends list</p>
 				</div>
 				<!-- EXAMPLE OF FRIENDS -->
-				<!-- <div class="friends-list-online friends-list-card-container w-100 d-flex flex-wrap align-items-center">
-					<div class="friends-list-online-title friends-list-title w-100">
-						<p data-language="online-friends">Friends online</p>
+				<div class="friends-list-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
+					<div class="friends-list-online w-100 d-flex flex-wrap align-items-center">
+						<div class="friends-list-online-title friends-list-title w-100">
+							<p data-language="online-friends">Friends online</p>
+						</div>
+						<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+							<div class="friends-card-name">Ami1</div>
+							<div class="friends-card-picture">
+								<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+							</div>
+						</div>
 					</div>
-					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
-						<div class="friends-card-name">Ami1</div>
-						<div class="friends-card-picture">
-							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+					<div class="friends-list-offline w-100 d-flex flex-wrap align-items-center">
+						<div class="friends-list-offline-title friends-list-title w-100">
+							<p data-language="offline-friends">Friends offline</p>
+						</div>
+						<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
+							<div class="friends-card-name">Ami1</div>
+							<div class="friends-card-picture">
+								<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="friends-list-offline friends-list-card-container w-100 d-flex flex-wrap align-items-center">
-					<div class="friends-list-offline-title friends-list-title w-100">
-						<p data-language="offline-friends">Friends offline</p>
-					</div>
-					<div class="content-card d-flex justify-content-between align-items-center purple-shadow">
-						<div class="friends-card-name">Ami1</div>
-						<div class="friends-card-picture">
-							<img src="assets/general/friend.png" alt="profile picture of friend" draggable="false" (dragstart)="false;" class="unselectable">
-						</div>
-					</div>
-				</div> -->
-				<div class="friends-list-no-friends w-100 d-flex flex-column justify-content-center align-items-center translate-middle top-50 start-50 position-absolute">
+				<!-- <div class="friends-list-no-friends w-100 d-flex flex-column justify-content-center align-items-center translate-middle top-50 start-50 position-absolute">
 					<img src="assets/general/no-friends.svg" alt="no friends icon" draggable="false" (dragstart)="false;" class="unselectable">
 					<p data-language="no-friends" class="text-center unselectable">You don't have any friend yet...</p>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<!-- MY-TOURNAMENTS -->
@@ -388,7 +390,7 @@
 					<p data-language="my-tournaments" class="unselectable">My tournaments</p>
 				</div>
 				<!-- EXAMPLE OF TOURNAMENTS -->
-				<!-- <div class="my-tournaments-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
+				<div class="my-tournaments-card-container w-100 d-flex flex-column align-items-center overflow-x-hidden overflow-y-auto">
 					<div class="my-tournaments-ongoing w-100 d-flex flex-wrap align-items-center">
 						<div class="my-tournaments-ongoing-title my-tournaments-title w-100">
 							<p data-language="my-ongoing-tournaments">My ongoing tournaments</p>
@@ -411,11 +413,11 @@
 							<div class="my-tournaments-card-name d-flex justify-content-center align-items-center text-center">Tournoi2</div>
 						</div>
 					</div>
-				</div> -->
-				<div class="my-tournaments-empty w-100 d-flex flex-column justify-content-center align-items-center translate-middle top-50 start-50 position-absolute">
+				</div>
+				<!-- <div class="my-tournaments-empty w-100 d-flex flex-column justify-content-center align-items-center translate-middle top-50 start-50 position-absolute">
 					<img src="assets/general/no-history.svg" alt="no history icon" draggable="false" (dragstart)="false;" class="unselectable">
 					<p data-language="no-tournament" class="text-center unselectable">You didn't play in any tournament yet...</p>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<script src="js/general.js"></script>

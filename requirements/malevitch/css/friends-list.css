@@ -8,16 +8,18 @@
 
 .friends-list-container {
 	height: 100%;
-	padding: 16px;
 }
 
 .friends-list-container
 .category-title {
-	padding-top: 4px;
+	padding-top: 24px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-bottom: 0;
 }
 
 .friends-list-icon {
-	left: 0;
+	left: 16px;
 }
 
 .friends-list-icon img {
@@ -46,9 +48,20 @@
 	font-weight: 400;
 }
 
+.friends-list-card-container {
+	padding: 16px;
+	flex-grow: 1;
+}
+
 .friends-list-card-container
 .content-card {
 	width: calc(50% - 8px);
+}
+
+.friends-list-card-container
+.content-card:hover {
+	cursor: pointer;
+	filter: drop-shadow(4px 4px 12px rgba(115, 0, 230, 0.6));
 }
 
 .friends-list-card-container
