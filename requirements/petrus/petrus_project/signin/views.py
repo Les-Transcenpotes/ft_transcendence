@@ -74,7 +74,7 @@ class signupView(View):
         nickname = data.get('Nick', None)
         password = data.get('Pass', None)
         accessibility = data.get("Accessibility", "default")
-        if password is None or nickname is None or accessibility is None:
+        if password is None or nickname is None or email is None :
             return JsonResponse(
                 {"Err": "all information must be filled"}, status=200)
         hashed_password = bcrypt.hashpw(
