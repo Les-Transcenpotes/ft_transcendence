@@ -8,6 +8,7 @@ composer.phar
 /vendor/
 **/*_env
 **/env
+**/env_**
 **/*.sqlite3
 **/__pycache__/**
 **/migrations
@@ -16,4 +17,5 @@ youpi
 **/shared
 **/__init__.py
 sources.txt
-requirements/aegis/ModSecurity
+requirements/aegis/ModSecurity/
+sources.txt
