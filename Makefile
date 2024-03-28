@@ -11,9 +11,6 @@ VOLUMES_PATH	=	$(HOME)/data/transcendence_data
 VOLUMES			=	$(addprefix $(VOLUMES_PATH)/, $(VOLUMES_DIR))
 DJANGO_CTT		=	alfred coubertin cupidon hermes lovelace ludo \
 					mnemosine petrus
-CONTAINERS		=	aegis alfred apollo coubertin cupidon davinci \
-					hermes iris lovelace ludo malevitch mensura \
-					mnemosine petrus aether
 
 #---- docker commands -------------------------------------------------#
 
