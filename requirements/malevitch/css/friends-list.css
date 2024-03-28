@@ -16,10 +16,13 @@
 	padding-top: 4px;
 }
 
-.friends-list-container
-.category-title
-.category-icon {
+.friends-list-icon {
 	left: 0;
+}
+
+.friends-list-icon img {
+	height: 20px;
+	margin-left: 1px;
 }
 
 .friends-list-container
@@ -73,4 +76,14 @@
 .content-card
 .friends-card-picture {
 	filter: grayscale(100%);
+}
+
+.friends-list-no-friends img {
+	width: 20%;
+	opacity: 50%;
+	margin-bottom: 16px;
+}
+
+.friends-list-no-friends p {
+	font-weight: 400;
 }

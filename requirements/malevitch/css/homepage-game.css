@@ -80,8 +80,6 @@
 .homepage-game-content-empty-history img {
 	width: 40%;
 	opacity: 50%;
-	margin-top: 32px;
-	margin-bottom: 32px;
 	margin-right: 16px;
 }
 
@@ -126,8 +124,7 @@
 .homepage-game-content-no-friends img {
 	width: 40%;
 	opacity: 50%;
-	margin-top: 24px;
-	margin-bottom: 32px;
+	margin-top: 10%;
 }
 
 .homepage-game-content-no-friends p {
