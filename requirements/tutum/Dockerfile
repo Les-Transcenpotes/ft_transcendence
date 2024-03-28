@@ -1,6 +1,6 @@
 FROM        debian:bookworm
 
-ENV VAULT_ADDR=http://127.0.1.1:8200/
+ENV VAULT_ADDR=http://0.0.0.0:8200/
 
 COPY        conf/config.hcl /config.hcl
 
